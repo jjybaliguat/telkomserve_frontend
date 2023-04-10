@@ -1,0 +1,98 @@
+
+/* *, ::before, ::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+} */
+
+.container {
+    /* display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 500px;
+    background: #f1f1f1; */
+    /* margin-top: 80px; */
+    /* word-break: break-all;
+    border: 1px solid rgba(0, 0, 0, 0.274); */
+    /* border-radius: 4px; */
+    box-shadow: 0 3px 12px rgb(0 0 0 / 0.2);
+  }
+  
+  .bloc-tabs {
+    display: flex;
+    width: 100%;
+  }
+
+  .tabs {
+    padding: 15px;
+    text-align: center;
+    width: 50%;
+    cursor: pointer;
+    box-sizing: content-box;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+  }
+  /* .tabs:not(:last-child){
+    border-right: 1px solid rgba(0, 0, 0, 0.274);
+  } */
+  
+  button.active-tabs  {
+    background: white;
+    font-weight: bold;
+    /* border-bottom: 1px solid transparent; */
+  }
+  button.active-tabs p{
+    font-weight: bold;
+  }
+  
+  button.active-tabs::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    width: calc(100% + 2px);
+    height: 8px;
+    background: #2196f3;
+  }
+  
+  
+  
+  button {
+    border: none;
+  }
+  .content-tabs {
+    flex-grow : 1;
+  }
+  .content {
+    background: white;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    display: none;
+  }
+  .content h2 {
+    padding: 0px 0 5px 0px;
+  }
+  .content hr {
+    width: 100px;
+    height: 2px;
+    background: #222;
+    margin-bottom: 5px;
+  }
+  .content p {
+    width: 100%;
+    height: 100%;
+  }
+  .active-content {
+    display: block;
+  }
+
+  /* Check Availability section */
+
+  .selected-card{
+    outline: 1px solid #2196f3;
+  }
