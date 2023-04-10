@@ -1,7 +1,7 @@
 module.exports = {
   reactStrictMode: true,
   env: {
-    nodeEnv: 'development',
+    nodeEnv: 'production',
     DEV_APP_API: 'http://localhost:5000/api/v1',
     PRODUCTION_APP_API: 'https://rdnaks-api.onrender.com/api/v1',
     DEV_APP_URL: 'http://localhost:3000',
