@@ -38,7 +38,7 @@ const Navbar2 = () => {
     <AppBar
         position='sticky'
         sx={{
-            backgroundImage: 'linear-gradient( 136deg, #10B981 0%, #0d47a1 70%, #0d47a1 100%)',
+            backgroundImage: 'linear-gradient( 136deg, #fff 0%, #fff 5%, #0d47a1 100%)',
             transition: "0.3s",
             top: 0,
             height: "75px",

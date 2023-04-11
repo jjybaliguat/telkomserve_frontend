@@ -5,6 +5,8 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { resetApplicantDetails, setAcceptTerm, setActiveStep, setApplicantDetails, setSelectedindex } from 'src/redux/landing/quicklinksAction';
 import Router from 'next/router';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const BasicDetailsContinuation = () => {
   const dispatch = useDispatch()
@@ -12,19 +14,23 @@ const BasicDetailsContinuation = () => {
 //   console.log(appllicantDetails);
   const [validated, setValidated] = useState(false)
 
+  useEffect(()=>{
+  },[])
+
   // dispatch(resetApplicantDetails())
 
   const formik = useFormik({
     initialValues: {
-      fname: appllicantDetails?.fname? appllicantDetails?.fname : '',
-      lname: appllicantDetails?.lname? appllicantDetails?.lname : '',
-      phone: appllicantDetails?.phone? appllicantDetails?.phone : '',
-      email: appllicantDetails?.email? appllicantDetails?.email : '',
+      fname: appllicantDetails?.fname,
+      lname: appllicantDetails?.lname,
+      phone: appllicantDetails?.phone,
+      email: appllicantDetails?.email,
       nationality: '',
       civilStatus: '',
-      province: appllicantDetails?.province? appllicantDetails?.province : '',
-      municipality: appllicantDetails?.municipality? appllicantDetails?.municipality : '',
-      brgy: appllicantDetails?.brgy? appllicantDetails?.brgy : '',
+      fbname: '',
+      province: appllicantDetails?.province,
+      municipality: appllicantDetails?.municipality,
+      brgy: appllicantDetails?.brgy,
       address: '',
       termsAccepted: false,
     },
@@ -60,11 +66,15 @@ const BasicDetailsContinuation = () => {
       .string()
       .max(255)
       .required('address is required'),
+      fbname: Yup
+      .string()
+      .max(255)
+      .required('facebook name is required'),
     }),
     dirty: Yup.boolean,
     // validateOnMount
     onSubmit: () => {
-    //   dispatch(setApplicantDetails({...formik.values}))
+      dispatch(setApplicantDetails({...formik.values}))
       dispatch(setActiveStep(2))
     }
   })
@@ -84,8 +94,27 @@ const BasicDetailsContinuation = () => {
     }
   }
   return (
-    <Grid container flexDirection="column" alignItems="center">
-        <Grid item sx={{padding: "1rem", marginBottom: "1rem"}}>
+    <Grid container flexDirection="column" alignItems="center" sx={{position: "relative"}}>
+        <Button
+          sx={{position: "absolute", top: 0, right: 0}}
+          disabled={!(formik.values.termsAccepted && formik.isValid)}
+          onClick={()=>{
+            dispatch(setActiveStep(2));
+            formik.handleSubmit
+          }}
+          endIcon={<ArrowForwardIcon />}
+        >
+        </Button>
+        <Button
+          sx={{position: "absolute", top: 0, left: 0}}
+          onClick={()=>{
+            dispatch(setActiveStep(0));
+          }}
+          startIcon={<ArrowBackIcon />}
+        >
+          Back
+        </Button>
+        <Grid item sx={{padding: "3rem 1rem", marginBottom: "1rem"}}>
           <Typography sx={{ fontSize: "14px", textAlign: "center"}}>Get the internet that you deserve at affordable prices. 
           Lets start with your basic details.</Typography>
         </Grid>
@@ -98,7 +127,7 @@ const BasicDetailsContinuation = () => {
                 error={Boolean(formik.touched.fname && formik.errors.fname)}
                 fullWidth
                 helperText={formik.touched.fname && formik.errors.fname}
-                label="first name"
+                label="First name"
                 margin="normal"
                 name="fname"
                 onBlur={formik.handleBlur}
@@ -111,7 +140,7 @@ const BasicDetailsContinuation = () => {
                 error={Boolean(formik.touched.lname && formik.errors.lname)}
                 fullWidth
                 helperText={formik.touched.lname && formik.errors.lname}
-                label="last name"
+                label="Last name"
                 margin="normal"
                 name="lname"
                 onBlur={formik.handleBlur}
@@ -124,7 +153,7 @@ const BasicDetailsContinuation = () => {
                   error={Boolean(formik.touched.phone && formik.errors.phone)}
                   fullWidth
                   helperText={formik.touched.phone && formik.errors.phone}
-                  label="mobile number"
+                  label="Mobile number"
                   margin="normal"
                   name="phone"
                   onBlur={formik.handleBlur}
@@ -139,7 +168,7 @@ const BasicDetailsContinuation = () => {
                   error={Boolean(formik.touched.email && formik.errors.email)}
                   fullWidth
                   helperText={formik.touched.email && formik.errors.email}
-                  label="email"
+                  label="Email"
                   margin="normal"
                   name="email"
                   onBlur={formik.handleBlur}
@@ -151,34 +180,38 @@ const BasicDetailsContinuation = () => {
                 <TextField
                   fullWidth
                   helperText='optional'
-                  label="nationality"
+                  label="Nationality"
                   margin="normal"
-                  name="email"
+                  name="nationality"
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   type="text"
                   value={formik.values.nationality}
                   variant="outlined"
                 />
-                <Autocomplete
-                options={['Single', 'Married']}
-                fullWidth
-                renderInput={(params) => <TextField {...params} 
-                margin="normal" 
-                label="civil status"
-                name="civilStatus"
-                helperText='optional'
-                />}
-                onChange={(event, value) => formik.values.civilStatus = value}
+              </Stack>
+              <Stack direction={{xs: "column", md: "row"}} gap={2}>
+                <TextField
+                  error={Boolean(formik.touched.fbname && formik.errors.fbname)}
+                  fullWidth
+                  helperText={formik.touched.fbname && formik.errors.fbname}
+                  label="Facebook account name"
+                  margin="normal"
+                  name="fbname"
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  type="text"
+                  value={formik.values.fbname}
+                  variant="outlined"
                 />
               </Stack>
-              <Typography>Address information</Typography>
+              <Typography sx={{marginTop: "1rem"}}>Address information</Typography>
               <Stack direction={{xs: "column", md: "row"}} gap={2}>
                 <TextField
                   error={Boolean(formik.touched.province && formik.errors.province)}
                   fullWidth
                   helperText={formik.touched.province && formik.errors.province}
-                  label="province"
+                  label="Province"
                   margin="normal"
                   name="province"
                   onBlur={formik.handleBlur}
@@ -191,7 +224,7 @@ const BasicDetailsContinuation = () => {
                   error={Boolean(formik.touched.municipality && formik.errors.municipality)}
                   fullWidth
                   helperText={formik.touched.municipality && formik.errors.municipality}
-                  label="municipality"
+                  label="Municipality"
                   margin="normal"
                   name="municipality"
                   onBlur={formik.handleBlur}
@@ -204,7 +237,7 @@ const BasicDetailsContinuation = () => {
                   error={Boolean(formik.touched.brgy && formik.errors.brgy)}
                   fullWidth
                   helperText={formik.touched.brgy && formik.errors.brgy}
-                  label="barangay"
+                  label="Barangay"
                   margin="normal"
                   name="brgy"
                   onBlur={formik.handleBlur}
@@ -219,7 +252,7 @@ const BasicDetailsContinuation = () => {
                   error={Boolean(formik.touched.address && formik.errors.address)}
                   fullWidth
                   helperText={formik.touched.address && formik.errors.address}
-                  label="please type your complete address"
+                  label="Please type your complete address"
                   margin="normal"
                   name="address"
                   onBlur={formik.handleBlur}

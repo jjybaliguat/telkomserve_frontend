@@ -25,8 +25,9 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import BroadcastOnPersonalIcon from '@mui/icons-material/BroadcastOnPersonal';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
-import CheckAvailability from 'src/components/landingpage/components/quicklinks/check-availability'
 import BasicDetailsContinuation from 'src/components/landingpage/components/quicklinks/applynow/BasicDetailsContinuation'
+import SelectPlan from 'src/components/landingpage/components/quicklinks/applynow/SelectPlan'
+import CheckAvailability from 'src/components/landingpage/components/quicklinks/applynow/CheckAvailability'
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -233,7 +234,7 @@ const Page = () => {
                   <Box sx={{display: activestep === 2? "block" : "none"}}>
                     <Stack justifyContent="center">
                       {/* {TabsContent[0]} */}
-                      <Typography>Select Desired Plan</Typography>
+                      <SelectPlan />
                     </Stack>
                   </Box>
                   <Box sx={{display: activestep === 3? "block" : "none"}}>

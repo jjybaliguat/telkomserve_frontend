@@ -8,6 +8,7 @@ import data from '../../../../../utils/locations.json'
 import phil, { getBarangayByMun, getCityMunByProvince, getProvincesByRegion } from 'phil-reg-prov-mun-brgy'
 import axios from 'axios';
 import { setActiveStep, setApplicantDetails, setSelectedAreaIndex, setSelectedindex } from 'src/redux/landing/quicklinksAction';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const CheckAvailability = () => {
   const dispatch = useDispatch()
@@ -136,8 +137,20 @@ const availableAreas = [
 ]
 
   return (
-    <Grid container flexDirection="column" alignItems="center">
-        <Grid item sx={{padding: "1rem"}}>
+    <Grid container flexDirection="column" alignItems="center" sx={{position: "relative"}}>
+        <Button
+        sx={{position: "absolute", top: 0, right: 0}}
+        disabled={!(selectedAreaIndex >= 0)}
+        onClick={()=>{
+          dispatch(setApplicantDetails({...selectedArea}));
+          dispatch(setSelectedindex(1)); 
+          dispatch(setSelectedAreaIndex(selectedAreaIndex));
+          dispatch(setActiveStep(1))
+        }}
+        endIcon={<ArrowForwardIcon />}
+        >
+        </Button>
+        <Grid item sx={{padding: "3rem 1rem"}}>
           <Typography sx={{ fontSize: "16px", textAlign: "center", fontWeight: "bold"}}>CHECK AVAILABILITY</Typography>
         </Grid>
         <Grid item>
@@ -209,92 +222,6 @@ const availableAreas = [
                 >Continue</Button>
             </Stack>
           </Box>
-        </Grid>
-        <Grid item width="100%" sx={{marginTop: "2rem"}}>
-          <form>
-            <Stack>
-              <Stack direction={{xs: "column", md: "row"}} gap={2}>
-              <Autocomplete
-                    {...regionProps}
-                    PaperComponent={CustomPaper}
-                      disabled="true"
-                        sx={{width: {md: 300, xs: "100%"}}}
-                        renderInput={(params) => <TextField {...params}
-                        // required={!invoice && true} 
-                        label="Region" 
-                        margin="normal" 
-                        variant="outlined"
-                        />}
-                    onChange={(event, value) => {
-                        setClientArea({...clientArea, region: {...value}});
-                        }
-                    }
-                                            
-                />
-               <Autocomplete
-                {...provinceProps}
-                PaperComponent={CustomPaper}
-                disabled="true"
-                sx={{width: {md: 300, xs: "100%"}}}
-                renderInput={(params) => <TextField {...params} 
-                margin="normal" 
-                label="Province"
-                />}
-                onChange={(event, value) => {setClientArea({...clientArea, province: {...value}})}}
-                />
-               <Autocomplete
-                {...cityProps}
-                PaperComponent={CustomPaper}
-                disabled="true"
-                sx={{width: {md: 300, xs: "100%"}}}
-                renderInput={(params) => <TextField {...params} 
-                margin="normal" 
-                label="Municipality/City"
-                />}
-                onChange={(event, value) => setClientArea({...clientArea, city: {...value}})}
-                />
-
-
-              </Stack>
-              <Stack direction={{xs: "column", md: "row"}} gap={2}>
-              <Autocomplete
-                    {...brgyProps}
-                    PaperComponent={CustomPaper}
-                    disabled="true"
-                        sx={{width: {md: 300, xs: "100%"}}}
-                        renderInput={(params) => <TextField {...params}
-                        // required={!invoice && true} 
-                        label="Barangay" 
-                        margin="normal" 
-                        variant="outlined"
-                        value={!clientArea.brgy? clientArea.barangay: ''}
-                        />}
-                        onChange={(event, value) => {setClientArea({...clientArea, brgy: {...value}})}}
-                                            
-                />
-               <Autocomplete
-                    {...areasProps}
-                    PaperComponent={CustomPaper}
-                    disabled="true"
-                        sx={{width: {md: 300, xs: "100%"}}}
-                        renderInput={(params) => <TextField {...params}
-                        // required={!invoice && true} 
-                        label="Barangay" 
-                        margin="normal" 
-                        variant="outlined"
-                        value={!clientArea.brgy? clientArea.barangay: ''}
-                        />}
-                        onChange={(event, value) => {setClientArea({...clientArea, area: value.name})}}                                  
-                />
-
-              </Stack>
-              <Stack direction={{xs: "column", md: "row"}} gap={2} justifyContent="center" sx={{marginTop: "2rem"}}>
-                    <Button 
-                    disabled="true"
-                    variant="contained">CHECK AVAILABILITY</Button>
-              </Stack>
-            </Stack>
-          </form>
         </Grid>
     </Grid>
   )
