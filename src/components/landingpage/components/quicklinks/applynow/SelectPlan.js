@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setActiveStep, setApplicantDetails, setSelectedAreaIndex, setSelectedindex } from 'src/redux/landing/quicklinksAction';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import RouterIcon from '@mui/icons-material/Router';
 
 const SelectPlan = () => {
   const dispatch = useDispatch()
@@ -48,10 +49,10 @@ const SelectPlan = () => {
         >
           Back
         </Button>
-        <Grid item sx={{padding: "1rem"}}>
+        <Grid item sx={{padding: "3rem 0 1rem"}}>
           <Typography sx={{ fontSize: "16px", textAlign: "center", fontWeight: "bold"}}>PLEASE SELECT YOUR DESIRED PLAN</Typography>
         </Grid>
-        <Grid item sx={{marginTop: "1rem"}}>
+        <Grid item >
           <Box sx={{marginTop: "1rem", display:"flex", justifyContent: "center", flexWrap:"wrap", gap: "1rem"}}>
             {PlanList.map((item, index)=>{
               return (
@@ -62,7 +63,7 @@ const SelectPlan = () => {
                 sx={{padding: "5px", cursor: "pointer", position: "relative"}} 
                 onClick={() => {setSelectedPlan(index)}}>
                   <Stack alignItems="center" sx={{width: "125px"}}>
-                    <img src="/static/images/googlemap.png" height={50} width={50} />
+                    <RouterIcon color="primary" sx={{height: "50px", width: "50px"}}/>
                     <Typography sx={{fontSize: "20px", textAlign: "center"}}>{item.name}</Typography>
                     <Typography sx={{fontSize: "16px", textAlign: "center"}}>Upto {item.speed}</Typography>
                   </Stack>

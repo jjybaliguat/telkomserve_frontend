@@ -147,7 +147,9 @@ const Hero = () => {
                         >
                         <ApplyNowbtn fullWidth={isSmallScreen} sx={{height: 50, px: 3}} onClick={() => {
                             Router.push("/fiber"); dispatch(setSelectedindex(1))}}/>
-                        <CustomButton fullWidth={isSmallScreen}>Check Bills</CustomButton>
+                        <CustomButton fullWidth={isSmallScreen}
+                        onClick={() => {Router.push("/fiber"); dispatch(setSelectedindex(2))}}
+                        >Check Bills</CustomButton>
                     </Stack>
                 </Stack>
                 <Slideshow height="270px" width="400px" />

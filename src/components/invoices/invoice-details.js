@@ -90,6 +90,10 @@ export const InvoiceDetails = () => {
     }, [router])
 
     useEffect(() => {
+        // downloadInvoicePdf()
+    }, [])
+
+    useEffect(() => {
         const getInvoice = async() => {
           const response = await getinvoice(invoiceId)
           setInvoiceData(response.data)

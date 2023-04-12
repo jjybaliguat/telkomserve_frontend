@@ -1,6 +1,6 @@
 import { Box, Button, Container, Grid, Stack, styled, Tab, Tabs, TextField, Typography, useTheme } from '@mui/material'
 import Head from 'next/head'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useMeasure from 'react-use-measure'
 import { mainHeroContent } from 'src/utils/contents/content'
 import PropTypes from 'prop-types';
@@ -13,6 +13,9 @@ import BasicDetails from 'src/components/landingpage/components/quicklinks/apply
 import { useDispatch, useSelector } from 'react-redux'
 import { setSelectedindex } from 'src/redux/landing/quicklinksAction'
 import CheckAvailability from 'src/components/landingpage/components/quicklinks/check-availability'
+import axios from 'axios'
+import CheckBills from 'src/components/landingpage/components/quicklinks/check-bills'
+import InstallationStatus from 'src/components/landingpage/components/quicklinks/installation-status'
 
 const TabsContent = [
   "Check Availability",
@@ -110,6 +113,7 @@ const Page = () => {
     dispatch(setSelectedindex(index))
   };
 
+
   return (
   <>
         <Head>
@@ -160,15 +164,13 @@ const Page = () => {
             <Box sx={{display: selectedIndex === 2? "block" : "none"}}>
               <Stack justifyContent="center">
                   {/* {TabsContent[0]} */}
-                <img src="/static/images/underDevelopment.svg" height={300}/>
-                <p style={{textAlign: "center", marginTop: "1rem"}}>This section is under development</p>
+                <CheckBills />
               </Stack>
             </Box>
             <Box sx={{display: selectedIndex === 3? "block" : "none"}}>
               <Stack justifyContent="center">
                 {/* {TabsContent[0]} */}
-                <img src="/static/images/underDevelopment.svg" height={300}/>
-                <p style={{textAlign: "center", marginTop: "1rem"}}>This section is under development</p>
+                <InstallationStatus />
               </Stack>
             </Box>
           </Box>
