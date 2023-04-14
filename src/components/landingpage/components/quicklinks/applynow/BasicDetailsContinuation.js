@@ -269,7 +269,7 @@ const BasicDetailsContinuation = () => {
                 variant="contained"
                 type="submit"
                 sx={{padding: "0.5rem 4rem", borderRadius: "24px"}}
-                disabled={!(formik.values.termsAccepted && formik.isValid)}
+                disabled={!(formik.values.termsAccepted && formik.isValid && !formik.isSubmitting)}
                 >Continue</Button>
               </Stack>
             </Stack>

@@ -138,7 +138,7 @@ const Submit = () => {
                 variant="contained"
                 type="submit"
                 sx={{padding: "0.5rem 4rem", borderRadius: "24px"}}
-                disabled={!(formik.isValid && !success)}
+                disabled={!(formik.isValid && !success && !formik.isSubmitting)}
                 >
                 VERIFY & SUBMIT
                 </Button>
