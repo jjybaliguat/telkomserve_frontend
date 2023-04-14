@@ -53,7 +53,7 @@ export const AccountProfile = (props) => {
       e.preventDefault()
       setIsLoading(true)
       try {
-        const imageRef = ref(storage, `img/${uploadProfile.name + v4()}`)
+        const imageRef = ref(storage, `img/profilepic/${uploadProfile.name + v4()}`)
            uploadBytes(imageRef, uploadProfile).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((url) => {
               const updateProfile = async () => {

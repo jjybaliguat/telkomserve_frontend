@@ -39,7 +39,7 @@ export const InvoiceDetails = () => {
     const router = useRouter()
     const invoiceId = router.query.invoiceId
     const invoices = useSelector(store => store.invoice.invoices)
-    const singleInvoice =  invoices.find(invoice => invoice._id === invoiceId)
+    const singleInvoice =  invoices?.find(invoice => invoice._id === invoiceId)
     // const invoice = useSelector(store => store.invoice.singleInvoice)
     const [ client, setClient] = useState(null)
     const [invoiceData, setInvoiceData] = useState(initialState)

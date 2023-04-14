@@ -28,6 +28,8 @@ import FactCheckIcon from '@mui/icons-material/FactCheck';
 import BasicDetailsContinuation from 'src/components/landingpage/components/quicklinks/applynow/BasicDetailsContinuation'
 import SelectPlan from 'src/components/landingpage/components/quicklinks/applynow/SelectPlan'
 import CheckAvailability from 'src/components/landingpage/components/quicklinks/applynow/CheckAvailability'
+import UploadDocuments from 'src/components/landingpage/components/quicklinks/applynow/UploadDocuments'
+import Submit from 'src/components/landingpage/components/quicklinks/applynow/Submit'
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -238,16 +240,10 @@ const Page = () => {
                     </Stack>
                   </Box>
                   <Box sx={{display: activestep === 3? "block" : "none"}}>
-                    <Stack justifyContent="center">
-                      {/* {TabsContent[0]} */}
-                      <Typography>Upload required documents</Typography>
-                    </Stack>
+                      <UploadDocuments />
                   </Box>
                   <Box sx={{display: activestep === 4? "block" : "none"}}>
-                    <Stack justifyContent="center">
-                      {/* {TabsContent[0]} */}
-                      <Typography>Verify and Submit</Typography>
-                    </Stack>
+                    <Submit />
                   </Box>
                 </Box>
             </Stack>

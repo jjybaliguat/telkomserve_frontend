@@ -29,13 +29,14 @@ const AddClientFormDialog = (props) => {
           dueDate: '',
           installationBalance: '0',
           installationDate: '',
-          connectionStatus: 'activated'
+          connectionStatus: 'activated',
+          verificationCode: '0'
         },
         validationSchema: Yup.object({
           name: Yup
             .string()
             .max(255)
-            .required('name is required'),
+            .required('firstname is required'),
           email: Yup
             .string().email("Invalid email format")
             .max(255)
@@ -129,8 +130,8 @@ const AddClientFormDialog = (props) => {
                     <TextField
                       error={Boolean(formik.touched.name && formik.errors.name)}
                       fullWidth
-                      helpertext={formik.touched.name && formik.errors.name}
-                      label="name"
+                      helperText={formik.touched.name && formik.errors.name}
+                      label="complete name"
                       margin="normal"
                       name="name"
                       onBlur={formik.handleBlur}
@@ -148,7 +149,7 @@ const AddClientFormDialog = (props) => {
                     <TextField
                       error={Boolean(formik.touched.email && formik.errors.email)}
                       fullWidth
-                      helpertext={formik.touched.email && formik.errors.email}
+                      helperText={formik.touched.email && formik.errors.email}
                       label="email"
                       margin="normal"
                       name="email"
@@ -167,7 +168,7 @@ const AddClientFormDialog = (props) => {
                     <TextField
                       error={Boolean(formik.touched.phone && formik.errors.phone)}
                       fullWidth
-                      helpertext={formik.touched.phone && formik.errors.phone}
+                      helperText={formik.touched.phone && formik.errors.phone}
                       label="phone"
                       margin="normal"
                       name="phone"
@@ -217,9 +218,9 @@ const AddClientFormDialog = (props) => {
                           onBlur={formik.handleBlur}
                         >
                           <MenuItem value='699'>Plan699</MenuItem>
+                          <MenuItem value='999'>Plan999</MenuItem>
                           <MenuItem value='1299'>Plan1299</MenuItem>
                           <MenuItem value='1499'>Plan1499</MenuItem>
-                          <MenuItem value='1699'>Plan1699</MenuItem>
                         </Select>
                       </FormControl>
                       </Grid>

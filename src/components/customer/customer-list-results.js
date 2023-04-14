@@ -270,7 +270,7 @@ const CustomerListResults = () => {
             </TableHead>
             <TableBody>
               {clients?.sortBy(sort).filter((clients) =>
-                clients.name.toLowerCase().includes(query)).slice(page*limit, page*limit+limit).map((clients, id) => (
+                clients?.name?.toLowerCase().includes(query)).slice(page*limit, page*limit+limit).map((clients, id) => (
                 <TableRow
                   hover
                   key={id}

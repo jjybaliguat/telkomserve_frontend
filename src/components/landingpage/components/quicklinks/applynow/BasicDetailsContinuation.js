@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, Select, Stack, TextField, Typography } from '@mui/material'
+import { Alert, AlertTitle, Autocomplete, Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, Select, Stack, TextField, Typography } from '@mui/material'
 import { useFormik, yupToFormErrors } from 'formik'
 import * as Yup from 'yup';
 import React, { useEffect, useState } from 'react'
@@ -7,12 +7,15 @@ import { resetApplicantDetails, setAcceptTerm, setActiveStep, setApplicantDetail
 import Router from 'next/router';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useCheckemailMutation } from 'src/redux/authApiSlice';
 
 const BasicDetailsContinuation = () => {
   const dispatch = useDispatch()
   const appllicantDetails = useSelector(store => store.fiber.appllicantDetails)
 //   console.log(appllicantDetails);
   const [validated, setValidated] = useState(false)
+  const [checkemail] = useCheckemailMutation()
+  const [error, setError] = useState(null)
 
   useEffect(()=>{
   },[])
@@ -21,8 +24,7 @@ const BasicDetailsContinuation = () => {
 
   const formik = useFormik({
     initialValues: {
-      fname: appllicantDetails?.fname,
-      lname: appllicantDetails?.lname,
+      name: appllicantDetails?.name,
       phone: appllicantDetails?.phone,
       email: appllicantDetails?.email,
       nationality: '',
@@ -35,14 +37,10 @@ const BasicDetailsContinuation = () => {
       termsAccepted: false,
     },
     validationSchema: Yup.object({
-      fname: Yup
+      name: Yup
       .string()
       .max(255)
       .required('firstname is required'),
-      lname: Yup
-      .string()
-      .max(255)
-      .required('lastname is required'),
       phone: Yup
       .string()
       .required('phone number is required'),
@@ -73,9 +71,16 @@ const BasicDetailsContinuation = () => {
     }),
     dirty: Yup.boolean,
     // validateOnMount
-    onSubmit: () => {
-      dispatch(setApplicantDetails({...formik.values}))
-      dispatch(setActiveStep(2))
+    onSubmit: async() => {
+      const emailExist = await checkemail({email: formik.values?.email})
+      if(emailExist.data.exist){
+        setError("Email you entered already exist, please try another one")
+      }else{
+        setError(null)
+        dispatch(setApplicantDetails({...formik.values}))
+        dispatch(setActiveStep(2))
+      }
+
     }
   })
 
@@ -124,29 +129,16 @@ const BasicDetailsContinuation = () => {
                 <Typography>Personal information</Typography>
               <Stack direction={{xs: "column", md: "row"}} gap={2}>
               <TextField
-                error={Boolean(formik.touched.fname && formik.errors.fname)}
+                error={Boolean(formik.touched.name && formik.errors.name)}
                 fullWidth
-                helperText={formik.touched.fname && formik.errors.fname}
-                label="First name"
+                helperText={formik.touched.name && formik.errors.name}
+                label="Complete name"
                 margin="normal"
-                name="fname"
+                name="name"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 type="text"
-                value={formik.values.fname}
-                variant="outlined"
-              />
-              <TextField
-                error={Boolean(formik.touched.lname && formik.errors.lname)}
-                fullWidth
-                helperText={formik.touched.lname && formik.errors.lname}
-                label="Last name"
-                margin="normal"
-                name="lname"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="text"
-                value={formik.values.lname}
+                value={formik.values.name}
                 variant="outlined"
               />
               <TextField
@@ -158,7 +150,7 @@ const BasicDetailsContinuation = () => {
                   name="phone"
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  type="number"
+                  type="text"
                   value={formik.values.phone}
                   variant="outlined"
                 />
@@ -282,6 +274,13 @@ const BasicDetailsContinuation = () => {
               </Stack>
             </Stack>
           </form>
+        </Grid>
+        <Grid item sx={{padding: "1rem"}} width={{xs: "100%", md: "80%"}}>
+          {error &&
+          <Alert severity="error">
+            <AlertTitle>{error}</AlertTitle>
+          </Alert>
+          }
         </Grid>
     </Grid>
   )

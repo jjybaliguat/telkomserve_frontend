@@ -124,7 +124,7 @@ const ClientDetails = () => {
           if (uploadProfile == null) return;
 
           setUploadPhotoLoading(true)
-          const imageRef = ref(storage, `img/${uploadProfile.name + v4()}`)
+          const imageRef = ref(storage, `img/profilepic/${uploadProfile.name + v4()}`)
            uploadBytes(imageRef, uploadProfile).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((url) => {
               const updateProfile = async () => {
@@ -167,7 +167,7 @@ const ClientDetails = () => {
           if (uploadHomePic == null) return;
 
           setUploadHomePicLoading(true)
-          const imageRef = ref(storage, `img/${uploadHomePic.name + v4()}`)
+          const imageRef = ref(storage, `img/homepic/${uploadHomePic.name + v4()}`)
            uploadBytes(imageRef, uploadHomePic).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((url) => {
               const updateProfile = async () => {

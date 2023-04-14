@@ -223,7 +223,7 @@ export const ApplicantsListResults = ({ ...rest }) => {
             </TableHead>
             <TableBody>
               {applicants?.filter((applicants) =>
-                applicants.name.toLowerCase().includes(query)).slice(page*limit, page*limit+limit).map((applicants, id) => (
+                applicants?.name?.toLowerCase().includes(query)).slice(page*limit, page*limit+limit).map((applicants, id) => (
                 <TableRow
                   hover
                   key={id}

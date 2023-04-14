@@ -108,7 +108,28 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 url: '/client/register',
                 method: 'POST',
                 body: {...credentials}
-            })
+            }),
+        }),
+        resendcode: builder.mutation({
+            query: credentials => ({
+                url: '/client/resend-code',
+                method: 'PATCH',
+                body: {...credentials}
+            }),
+        }),
+        verifycode: builder.mutation({
+            query: credentials => ({
+                url: '/client/verify-code',
+                method: 'PATCH',
+                body: {...credentials}
+            }),
+        }),
+        checkemail: builder.mutation({
+            query: credentials => ({
+                url: '/client/check-email',
+                method: 'POST',
+                body: {...credentials}
+            }),
         }),
     })
 })
@@ -127,5 +148,8 @@ export const {
     useRegisterclientMutation,
     useUpdateclientMutation,
     useGetadminMutation,
-    useUpdateclientPhotoMutation
+    useUpdateclientPhotoMutation,
+    useResendcodeMutation,
+    useVerifycodeMutation,
+    useCheckemailMutation,
 } = authApiSlice

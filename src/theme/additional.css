@@ -96,3 +96,18 @@
   .selected-card{
     outline: 1px solid #2196f3;
   }
+
+  /* Upload file form */
+
+  .upload_file_container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #2196f3;
+    height: 200px;
+    width: 300px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+

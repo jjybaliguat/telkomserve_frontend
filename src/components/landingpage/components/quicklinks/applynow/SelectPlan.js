@@ -60,12 +60,13 @@ const SelectPlan = () => {
                 key={index}
                 className={selectedPlan === index? 'selected-card' : ''} 
                 variant="outlined" 
-                sx={{padding: "5px", cursor: "pointer", position: "relative"}} 
+                sx={{padding: "5px", cursor: "pointer", position: "relative", width: "175px"}} 
                 onClick={() => {setSelectedPlan(index)}}>
-                  <Stack alignItems="center" sx={{width: "125px"}}>
+                  <Stack alignItems="center" sx={{width: "100%"}}>
                     <RouterIcon color="primary" sx={{height: "50px", width: "50px"}}/>
                     <Typography sx={{fontSize: "20px", textAlign: "center"}}>{item.name}</Typography>
                     <Typography sx={{fontSize: "16px", textAlign: "center"}}>Upto {item.speed}</Typography>
+                    <Typography sx={{fontSize: "18px", textAlign: "center", fontWeight: "bold"}}>UNLIMITED INTERNET</Typography>
                   </Stack>
                   <Radio
                     checked={selectedPlan === index}

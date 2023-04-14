@@ -31,6 +31,7 @@ const quicklinksActionSlice = createSlice({
         },
         resetApplicantDetails : (state, action) => {
             state.appllicantDetails = {}
+            state.selectedAreaIndex = -1
         },
     }
 
