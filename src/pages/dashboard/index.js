@@ -20,9 +20,11 @@ import { TotalInvoice } from 'src/components/dashboard/total-invoice';
 import { PaidInvoices } from 'src/components/dashboard/paid-invoices';
 import { PartiallyPaidInvoices } from 'src/components/dashboard/partially-paid-invoices';
 import { OverdueInvoices } from 'src/components/dashboard/overdue';
+import Empty from 'src/components/svgIcons/Empty';
 
 const Page = () => {
   const dispatch = useDispatch()
+  const clients = useSelector(store=>store.clients.clients)
   const invoices = useSelector(store => store.invoice?.invoices)
   const overDue = invoices?.filter((invoice) => invoice.dueDate <= new Date().toISOString() && invoice.status === "UNPAID")
   const [getallapplicans] = useGetallapplicantsMutation()
@@ -77,6 +79,13 @@ const Page = () => {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  if(!clients?.length || !clients){
+    return  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', paddingTop: '20px'}}>
+    <Empty />
+    <p style={{padding: '40px', color: 'gray'}}>No Clients As of Now. Click the plus icon annd start creating a client</p>
+  </div>
   }
       return (
         <>

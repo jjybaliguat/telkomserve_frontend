@@ -6,6 +6,7 @@ import invoiceReducer from '../redux/invoiceAction'
 import applicantReducer from '../redux/applicantSlice'
 import employeeReducer from '../redux/employeesAction'
 import quicklinkReducer from '../redux/landing/quicklinksAction'
+import jobOrderReducer from '../redux/jobOrderAction'
 import storage from "redux-persist/lib/storage"
 import { persistReducer, FLUSH,
     REHYDRATE,
@@ -29,6 +30,7 @@ const reducer = combineReducers({
     invoice: invoiceReducer,
     employee: employeeReducer,
     fiber: quicklinkReducer,
+    joborders: jobOrderReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, reducer)

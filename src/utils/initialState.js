@@ -14,3 +14,19 @@ export const initialState = {
     status: '',
     creator: '',
 }
+
+export const jobInitialState = {
+    items: [
+        {
+        description: '', 
+        price: '', 
+        discount: '',
+    },
+    ],
+    total: 0,
+    rates: '',
+    vat: 0,
+    jobOrderNumber: Math.floor(Math.random() * 100000),
+    refNumber: Math.floor(Math.random() * 10000000000),
+    status: '',
+}

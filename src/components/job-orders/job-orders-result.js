@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { format } from 'date-fns';
 import {
@@ -32,31 +32,80 @@ import { useDispatch, useSelector } from 'react-redux';
 import NoData from '../svgIcons/NoData';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import moment from 'moment';
+import { useDeletejoborderMutation, useGetalljoborderMutation } from 'src/redux/jobOrderApiSlice';
+import { deleteJobOrderAction, setJobOrder } from 'src/redux/jobOrderAction';
+import ConfirmDialog from '../dialogs/ConfirmDialog';
+import Notification from '../dialogs/Notification';
 // import { applicants } from '../../__mocks__/customers';
 
 export const JobOrdersResult = () => {
-    const [jobOrders, setJobOrders] = useState(null)
+    const dispatch = useDispatch()
+    const joborders = useSelector(store => store.joborders.jobOrders)
+    const [getalljoborder] = useGetalljoborderMutation()
+    const [deletejoborder] = useDeletejoborderMutation()
+    const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
+    const [page, setPage] = useState(0)
+    const [query, setQuery] = useState("")
+    const [limit, setLimit] = useState(10)
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
 
-    return <div style={{display: 'flex', alignItems: 'center', 
-      justifyContent: 'center', flexDirection: 'column', paddingTop: '20px',
-      }}>
-      <img 
-          src='/static/images/underDevelopment.svg'
-          style={{height: '300px'}}
-      />
-      <p style={{padding: '40px', color: 'gray'}}>Job-Order Section is under development!</p>
-    </div>
+    const handlePageChange = (event, newPage) => {
+      setPage(newPage);
+    };
 
-    if(jobOrders == null){
+    useEffect(()=>{
+      getAllJobOrders()
+    }, [])
+
+    const getAllJobOrders = async() => {
+      const response = await getalljoborder()
+      if(response.data){
+        dispatch(setJobOrder(response.data))
+      }
+    }
+
+
+    const handleDelete = async(id) => {
+      const response = await deletejoborder(id)
+      if(response){
+        dispatch(deleteJobOrderAction(id))
+        setNotify({
+          isOpen: true,
+          message: 'Job Order Deleted Successfully',
+          type: 'success'
+        })
+      }else{
+        setNotify({
+          isOpen: true,
+          message: 'Failed Deleting',
+          type: 'error'
+        })
+      }
+
+      setConfirmDialog({
+        ...confirmDialog,
+        isOpen: false
+    })
+    }
+
+    if(!joborders.length || !joborders){
         return <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', paddingTop: '20px'}}>
         <NoData />
         <p style={{padding: '40px', color: 'gray'}}>No job-orders yet. Check your applicants list and create job-orders</p>
       </div>
     }
 
-
   return (
     <>
+    <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
+       <Notification
+        notify={notify}
+        setNotify={setNotify}
+       />
     <Box sx={{ mb: 3 }}>
       <Box
         sx={{
@@ -81,10 +130,11 @@ export const JobOrdersResult = () => {
             Import
           </Button> */}
           <Button
-            startIcon={(<DownloadIcon fontSize="small" />)}
-            sx={{ mr: 1 }}
+            color="primary"
+            variant="contained"
+            onClick={() => Router.push("/dashboard/job-order")}
           >
-            Export
+            Create Job Order
           </Button>
         </Box>
       </Box>
@@ -106,9 +156,9 @@ export const JobOrdersResult = () => {
                     </InputAdornment>
                   )
                 }}
-                placeholder="Search client invoice"
+                placeholder="Search Job Order by applicant name"
                 variant="outlined"
-                // onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => setQuery(e.target.value)}
               />
             </Box>
           </CardContent>
@@ -116,42 +166,42 @@ export const JobOrdersResult = () => {
       </Box>
     </Box>
 
-    <Card {...rest}>
+    <Card>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 425 }}>
           <TableContainer>
-          <Table>
+          <Table size="small">
             <TableHead>
               <TableRow>
                 <TableCell>
-                  Invoice Number
+                  Job-Order Number
                 </TableCell>
                 <TableCell>
-                  Client Name
+                  Applicant Name
                 </TableCell>
                 <TableCell>
-                  Amount
-                </TableCell>
-                <TableCell>
-                  Due Date
+                  Installation Date
                 </TableCell>
                 <TableCell>
                   Status
                 </TableCell>
                 <TableCell>
-                  Edit
-                </TableCell>
-                <TableCell>
-                  Delete
+                  Actions
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
+              {joborders.filter((joborder)=>
+                joborder?.applicant?.name.toLowerCase().includes(query)).slice(page*limit, page*limit+limit).map((joborder)=>(
                 <TableRow
                   hover
-                //   key={id}
+                  key={joborder._id}
+                  sx={{cursor: "pointer"}}
                 >
-                  <TableCell>
+                  <TableCell onClick={() => Router.push(`/dashboard/job-order/${joborder._id}`)}>
+                    {joborder?.jobOrderNumber}
+                  </TableCell>
+                  <TableCell onClick={() => Router.push(`/dashboard/job-order/${joborder._id}`)}>
                     <Box
                       sx={{
                         alignItems: 'center',
@@ -162,37 +212,28 @@ export const JobOrdersResult = () => {
                         color="textPrimary"
                         variant="body1"
                       >
-                        {/* {applicants.name} */}
+                        {joborder?.applicant?.name}
                       </Typography>
                     </Box>
                   </TableCell>
-                  <TableCell>
-                    {/* {applicants.email} */}
+                  <TableCell onClick={() => Router.push(`/dashboard/job-order/${joborder._id}`)}>
+                    {moment(joborder?.installationDate).format("MMM Do YYYY")}
                   </TableCell>
-                  <TableCell>
-                    {/* {applicants.address} */}
-                  </TableCell>
-                  <TableCell>
-                    {/* {applicants.phone} */}
-                  </TableCell>
-                  <TableCell>
-                    {/* {applicants.internetPlan} */}
-                  </TableCell>
-                  <TableCell>
-                    {/* {applicants.accountNumber} */}
+                  <TableCell onClick={() => Router.push(`/dashboard/job-order/${joborder._id}`)}>
+                  <Button variant="contained" color={`${joborder.status === "DONE"? "success" : "warning"}`} sx={{padding: "0"}}>{joborder.status}</Button>
                   </TableCell>
                   <TableCell>
                     <Box sx={{display: "flex"}}>
                         <Tooltip title="delete" placement="top" arrow>
                           <IconButton aria-label="delete" color="error">
                             <DeleteIcon title="delete" 
-                            // onClick={() => {
-                            //     setConfirmDialog({
-                            //         isOpen: true,
-                            //         title: 'Are you sure yo want to delete this client?',
-                            //         subTitle: "You can't undo this operation",
-                            //         onConfirm: () => { handleDelete(clients._id) }
-                            //     })}} fontSize="small"
+                            onClick={() => {
+                                setConfirmDialog({
+                                    isOpen: true,
+                                    title: 'Are you sure yo want to delete this job Order?',
+                                    subTitle: "You can't undo this operation",
+                                    onConfirm: () => { handleDelete(joborder._id) }
+                                })}} fontSize="small"
                                 />
                           </IconButton>
                         </Tooltip>
@@ -206,6 +247,7 @@ export const JobOrdersResult = () => {
                       </Box>
                   </TableCell>
                 </TableRow>
+                ))}
             </TableBody>
           </Table>
           </TableContainer>
@@ -213,11 +255,11 @@ export const JobOrdersResult = () => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        // count={applicants?.length}
-        // onPageChange={handlePageChange}
-        // onRowsPerPageChange={handleLimitChange}
-        // page={page}
-        // rowsPerPage={limit}
+        count={joborders?.length}
+        onPageChange={handlePageChange}
+        onRowsPerPageChange={(e) => setLimit(e.target.value)}
+        page={page}
+        rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
       />
     </Card>

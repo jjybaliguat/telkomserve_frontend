@@ -2,11 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/router"
 import { Box, Container } from "@mui/system"
-import { Autocomplete, Button, Card, CardContent, Grid, IconButton, InputBase, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextareaAutosize, TextField, Tooltip, Typography } from "@mui/material"
-import { Download as DownloadIcon } from '../../icons/download';
-import EditIcon from '@mui/icons-material/Edit';
-import SendIcon from '@mui/icons-material/Send';
-import ReactToPrint from "react-to-print";
+import { Autocomplete, Button, Card, CardContent, Grid, IconButton, InputBase, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material"
 import moment from 'moment'
 import { toCommas } from '../../utils/toCommas'
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -14,26 +10,22 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 import Fab from '@mui/material/Fab';
-import { initialState } from "../../utils/initialState"
-import { useCreateinvoiceMutation, useGetinvoiceMutation, useGettotalcountMutation, useUpdateinvoiceMutation } from "../../redux/invoiceApiSlice"
+import { jobInitialState } from "../../utils/initialState"
 import {format} from 'date-fns'
-import { addInvoiceAction, setInvoiceAction, setSingleInvoice, updateInvoiceAction } from "../../redux/invoiceAction"
-import { updateClientAction } from "../../redux/clientSlice"
+import { useCreatejoborderMutation, useGetjoborderscountMutation } from "src/redux/jobOrderApiSlice"
+import { addJobOrderAction } from "src/redux/jobOrderAction"
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-export const Invoice = () => {
+export const CreateJobOrder = () => {
     const dispatch = useDispatch()
-    const [createinvoice] = useCreateinvoiceMutation()
-    const [gettotalcount] = useGettotalcountMutation()
-    const user = useSelector(store => store.auth.user)
     const router = useRouter()
-    const clients = useSelector(store => store.clients.clients)
-    const invoices = useSelector(store => store.invoice.invoices)
-    // const invoice = useSelector(store => store.invoice.singleInvoice)
-    const [ client, setClient] = useState(null)
-    const [invoiceData, setInvoiceData] = useState(initialState)
+    const applicants = useSelector(store=>store.applicants.applicants)
+    const [getjoborderscount] = useGetjoborderscountMutation()
+    const [createjoborder] = useCreatejoborderMutation()
+    const [applicant, setApplicant] = useState(null)
+    const [jobOrderData, setJobOrderData] = useState(jobInitialState)
     const today = new Date();
     const monthNow = today.getMonth()
     const yearNow = today.getFullYear()
@@ -41,79 +33,12 @@ export const Invoice = () => {
     const [subTotal, setSubTotal] = useState(0)
     const [total, setTotal] = useState(0)
     const [vat, setVat] = useState(0)
-    const [status, setStatus ] = useState('UNPAID')
-    const [type, setType] = useState('INVOICE')
+    const [status, setStatus ] = useState('ONGOING')
     const [ rates, setRates] = useState(0)
     const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-      getTotalcount()
-  },[router])
-
-  const getTotalcount = async() => {
-    try {
-      const response = await gettotalcount()
-      setInvoiceData({...invoiceData, invoiceNumber: (Number(response.data) + 1).toString().padStart(3, '0')})
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-}
-
-useEffect(() => {
-  //Get the subtotal
-  const subTotal =()=> {
-  var arr = document.getElementsByName("amount");
-  var subtotal = 0;
-  for(var i = 0; i < arr.length; i++) {
-      if(arr[i].value) {
-          subtotal += +arr[i].value;
-      }
-      // document.getElementById("subtotal").value = subtotal;
-      setSubTotal(subtotal)
-  }
-}
-
-subTotal()
-
-}, [invoiceData])
-
-useEffect(() => {
-  const total =() => {
-      
-      //Tax rate is calculated as (input / 100 ) * subtotal + subtotal 
-      const overallSum = rates /100 * subTotal + subTotal
-      //VAT is calculated as tax rates /100 * subtotal
-      setVat(rates /100 * subTotal)
-      setTotal(overallSum)
-  }
-  total()
-}, [invoiceData, rates, subTotal])
-
-  const handleAddField = (e) => {
-    e.preventDefault()
-    setInvoiceData((prevState) => ({...prevState, items: [...prevState.items,  {description: '', price: '', amount: '', discount: ''}]}))
-}
-
-const handleRemoveField =(index) => {
-  const values = invoiceData.items
-  values.splice(index, 1)
-  setInvoiceData((prevState) => ({...prevState, values}))
-  // console.log(values)
-}
-
-const handleChange =(index, e) => {
-  const values = [...invoiceData.items]
-  values[index][e.target.name] = e.target.value
-  setInvoiceData({...invoiceData, items: values})
-}
-
-const handleRates =(e) => {
-  setRates(e.target.value)
-  setInvoiceData((prevState) => ({...prevState, tax: e.target.value}))
-}
-    const clientsProps = {
-        options: clients,
+    const applicantsProps = {
+        options: applicants,
         getOptionLabel: (option) => option.name
       };
     
@@ -123,31 +48,96 @@ const handleRates =(e) => {
 
     const handleSubmit =  async(e) => {
       e.preventDefault()
-        setLoading(true)
-        const response = await createinvoice({
-          ...invoiceData, 
-          subTotal: subTotal,
-          total: total, 
-          vat: vat, 
-          rates: rates,  
-          dueDate: selectedDate, 
-          invoiceNumber: `${
-              invoiceData.invoiceNumber < 100 ? 
-              (Number(invoiceData.invoiceNumber)).toString().padStart(3, '0') 
-              : Number(invoiceData.invoiceNumber)
-          }`,
-          client, 
-          type: type, 
-          status: status, 
-          paymentRecords: [], 
-          creator: user._id
-        }
-          )
-          dispatch(addInvoiceAction(response.data))
-          setInvoiceData(initialState)
+      setLoading(true)
+      try {
+        const response = await createjoborder({
+            ...jobOrderData,
+            subTotal: subTotal,
+            total: total, 
+            vat: vat, 
+            rates: rates,
+            installationDate: selectedDate,
+            jobOrderNumber: `${
+                jobOrderData.jobOrderNumber < 100 ? 
+                (Number(jobOrderData.jobOrderNumber)).toString().padStart(3, '0') 
+                : Number(jobOrderData.jobOrderNumber)
+            }`,
+            applicant,
+            refNumber: jobOrderData.refNumber,
+            status: status, 
+          })
+          dispatch(addJobOrderAction(response.data))
+          setJobOrderData(jobInitialState)
           setLoading(false)
-          router.push(`/dashboard/invoice/${response.data._id}`)
+          router.push(`/dashboard/job-order/${response.data._id}`)
+      } catch (error) {
+        console.log(error);
+      }
+      }
 
+      useEffect(() => {
+        getTotalcount()
+    },[router])
+  
+    const getTotalcount = async() => {
+      try {
+        const response = await getjoborderscount()
+        setJobOrderData({...jobOrderData, jobOrderNumber: (Number(response.data) + 1).toString().padStart(3, '0')})
+      } catch (error) {
+        console.log(error);
+      }
+  }
+
+      useEffect(() => {
+        //Get the subtotal
+        const subTotal =()=> {
+        var arr = document.getElementsByName("amount");
+        var subtotal = 0;
+        for(var i = 0; i < arr.length; i++) {
+            if(arr[i].value) {
+                subtotal += +arr[i].value;
+            }
+            // document.getElementById("subtotal").value = subtotal;
+            setSubTotal(subtotal)
+        }
+      }
+      
+      subTotal()
+      
+      }, [jobOrderData])
+
+      useEffect(() => {
+        const total =() => {
+            //Tax rate is calculated as (input / 100 ) * subtotal + subtotal 
+            const overallSum = rates /100 * subTotal + subTotal
+            //VAT is calculated as tax rates /100 * subtotal
+            setVat(rates /100 * subTotal)
+            setTotal(overallSum)
+        }
+        total()
+      }, [jobOrderData, rates, subTotal])
+
+      const handleAddField = (e) => {
+        e.preventDefault()
+        setJobOrderData((prevState) => ({...prevState, items: [...prevState.items,  {description: '', price: '', amount: '', discount: ''}]}))
+    }
+    
+    const handleRemoveField =(index) => {
+      const values = jobOrderData.items
+      values.splice(index, 1)
+      setJobOrderData((prevState) => ({...prevState, values}))
+      // console.log(values)
+    }
+
+    const handleChange =(index, e) => {
+        const values = [...jobOrderData.items]
+        values[index][e.target.name] = e.target.value
+        setJobOrderData({...jobOrderData, items: values})
+      }
+      
+      const handleRates =(e) => {
+        setRates(e.target.value)
+        setJobOrderData((prevState) => ({...prevState, tax: e.target.value}))
       }
 
     return(
@@ -168,44 +158,65 @@ const handleRates =(e) => {
                                 <Typography sx={{fontSize: "14px"}}>Phone: 09308127173 / 09267609934</Typography>
                                 <Typography sx={{fontSize: "14px"}}>TIN: 495097258000</Typography>
                             </Grid>
-                            <Grid item>
-                                <h1>{type}</h1>
-                                Invoice #:
-                                <div style={{
-                                    marginTop: '15px',
-                                    width: '100px',
-                                    padding: '8px',
-                                    display: 'inline-block',
-                                    backgroundColor: '#f4f4f4',
-                                    outline: '0px solid transparent'
-                                }}  
-                                >
-                                <span style={{width:'40px',
-                                    color: 'black',
-                                    padding: '15px',
-                                }} 
-                                > {invoiceData.invoiceNumber}</span>
-                                <br/>
-                                </div>
+                            <Grid item sx={{display: "flex", flexDirection:"column"}}>
+                                <h1>JOB ORDER</h1>
+                                <Stack direction="row" alignItems="center">
+                                    Job-Order #:
+                                    <div style={{
+                                        marginTop: '15px',
+                                        width: '100px',
+                                        padding: '8px',
+                                        display: 'inline-block',
+                                        backgroundColor: '#f4f4f4',
+                                        outline: '0px solid transparent'
+                                    }}  
+                                    >
+                                    <span style={{width:'40px',
+                                        color: 'black',
+                                        padding: '15px',
+                                    }} 
+                                    >{jobOrderData?.jobOrderNumber}</span>
+                                    <br/>
+                                    </div>
+                                </Stack>
+                                <Stack direction="row" alignItems="center">
+                                    Reference #:
+                                    <div style={{
+                                        marginTop: '15px',
+                                        width: '150px',
+                                        padding: '8px',
+                                        display: 'inline-block',
+                                        backgroundColor: '#f4f4f4',
+                                        outline: '0px solid transparent'
+                                    }}  
+                                    >
+                                    <span style={{width:'40px',
+                                        color: 'black',
+                                        padding: '8px',
+                                    }} 
+                                    >{jobOrderData?.refNumber}</span>
+                                    <br/>
+                                    </div>
+                                </Stack>
                             </Grid>
                         </Grid >
                         <Grid container justifyContent="space-between" mt={5}>
                             <Grid item style={{width: '50%'}}>
-                                <Typography variant="h6">Bill To: </Typography>
-                                {client && (
+                                <Typography variant="h6">Client info: </Typography>
+                                {applicant && (
                                   <div style={{marginLeft: 20}}>
-                                      <Typography>Client Name: <b>{client.name}</b></Typography>
-                                      <Typography>Account Number: <b>{client.accountNumber}</b></Typography>
-                                      <Typography>Address: <b>{client.address}</b></Typography>
-                                      <Typography>Phone: <b>{client.phone}</b></Typography>
-                                      <Typography>Internet Plan: <b>Plan {client.internetPlan}</b></Typography>
-                                      <Button color="primary" size="small" style={{textTransform: 'none'}} onClick={()=> setClient(null)}>Change</Button>
+                                      <Typography>Applicant Name: <b>{applicant.name}</b></Typography>
+                                      <Typography>Account Number: <b>{applicant.accountNumber}</b></Typography>
+                                      <Typography>Address: <b>{applicant.address}</b></Typography>
+                                      <Typography>Phone: <b>{applicant.phone}</b></Typography>
+                                      <Typography>Internet Plan: <b>{applicant.internetPlan}</b></Typography>
+                                      <Button color="primary" size="small" style={{textTransform: 'none'}} onClick={()=> setApplicant(null)}>Change</Button>
                                   </div>
                                 )
                                   }
-                                <div style={client? {display: 'none'} :  {display: 'block'}}>
+                                <div style={applicant? {display: 'none'} :  {display: 'block'}}>
                                   <Autocomplete
-                                            {...clientsProps}
+                                            {...applicantsProps}
                                             PaperComponent={CustomPaper}
                                                 renderInput={(params) => <TextField {...params}
                                                 // required={!invoice && true} 
@@ -213,8 +224,8 @@ const handleRates =(e) => {
                                                 margin="normal" 
                                                 variant="outlined"
                                                 />}
-                                            value={clients?.name}
-                                            onChange={(event, value) => {setClient(value); setSelectedDate(`${monthNow}/${value.dueDate}/${yearNow}`)}}
+                                            value={applicant?.name}
+                                            onChange={(event, value) => {setApplicant(value)}}
                                             
                                     />
                                 </div>
@@ -222,17 +233,29 @@ const handleRates =(e) => {
                             </Grid>
                             <Grid item style={{textAlign: 'right'}}>
                                 <Typography variant="h6" gutterBottom>Status</Typography>
-                                <Typography variant="h5" color="error" gutterBottom>UNPAID</Typography>
+                                <Typography variant="h5" color="error" gutterBottom>{status}</Typography>
                                 <Typography variant="overline" gutterBottom>Date</Typography>
                                 <Typography variant="body2" gutterBottom>{moment().format("MMM Do YYYY")}</Typography>
-                                <Typography variant="overline" gutterBottom>Due Date</Typography>
-                                <Typography variant="body2" gutterBottom>{selectedDate? moment(selectedDate).format("MMM Do YYYY"): moment(today).format("MMM Do YYYY")}</Typography>
+                                {/* <Typography variant="overline" gutterBottom>Installation Date</Typography> */}
+                                <div style={{marginTop: "1rem"}}>
+                                <TextField
+                                id="datetime-local"
+                                label="Installation Date"
+                                type="date"
+                                required
+                                defaultValue={new Date()}
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                onChange={(e) => setSelectedDate(e.target.value)}
+                              />
+                                </div>
+                                {/* <Typography variant="body2" gutterBottom>{selectedDate? moment(selectedDate).format("MMM Do YYYY"): moment(today).format("MMM Do YYYY")}</Typography> */}
                                 <Typography variant="overline" gutterBottom>Amount</Typography>
                                 <Typography variant="h6" gutterBottom>PHP {toCommas(total)}</Typography>
                             </Grid>
                         </Grid>
                         <Grid container mt={5}>
-                            <Typography>Client Installation balance: {client?.installationBalance}</Typography><br />
                                 <Box sx={{ minWidth: 300 }}>
                                 <PerfectScrollbar>
                                 <TableContainer>
@@ -247,7 +270,7 @@ const handleRates =(e) => {
                                     </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                      {invoiceData.items.map((itemField, index) => (
+                                      {jobOrderData.items.map((itemField, index) => (
                                         <TableRow hover key={index}>
                                           <TableCell  scope="row" style={{width: '40%' }}> <InputBase style={{width: '100%'}} outline="none" sx={{ ml: 1, flex: 1 }} type="text" name="description" onChange={e => handleChange(index, e)} value={itemField.description} placeholder="Item name or description" required/> </TableCell>
                                           <TableCell align="right"> <InputBase sx={{ ml: 1, flex: 1 }} type="text" name="price" onChange={e => handleChange(index, e)} value={itemField.price} required/> </TableCell>
@@ -285,7 +308,7 @@ const handleRates =(e) => {
                                     display: "flex",
                                     color: "gray"
                                   }}>
-                                    <Typography>Invoice Summary</Typography>
+                                    <Typography>Job-Order Summary</Typography>
                                   </div>
                                   <div style={{
                                     display: "flex",
@@ -334,19 +357,6 @@ const handleRates =(e) => {
                                       
                                   />
                               </Grid>
-                              <Grid item style={{marginRight: 1}} sx={{display: "flex", alignItems: "center"}}>
-                              <TextField
-                                id="datetime-local"
-                                label="Due Date"
-                                type="date"
-                                defaultValue={new Date()}
-                                InputLabelProps={{
-                                  shrink: true,
-                                }}
-                                onChange={(e) => setSelectedDate(e.target.value)}
-                              />
-                              <Typography>Client Due Date: {client?.dueDate}</Typography>
-                              </Grid>
                         </Grid>
                       <div>
                         <div style={{
@@ -357,8 +367,8 @@ const handleRates =(e) => {
                             <textarea
                               aria-label="empty textarea"
                               placeholder="Provide additional details or terms of service"
-                              onChange={(e) => setInvoiceData({...invoiceData, notes: e.target.value})}
-                              value={invoiceData.notes}
+                              onChange={(e) => setJobOrderData({...jobOrderData, notes: e.target.value})}
+                              value={jobOrderData.notes}
                               style={{ width:"100%", height: "100px", fontSize: "1rem", padding: 10}}
                             />
                         </div>

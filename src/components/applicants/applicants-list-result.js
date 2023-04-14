@@ -146,7 +146,7 @@ export const ApplicantsListResults = ({ ...rest }) => {
           <Button
             color="primary"
             variant="contained"
-            // onClick={() => { setOpenPopup(true)}}
+            onClick={() => Router.push("/dashboard/job-order")}
           >
             Create Job Order
           </Button>
