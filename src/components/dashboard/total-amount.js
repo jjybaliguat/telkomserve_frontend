@@ -3,7 +3,7 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import NextLink from 'next/link';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useSelector } from 'react-redux';
-import { toCommas } from 'src/utils/toCommas';
+import { toCommas } from '../../utils/toCommas';
 
 export const TotalAmount = ({totalAmount, ...others}) => {
   

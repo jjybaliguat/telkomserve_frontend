@@ -6,6 +6,7 @@ import Router, { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import MenuIcon from '@mui/icons-material/Menu';
 import { LinkS } from './NavElements';
+import ApplyNowbtn from '../Buttons/ApplyNowbtn';
 
 const CustomLink = (props) => {
     const {href, title} = props
@@ -70,12 +71,15 @@ const Navbar = () => {
             <Grid item>
             </Grid>
             <Grid item sx={{marginRight: "4rem"}}>
-                <Stack sx={{ display: { xs: 'none', md: 'flex'} }} direction="row" gap={5}>
+                <Stack sx={{ display: { xs: 'none', md: 'flex'} }} direction="row" gap={5} alignItems="center">
                     <CustomLink href="home" title="HOME" />
                     <CustomLink href="services" title="SERVICES" />
                     <CustomLink href="pricing" title="PLANS" />
                     <CustomLink href="faqs" title="FAQ'S" />
                     <CustomLink href="contact" title="CONTACT US" />
+                    <ApplyNowbtn 
+                        onClick={() => Router.push("/fiber")}
+                        sx={{px: 3, display: {md:`${hideLogo? "flex" : "none"}`, xs: "none"}}} />
                     {/* <CustomLink href="#about" scroll={false}>
                         <Typography style={{cursor: "pointer", fontWeight: "bold"}}>ABOUT</Typography>
                     </CustomLink>

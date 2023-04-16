@@ -12,8 +12,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import Notification from '../dialogs/Notification';
 import { selectCurrentUser } from '../../redux/authSlice';
 import AddEmmployeeFormDialog from '../dialogs/AddEmployeeForm';
-import { useCreateemployeeMutation } from 'src/redux/employeeApiSlice';
-import { addEmplloyeeAction, addEmployeeAction } from 'src/redux/employeesAction';
+import { useCreateemployeeMutation } from '../../redux/employeeApiSlice';
+import { addEmployeeAction } from '../../redux/employeesAction';
+
 
 
 const FabButton = () => {

@@ -1,6 +1,5 @@
 // Hero Content
 
-
 export const mainHeroContent = {
     MainBG: "/static/images/HeroSection/fibercable.jpg",
     blackGradient: "/static/images/HeroSection/blackwhitegradient.png",

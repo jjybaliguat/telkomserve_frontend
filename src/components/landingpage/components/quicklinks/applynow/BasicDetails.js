@@ -3,9 +3,9 @@ import { useFormik, yupToFormErrors } from 'formik'
 import * as Yup from 'yup';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { resetApplicantDetails, setAcceptTerm, setActiveStep, setApplicantDetails, setSelectedindex } from 'src/redux/landing/quicklinksAction';
+import { resetApplicantDetails, setAcceptTerm, setActiveStep, setApplicantDetails, setSelectedindex } from '../../../../../redux/landing/quicklinksAction';
+import { useCheckemailMutation } from '../../../../../redux/authApiSlice'
 import Router from 'next/router';
-import { useCheckemailMutation } from 'src/redux/authApiSlice';
 
 const BasicDetails = () => {
   const dispatch = useDispatch()

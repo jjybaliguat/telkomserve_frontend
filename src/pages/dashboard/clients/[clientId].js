@@ -301,7 +301,7 @@ const ClientDetails = () => {
             noValidate
           >
         <Card>
-          <Button sx={{paddingTop: 2}} onClick={() => Router.push('/dashboard')}><ArrowBackIcon /> Back</Button>
+          <Button sx={{paddingTop: 2}} onClick={() => Router.back()}><ArrowBackIcon /> Back</Button>
           <CardHeader
             sx={{paddingTop: 1}}
             subheader="The information can be edited"

@@ -66,6 +66,18 @@ const items = [
     title: 'Settings'
   },
 ];
+const siteSettings = [
+  {
+    href: '/dashboard/slider-settings',
+    icon: (<CogIcon fontSize="small" />),
+    title: 'Home Slider'
+  },
+  {
+    href: '/dashboard/plans-settings',
+    icon: (<CogIcon fontSize="small" />),
+    title: 'Internet Plans Settings'
+  },
+]
 
 const clientsItem = [
   {
@@ -106,6 +118,11 @@ export const DashboardSidebar = (props) => {
     defaultMatches: true,
     noSsr: false
   });
+  const [siteNavOpen, setSiteNavOpen] = useState(false)
+
+  const handleSiteSettingsClick = () => {
+    setSiteNavOpen(!siteNavOpen)
+  }
 
   const [clientNavOpen, setClientNavOpen] = useState(false);
 
@@ -213,6 +230,28 @@ export const DashboardSidebar = (props) => {
 
           {/* For Clients dropdown section */}
 
+          <List
+              sx={{mb: 0.5, py: 0, px: 2}}
+              component="nav"
+              aria-labelledby="nested-list-subheader"
+            >
+            <ListItemButton onClick={handleSiteSettingsClick}>
+                <ListItemIcon>
+                  <CogIcon />
+                </ListItemIcon>
+                <ListItemText primary="Site Settings" />
+                {siteNavOpen ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+              {siteSettings.map((item) => (
+                <ClientsMenu
+                  key={item.title}
+                  icon={item.icon}
+                  href={item.href}
+                  title={item.title}
+                  open={siteNavOpen}
+                />
+              ))}
+            </List>
           <List
               sx={{mb: 0.5, py: 0, px: 2}}
               component="nav"

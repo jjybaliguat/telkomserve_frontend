@@ -2,20 +2,20 @@ import { Box, Button, Container, Grid, Stack, styled, Tab, Tabs, TextField, Typo
 import Head from 'next/head'
 import React, { useEffect, useState } from 'react'
 import useMeasure from 'react-use-measure'
-import { mainHeroContent } from 'src/utils/contents/content'
+import { mainHeroContent } from '../../utils/contents/content'
 import PropTypes from 'prop-types';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import Title from 'src/components/landingpage/components/Title'
+import Title from '../../components/landingpage/components/Title'
 import Router from 'next/router'
-import Slideshow from 'src/components/landingpage/components/imageslider'
-import { FiberLayout } from 'src/components/landingpage/layout/FiberLayout'
-import BasicDetails from 'src/components/landingpage/components/quicklinks/applynow/BasicDetails'
+import Slideshow from '../../components/landingpage/components/imageslider'
+import { FiberLayout } from '../../components/landingpage/layout/FiberLayout'
+import BasicDetails from '../../components/landingpage/components/quicklinks/applynow/BasicDetails'
 import { useDispatch, useSelector } from 'react-redux'
-import { setSelectedindex } from 'src/redux/landing/quicklinksAction'
-import CheckAvailability from 'src/components/landingpage/components/quicklinks/check-availability'
+import { setSelectedindex } from '../../redux/landing/quicklinksAction'
+import CheckAvailability from '../../components/landingpage/components/quicklinks/check-availability'
 import axios from 'axios'
-import CheckBills from 'src/components/landingpage/components/quicklinks/check-bills'
-import InstallationStatus from 'src/components/landingpage/components/quicklinks/installation-status'
+import CheckBills from '../../components/landingpage/components/quicklinks/check-bills'
+import InstallationStatus from '../../components/landingpage/components/quicklinks/installation-status'
 
 const TabsContent = [
   "Check Availability",

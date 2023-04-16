@@ -2,7 +2,7 @@ import { Avatar, Box, Button, Card, CardContent, Grid, Typography } from '@mui/m
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import NextLink from 'next/link';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { toCommas } from 'src/utils/toCommas';
+import { toCommas } from '../../utils/toCommas';
 
 export const PendingAmount = ({pendingAmount, ...others}) => (
   <Card {...others}>

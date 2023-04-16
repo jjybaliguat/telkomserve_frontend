@@ -13,14 +13,14 @@ import { setClientsAction } from '../../redux/clientSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { DashboardLayout } from '../../components/dashboard-layout';
 import CustomerListResults from '../../components/customer/customer-list-results';
-import Chart from 'src/utils/Chart';
-import PaymentHistory from 'src/components/dashboard/PaymentHistory';
+import Chart from '../../utils/Chart';
+import PaymentHistory from '../../components/dashboard/PaymentHistory';
 import { useRouter } from 'next/router';
-import { TotalInvoice } from 'src/components/dashboard/total-invoice';
-import { PaidInvoices } from 'src/components/dashboard/paid-invoices';
-import { PartiallyPaidInvoices } from 'src/components/dashboard/partially-paid-invoices';
-import { OverdueInvoices } from 'src/components/dashboard/overdue';
-import Empty from 'src/components/svgIcons/Empty';
+import { TotalInvoice } from '../../components/dashboard/total-invoice';
+import { PaidInvoices } from '../../components/dashboard/paid-invoices';
+import { PartiallyPaidInvoices } from '../../components/dashboard/partially-paid-invoices';
+import { OverdueInvoices } from '../../components/dashboard/overdue';
+import Empty from '../../components/svgIcons/Empty';
 
 const Page = () => {
   const dispatch = useDispatch()

@@ -5,7 +5,7 @@ import { DashboardLayout } from "../../../../components/dashboard-layout"
 import Head from "next/head"
 import { Box, Container } from "@mui/system"
 import { Invoice } from "../../../../components/invoices/single-invoice"
-import { EditInvoice } from "src/components/invoices/edit-invoice"
+import { EditInvoice } from "../../../../components/invoices/edit-invoice"
 
 
 const Page = () => {

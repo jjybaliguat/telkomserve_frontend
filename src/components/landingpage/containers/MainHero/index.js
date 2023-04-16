@@ -1,4 +1,4 @@
-import { Box, Button, Container, Hidden, Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { Box, Button, Container, Grid, Hidden, Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React from 'react'
 import { mainHeroContent } from '../../../../utils/contents/content'
 import ApplyNowbtn from '../../components/Buttons/ApplyNowbtn'
@@ -9,7 +9,11 @@ import Slideshow from '../../components/imageslider';
 import { useRouter } from 'next/router';
 import Router from "next/router"
 import { useDispatch } from 'react-redux';
-import { setSelectedindex } from 'src/redux/landing/quicklinksAction';
+import { setSelectedindex } from '../../../../redux/landing/quicklinksAction';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import ImageSlider from '../../components/imageslider/new';
+import 'react-slideshow-image/dist/styles.css'
 
 const {
     MainBG,
@@ -110,12 +114,12 @@ const Hero = () => {
             paddingBottom: "10rem",
             [theme.breakpoints.up("md")]: { mt: 10 },
             }}>
-            <Stack 
-                direction={{xs: "column", md: "row"}}
+            <Grid container
+                flexDirection={{xs: "column", md: "row"}}
                 alignItems="center"
-                spacing={10}
+                gap={10}
             >
-                <Stack sx={{height: "inherit"}} justifyContent="center">
+                <Grid item sx={{height: "inherit"}} justifyContent="center">
                     <Title
                     variant={{ xs: "h6", sm: "h6", md: "h5" }}
                     sx={{ letterSpacing: "0.05em", mb: 1 }}
@@ -151,9 +155,13 @@ const Hero = () => {
                         onClick={() => {Router.push("/fiber"); dispatch(setSelectedindex(2))}}
                         >Check Bills</CustomButton>
                     </Stack>
-                </Stack>
-                <Slideshow height="270px" width="400px" />
-            </Stack>
+                </Grid>
+                <Grid item >
+                    <Box sx={{height: "350px", width: "400px"}}>
+                        <ImageSlider />
+                    </Box>
+                </Grid>
+            </Grid>
         </Container>
     </Box>
   )

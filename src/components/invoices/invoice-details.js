@@ -366,7 +366,7 @@ export const InvoiceDetails = () => {
                                         </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                        {invoiceData?.items.map((itemField, index) => (
+                                        {invoiceData?.items?.map((itemField, index) => (
                                             <TableRow hover key={index}>
                                             <TableCell  scope="row" style={{width: '40%' }}> <InputBase style={{width: '100%'}} outline="none" sx={{ ml: 1, flex: 1 }} type="text" name="description" value={itemField.description} readOnly /> </TableCell>
                                             <TableCell align="right"> <InputBase sx={{ ml: 1, flex: 1 }} type="text" name="price"  value={itemField.price} readOnly/> </TableCell>

@@ -24,11 +24,11 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import Notification from "../dialogs/Notification"
 import { LoadingButton } from "@mui/lab"
 import axios from "axios"
-import { useGetjoborderMutation, useUpdatejoborderMutation } from "src/redux/jobOrderApiSlice"
+import { useGetjoborderMutation, useUpdatejoborderMutation } from "../../redux/jobOrderApiSlice"
 import ConfirmDialog from "../dialogs/ConfirmDialog"
-import { updateJobOrderAction } from "src/redux/jobOrderAction"
-import { useUpdateclientMutation } from "src/redux/authApiSlice"
-import { addClientAction } from "src/redux/clientSlice"
+import { updateJobOrderAction } from "../../redux/jobOrderAction"
+import { useUpdateclientMutation } from "../../redux/authApiSlice"
+import { addClientAction } from "../../redux/clientSlice"
 
 export const JobOrderDetails = () => {
     const componentRef = useRef()

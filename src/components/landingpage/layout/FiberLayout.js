@@ -1,7 +1,7 @@
 import { Box, Container, styled } from '@mui/material';
 import React, { useState } from 'react'
 import useMeasure from 'react-use-measure';
-import { mainHeroContent } from 'src/utils/contents/content';
+import { mainHeroContent } from '../../../utils/contents/content';
 import Navbar2 from '../components/Navbar/Navbar2';
 
 const FiberLayoutRoot = styled('div')(({ theme }) => ({

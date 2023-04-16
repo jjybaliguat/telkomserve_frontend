@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch, useSelector } from 'react-redux';
-import { setActiveStep, setApplicantDetails } from 'src/redux/landing/quicklinksAction';
+import { setActiveStep, setApplicantDetails } from '../../../../../redux/landing/quicklinksAction';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ImageIcon from '@mui/icons-material/Image';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -16,7 +16,7 @@ import {
     deleteObject
   } from "firebase/storage";
 import { v4 } from "uuid"
-import { useRegisterclientMutation } from 'src/redux/authApiSlice';
+import { useRegisterclientMutation } from '../../../../../redux/authApiSlice';
 
 const UploadDocuments = () => {
   const dispatch = useDispatch()

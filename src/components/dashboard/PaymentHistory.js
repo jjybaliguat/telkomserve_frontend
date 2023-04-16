@@ -3,7 +3,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from 'react'
 import HistoryIcon from '@mui/icons-material/History';
 import moment from 'moment';
-import { toCommas } from 'src/utils/toCommas';
+import { toCommas } from '../../utils/toCommas';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { useSelector } from 'react-redux';
 

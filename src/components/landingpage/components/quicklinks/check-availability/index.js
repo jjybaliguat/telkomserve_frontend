@@ -7,7 +7,7 @@ import Router from 'next/router';
 import data from '../../../../../utils/locations.json'
 import phil, { getBarangayByMun, getCityMunByProvince, getProvincesByRegion } from 'phil-reg-prov-mun-brgy'
 import axios from 'axios';
-import { setActiveStep, setApplicantDetails, setSelectedAreaIndex, setSelectedindex } from 'src/redux/landing/quicklinksAction';
+import { setActiveStep, setApplicantDetails, setSelectedAreaIndex, setSelectedindex } from '../../../../../redux/landing/quicklinksAction';
 
 const CheckAvailability = () => {
   const dispatch = useDispatch()

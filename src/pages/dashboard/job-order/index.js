@@ -5,7 +5,7 @@ import { DashboardLayout } from "../../../components/dashboard-layout"
 import Head from "next/head"
 import { Box, Container } from "@mui/system"
 import { Invoice, SingleInvoice } from "../../../components/invoices/single-invoice"
-import { CreateJobOrder } from "src/components/job-orders/create-job-order"
+import { CreateJobOrder } from "../../../components/job-orders/create-job-order"
 
 
 const Page = () => {

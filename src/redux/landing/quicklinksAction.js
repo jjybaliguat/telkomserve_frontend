@@ -43,7 +43,8 @@ export const {
     resetApplicantDetails,
     setAcceptTerm,
     setActiveStep,
-    setSelectedAreaIndex
+    setSelectedAreaIndex,
+    setInternetPlans
 } = quicklinksActionSlice.actions
 
 export default quicklinksActionSlice.reducer

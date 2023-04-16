@@ -1,7 +1,7 @@
 import { Autocomplete, Box, Button, Card, Checkbox, FormControlLabel, FormGroup, Grid, Paper, Radio, Stack, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { setActiveStep, setApplicantDetails, setSelectedAreaIndex, setSelectedindex } from 'src/redux/landing/quicklinksAction';
+import { setActiveStep, setApplicantDetails, setSelectedAreaIndex, setSelectedindex } from '../../../../../redux/landing/quicklinksAction';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import RouterIcon from '@mui/icons-material/Router';

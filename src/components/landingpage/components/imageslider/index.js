@@ -1,8 +1,10 @@
 import { Box } from '@mui/material';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
 import { sildeShowContent } from '../../../../utils/contents/content';
+import { collection, query, where, getDocs, onSnapshot } from "firebase/firestore"
+import { db } from '../../../../utils/firebase';
 
 const spanStyle = {
     padding: '20px',
@@ -14,29 +16,53 @@ const spanStyle = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
+    backgroundPosition: "center",
+    backgroundSize: 'cover',
+    height: '350px'
   }
 
-const {images} = sildeShowContent
+
+// const {images} = sildeShowContent
 
 const Slideshow = (props) => {
+
+  const [images, setImages] = useState([])
+
+  useEffect(()=> {
+    getImages()
+}, [])
+
+  const getImages = () => {
+    const image = collection(db, "adds")
+
+    const Snapshot = onSnapshot(image, (snapshot) => {
+      const items = []
+      snapshot.forEach((doc)=>{
+        items.push({
+          id: doc.id,
+          data: doc.data()
+        })
+      })
+      setImages(items)
+    })
+
+    return () => {
+      Snapshot()
+    }
+  }
 
   const {height, width, ...others} = props
   
   return (
-    <Box sx={{height: height, width: width}} >
-        <Slide>
-        {images.map((item, index)=> (
-            <div key={index}>
-            <div style={{ ...divStyle, 'backgroundImage': `url(${item.url})`, height: height }}>
-                <span style={spanStyle}>{item.caption}</span>
+      <Slide>
+      {images.map((item)=> (
+          <div key={item.id}>
+            <div style={{ ...divStyle, 'backgroundImage': `url(${item.data?.url})` }}>
             </div>
-            </div>
+          </div>
         ))} 
-        </Slide>
-    </Box>
+      </Slide>
   )
 }
 

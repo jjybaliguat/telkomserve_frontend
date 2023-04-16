@@ -10,8 +10,8 @@ import { getFetchedClients, getLoginStatus, logOut, setApplicantsAction, setClie
 import { textAlign } from '@mui/system';
 import FabButton from './Fab/Fab';
 import { selectCurrentUser } from '../redux/authSlice';
-import { useGetallinvoiceMutation } from 'src/redux/invoiceApiSlice';
-import { setInvoiceAction } from 'src/redux/invoiceAction';
+import { useGetallinvoiceMutation } from '../redux/invoiceApiSlice';
+import { setInvoiceAction } from '../redux/invoiceAction';
 
 const DashboardLayoutRoot = styled('div')(({ theme }) => ({
   display: 'flex',

@@ -2,8 +2,8 @@
 import React, { useState, useEffect} from 'react';
 import { Autocomplete, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField, Typography, styled } from '@mui/material';
  import { useDispatch, useSelector } from 'react-redux'
-import { updateInvoiceAction } from 'src/redux/invoiceAction';
-import { useUpdateinvoiceMutation } from 'src/redux/invoiceApiSlice';
+import { updateInvoiceAction } from '../../redux/invoiceAction';
+import { useUpdateinvoiceMutation } from '../../redux/invoiceApiSlice';
 // import AdapterDateFns from '@mui/lab/AdapterDateFns';
 // import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import CloseIcon from '@mui/icons-material/Close';

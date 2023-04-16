@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch, useSelector } from 'react-redux';
-import { setActiveStep, setApplicantDetails, resetApplicantDetails } from 'src/redux/landing/quicklinksAction';
+import { setActiveStep, setApplicantDetails, resetApplicantDetails } from '../../../../../redux/landing/quicklinksAction';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ImageIcon from '@mui/icons-material/Image';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -19,7 +19,7 @@ import {
   } from "firebase/storage";
 import { v4 } from "uuid"
 import { useFormik } from 'formik';
-import { useResendcodeMutation, useVerifycodeMutation } from 'src/redux/authApiSlice';
+import { useResendcodeMutation, useVerifycodeMutation } from '../../../../../redux/authApiSlice';
 import Router from 'next/router'
 import Notification from "../../../../../components/dialogs/Notification";
 

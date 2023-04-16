@@ -5,7 +5,7 @@ import { InvoiceDetails } from "../../../components/invoices/invoice-details"
 import { useSelector } from "react-redux"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { JobOrderDetails } from "src/components/job-orders/job-order-details"
+import { JobOrderDetails } from "../../../components/job-orders/job-order-details"
 
 
 const Page = () => {

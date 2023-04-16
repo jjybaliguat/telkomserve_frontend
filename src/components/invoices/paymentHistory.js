@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Badge, Box, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import moment from 'moment';
-import { toCommas } from 'src/utils/toCommas';
+import { toCommas } from '../../utils/toCommas';
 import HistoryIcon from '@mui/icons-material/History';
 
 const PaymentHistory = ({paymentRecords}) => {

@@ -2,7 +2,7 @@ import { Avatar, Box, Button, Card, CardContent, Grid, Typography } from '@mui/m
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
 import NextLink from 'next/link';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { toCommas } from 'src/utils/toCommas';
+import { toCommas } from '../../utils/toCommas';
 import { useSelector } from 'react-redux';
 
 export const PaymentReceived = ({totalPaid, ...others}) => {

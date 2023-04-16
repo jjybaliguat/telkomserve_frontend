@@ -5,7 +5,7 @@ const initialState = {
 }
 
 const jobOrderSlice = createSlice({
-    name: 'invoice',
+    name: 'jobOrders',
     initialState,
     reducers: {
         setJobOrder: (state, action) => {

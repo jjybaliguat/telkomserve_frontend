@@ -2,16 +2,16 @@ import { Box, Button, Container, Grid, Stack, styled, Tab, Tabs, TextField, Typo
 import Head from 'next/head'
 import React, { useState } from 'react'
 import useMeasure from 'react-use-measure'
-import { mainHeroContent } from 'src/utils/contents/content'
+import { mainHeroContent } from '../../../utils/contents/content'
 import PropTypes from 'prop-types';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import Title from 'src/components/landingpage/components/Title'
+import Title from '../../../components/landingpage/components/Title'
 import Router from 'next/router'
-import Slideshow from 'src/components/landingpage/components/imageslider'
-import { FiberLayout } from 'src/components/landingpage/layout/FiberLayout'
-import BasicDetails from 'src/components/landingpage/components/quicklinks/applynow/BasicDetails'
+import Slideshow from '../../../components/landingpage/components/imageslider'
+import { FiberLayout } from '../../../components/landingpage/layout/FiberLayout'
+import BasicDetails from '../../../components/landingpage/components/quicklinks/applynow/BasicDetails'
 import { useDispatch, useSelector } from 'react-redux'
-import { setActiveStep, setSelectedindex } from 'src/redux/landing/quicklinksAction'
+import { setActiveStep, setSelectedindex } from '../../../redux/landing/quicklinksAction'
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -25,11 +25,11 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import BroadcastOnPersonalIcon from '@mui/icons-material/BroadcastOnPersonal';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
-import BasicDetailsContinuation from 'src/components/landingpage/components/quicklinks/applynow/BasicDetailsContinuation'
-import SelectPlan from 'src/components/landingpage/components/quicklinks/applynow/SelectPlan'
-import CheckAvailability from 'src/components/landingpage/components/quicklinks/applynow/CheckAvailability'
-import UploadDocuments from 'src/components/landingpage/components/quicklinks/applynow/UploadDocuments'
-import Submit from 'src/components/landingpage/components/quicklinks/applynow/Submit'
+import BasicDetailsContinuation from '../../../components/landingpage/components/quicklinks/applynow/BasicDetailsContinuation'
+import SelectPlan from '../../../components/landingpage/components/quicklinks/applynow/SelectPlan'
+import CheckAvailability from '../../../components/landingpage/components/quicklinks/applynow/CheckAvailability'
+import UploadDocuments from '../../../components/landingpage/components/quicklinks/applynow/UploadDocuments'
+import Submit from '../../../components/landingpage/components/quicklinks/applynow/Submit'
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
