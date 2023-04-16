@@ -157,7 +157,7 @@ const Hero = () => {
                     </Stack>
                 </Grid>
                 <Grid item >
-                    <Box sx={{height: "350px", width: "400px"}}>
+                    <Box sx={{height: "300px", width: "350px"}}>
                         <ImageSlider />
                     </Box>
                 </Grid>

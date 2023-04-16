@@ -2,7 +2,7 @@ import { Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Cir
 import React, { useEffect, useState } from 'react'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Router from 'next/router'
-import { collection, query, where, getDocs, onSnapshot, doc, updateDoc, serverTimestamp, deleteDoc, setDoc } from "firebase/firestore"
+import { collection, query, where, getDocs, onSnapshot, doc, updateDoc, serverTimestamp, deleteDoc, setDoc, orderBy } from "firebase/firestore"
 import { db, storage } from '../../../utils/firebase';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -84,7 +84,7 @@ const handleImageChange = (e) => {
 }, [])
 
   const getImages = () => {
-    const images = collection(db, "adds")
+    const images = query(collection(db, "adds"), orderBy("date"))
 
     const Snapshot = onSnapshot(images, (snapshot) => {
       const items = []

@@ -14,7 +14,7 @@ import { selectCurrentUser } from '../../redux/authSlice';
 import AddEmmployeeFormDialog from '../dialogs/AddEmployeeForm';
 import { useCreateemployeeMutation } from '../../redux/employeeApiSlice';
 import { addEmployeeAction } from '../../redux/employeesAction';
-
+import EmailIcon from '@mui/icons-material/Email';
 
 
 const FabButton = () => {
@@ -122,6 +122,12 @@ const addEmployee = async(data, resetForm) => {
                   onClick={() => setAddEmployeePopup(true)}
                 >
                   <PersonAddIcon />
+              </Action>
+              <Action
+                  text="Compose Email"
+                  onClick={() => Router.push("/dashboard/email")}
+                >
+                  <EmailIcon />
               </Action>
 
             </Fab>

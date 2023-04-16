@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
-import { collection, query, where, getDocs, onSnapshot } from "firebase/firestore"
+import { collection, query, where, getDocs, onSnapshot, orderBy } from "firebase/firestore"
 import { db } from '../../../../utils/firebase';
 import { useEffect } from 'react';
 import { Slide } from 'react-slideshow-image';
@@ -29,7 +29,7 @@ import { Slide } from 'react-slideshow-image';
   }, [])
   
     const getImages = () => {
-      const images = collection(db, "adds")
+      const images = query(collection(db, "adds"), orderBy("date"))
   
       const Snapshot = onSnapshot(images, (snapshot) => {
         const items = []
@@ -49,13 +49,11 @@ import { Slide } from 'react-slideshow-image';
 
     const [currentIndex, setCurrentIndex] = useState(-1);
     const goToPrevious = () => {
-      const isFirstSlide = currentIndex === 0;
-      const newIndex = isFirstSlide ? images.length - 1 : currentIndex - 1;
+      const newIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
       setCurrentIndex(newIndex);
     };
     const goToNext = () => {
-      const isLastSlide = currentIndex === images.length - 1;
-      const newIndex = isLastSlide ? 0 : currentIndex + 1;
+      const newIndex = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
       setCurrentIndex(newIndex);
     };
     const goToSlide = (slideIndex) => {
@@ -70,11 +68,9 @@ import { Slide } from 'react-slideshow-image';
 
     useEffect(()=> {
         setTimeout(() => {
-            const isLastSlide = currentIndex === images.length-1;
-            const newIndex = isLastSlide ? 0 : currentIndex + 1;
-            setCurrentIndex(newIndex);
+            goToNext()
         }, 5000)
-    }, [currentIndex])
+    }, [])
   
     return (
       <div style={sliderStyles}>

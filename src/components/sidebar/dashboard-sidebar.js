@@ -28,6 +28,7 @@ import SendIcon from '@mui/icons-material/Send';
 import MarkChatReadIcon from '@mui/icons-material/MarkChatRead';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import AssignmentIcon from '@mui/icons-material/Assignment'
+import EmailIcon from '@mui/icons-material/Email';
 
 const items = [
   {
@@ -54,6 +55,11 @@ const items = [
     href: '/dashboard/employees',
     icon: (<GroupsIcon fontSize="small" />),
     title: 'Employees'
+  },
+  {
+    href: '/dashboard/email',
+    icon: (<EmailIcon fontSize="small" />),
+    title: 'Email'
   },
   {
     href: '/dashboard/account',
