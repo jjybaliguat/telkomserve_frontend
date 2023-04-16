@@ -20,10 +20,10 @@ import {format} from 'date-fns'
 import { LoadingButton } from "@mui/lab"
 import axios from "axios"
 import { saveAs } from 'file-saver';
-import NoData from "src/components/svgIcons/NoData"
-import { useGetinvoiceMutation } from "src/redux/invoiceApiSlice"
-import Notification from "src/components/dialogs/Notification"
-import PaymentHistory from "src/components/invoices/paymentHistory"
+import NoData from "../../components/svgIcons/NoData"
+import { useGetinvoiceMutation } from "../../redux/invoiceApiSlice"
+import Notification from "../../components/dialogs/Notification"
+import PaymentHistory from "../../components/invoices/paymentHistory"
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { DatePicker } from '@mui/x-date-pickers/DatePicker';
