@@ -71,7 +71,7 @@ const EmailPopup = (props) => {
         />
         <Box
             sx={{
-                width: "430px",
+                width: {md: "430px", xs:"280px"},
                 height: "450px",
                 bgcolor: "#fff",
                 position: "fixed",
