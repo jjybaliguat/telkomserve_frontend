@@ -4,6 +4,8 @@ import { styled } from '@mui/material/styles';
 import { Box, Grid, Stack, Typography } from '@mui/material';
 import {EmailSideBar} from './email-sidebar';
 import EmailInbox from './inbox';
+import EmailPopup from './emai-popup';
+import { useState } from 'react';
 
 const EmailLayoutRoot = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -13,6 +15,7 @@ const EmailLayoutRoot = styled('div')(({ theme }) => ({
   }));
 
 const Email = () => {
+  const [openPopup, setOpenPopup] = useState(false)
   return (
     <>
     <EmailLayoutRoot>
@@ -23,12 +26,12 @@ const Email = () => {
               flexDirection: 'column',
               width: '100%',
               height: "100%",
-              paddingRight: {md: "3rem", xs: "1rem"},
+              paddingRight: {md: "1rem", xs: "0"},
             }}
           >
             <Stack direction="row" sx={{height: "100%"}}>
-                <Box item sx={{width: "200px", height: "100%"}}>
-                    <EmailSideBar />
+                <Box item sx={{width: "100px", height: "100%", px: "0.5rem"}}>
+                    <EmailSideBar setOpenPopup={setOpenPopup} />
                 </Box>
                 <Box 
                     sx={{
@@ -47,7 +50,7 @@ const Email = () => {
                     <Box
                         sx={{
                             width: "100%",
-                            height: "40vh",
+                            height: "400px",
                             overflow: "hidden",
                             overflowY: "scroll",
                         }}
@@ -58,6 +61,7 @@ const Email = () => {
             </Stack>
           </Box>
     </EmailLayoutRoot>
+    <EmailPopup openPopup={openPopup} setOpenPopup={setOpenPopup} />
     <EmailNavbar />
     </>
   )

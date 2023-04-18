@@ -267,7 +267,7 @@ export const InvoiceDetails = () => {
                             >
                             <span>{sendLoading? "Sending..." : "Send To Client"}</span>
                         </LoadingButton>
-                        <LoadingButton
+                        {/* <LoadingButton
                             size="small"
                             onClick={downloadInvoicePdf}
                             startIcon={<DownloadIcon fontSize="small" />}
@@ -275,13 +275,13 @@ export const InvoiceDetails = () => {
                             loadingPosition="start"
                             >
                             <span>{downloadLoading? "Downloading..." : "Download as pdf"}</span>
-                        </LoadingButton>
+                        </LoadingButton> */}
                             <ReactToPrint
                                 trigger={() => (
                                     <Button
                                     startIcon={(<PrintIcon fontSize="small" />)}
                                     >
-                                        Print
+                                        Print / Download
                                     </Button>
                                 )}
                                 content={() => componentRef.current}

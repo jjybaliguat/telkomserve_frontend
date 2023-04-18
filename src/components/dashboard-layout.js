@@ -20,7 +20,8 @@ const DashboardLayoutRoot = styled('div')(({ theme }) => ({
   paddingTop: 64,
   [theme.breakpoints.up('lg')]: {
     paddingLeft: 280,
-  }
+  },
+  position: "relative",
 }));
 
 export const DashboardLayout = (props) => {

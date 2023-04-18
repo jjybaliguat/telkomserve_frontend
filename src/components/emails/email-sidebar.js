@@ -21,7 +21,7 @@ const drawerWidth = 200;
 
 export const EmailSideBar = (props) => {
 
-    const { open, onClose } = props;
+    const { open, onClose, setOpenPopup } = props;
     const [selectedIndex, setSelectedIndex] = useState(0)
 
   const content = (
@@ -35,7 +35,7 @@ export const EmailSideBar = (props) => {
         }}
       >
         <div>
-            <Box sx={{ px: 1 }}>
+            <Box>
                 <Box
                 sx={{
                     alignItems: 'center',
@@ -43,7 +43,6 @@ export const EmailSideBar = (props) => {
                     cursor: 'pointer',
                     display: 'flex',
                     justifyContent: 'space-between',
-                    px: 3,
                     py: '11px',
                     borderRadius: 1
                 }}
@@ -51,10 +50,12 @@ export const EmailSideBar = (props) => {
                     <Button
                     variant='outlined'
                     sx={{
-                        padding: "1rem",
-                        borderRadius: "20px"
+                        padding: "0.5rem",
+                        borderRadius: "20px",
+                        fontSize: "10px"
                     }}
                         startIcon={<EditIcon />}
+                      onClick={() => setOpenPopup(true)}
                     >   
                         Compose
                     </Button>
@@ -67,7 +68,7 @@ export const EmailSideBar = (props) => {
                 <Button
                     key={index}
                     startIcon={item.icon}
-                    sx={{borderRadius: "24px"}}
+                    sx={{borderRadius: "24px", fontSize: "10px"}}
                     variant={`${selectedIndex === index ? "contained" : ""}`}
                 >
                     {item.title}

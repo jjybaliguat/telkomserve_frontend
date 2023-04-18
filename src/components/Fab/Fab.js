@@ -123,12 +123,16 @@ const addEmployee = async(data, resetForm) => {
                 >
                   <PersonAddIcon />
               </Action>
-              <Action
-                  text="Compose Email"
-                  onClick={() => Router.push("/dashboard/email")}
-                >
-                  <EmailIcon />
-              </Action>
+              {
+                location.pathname !== '/dashboard/email' && (
+                <Action
+                    text="Compose Email"
+                    onClick={() => Router.push("/dashboard/email")}
+                  >
+                    <EmailIcon />
+                </Action>
+                )
+              }
 
             </Fab>
         </div>

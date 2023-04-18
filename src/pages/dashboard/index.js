@@ -21,6 +21,9 @@ import { PaidInvoices } from '../../components/dashboard/paid-invoices';
 import { PartiallyPaidInvoices } from '../../components/dashboard/partially-paid-invoices';
 import { OverdueInvoices } from '../../components/dashboard/overdue';
 import Empty from '../../components/svgIcons/Empty';
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
 
 const Page = () => {
   const dispatch = useDispatch()
@@ -29,6 +32,26 @@ const Page = () => {
   const overDue = invoices?.filter((invoice) => invoice.dueDate <= new Date().toISOString() && invoice.status === "UNPAID")
   const [getallapplicans] = useGetallapplicantsMutation()
   const [getallclients] = useGetallclientsMutation()
+
+  useEffect(()=>{
+    // alert(getNuminDays(-1))
+    // alert(dayjs().date(0).date())
+  }, [])
+
+  function getNuminDays(num){
+    const today = dayjs().date()
+    const daysinMonth = dayjs().daysInMonth()
+    const lastDay_lastMonth = dayjs().date(0).date()
+    const ans = today + num
+    if(ans > daysinMonth){
+      return ans - daysinMonth
+    }else if(ans <= 0){
+      return ans + lastDay_lastMonth
+    }
+    else{
+      return ans
+    }
+  }
 
   let paymentHistory = []
     for(let i = 0; i < invoices?.length; i++) {

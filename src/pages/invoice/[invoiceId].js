@@ -50,6 +50,7 @@ const InvoiceResult = () => {
     const [sendLoading, setSendLoading] = useState(false)
     const [downloadLoading, setDownloadLoading] = useState(false)
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
+    const APP_API = process.env.nodeEnv === "production" ? process.env.PRODUCTION_APP_API : process.env.DEV_APP_API
 
     const company= {
         businessName: "RDNAKS NETWORK AND DATA SOLUTION",
@@ -100,7 +101,7 @@ const InvoiceResult = () => {
         e.preventDefault()
         setDownloadLoading(true)
         try {
-            const response = await axios.post(`${process.env.DEV_APP_API}/create-pdf`,
+            const response = await axios.post(`${APP_API}/create-pdf`,
                 {
                     name: invoiceData?.client.name,
                     address: invoiceData?.client.address,
@@ -123,7 +124,7 @@ const InvoiceResult = () => {
                 }
             )
             if(response.status == 200){
-                const response = await axios.get(`${process.env.DEV_APP_API}/fetch-pdf`, { responseType: 'blob' })
+                const response = await axios.get(`${APP_API}/fetch-pdf`, { responseType: 'blob' })
                 const pdfBlob = new Blob([response.data], {type: 'application/pdf'})
                 saveAs(pdfBlob,`${invoiceData?.client.accountNumber}-invoice.pdf`)
                 setNotify({
@@ -221,7 +222,7 @@ const InvoiceResult = () => {
             <Box sx={{ mt: 3 }}>
                 <Container>
                     <Box sx={{ ml: 1}}>
-                        <LoadingButton
+                        {/* <LoadingButton
                             size="small"
                             onClick={downloadInvoicePdf}
                             startIcon={<DownloadIcon fontSize="small" />}
@@ -229,13 +230,13 @@ const InvoiceResult = () => {
                             loadingPosition="start"
                             >
                             <span>{downloadLoading? "Downloading..." : "Download as pdf"}</span>
-                        </LoadingButton>
+                        </LoadingButton> */}
                             <ReactToPrint
                                 trigger={() => (
                                     <Button
                                     startIcon={(<PrintIcon fontSize="small" />)}
                                     >
-                                        Print
+                                        Print / Download
                                     </Button>
                                 )}
                                 content={() => componentRef.current}
