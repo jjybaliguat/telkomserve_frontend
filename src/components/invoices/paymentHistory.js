@@ -5,9 +5,9 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Badge, Box, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
-import moment from 'moment';
 import { toCommas } from '../../utils/toCommas';
 import HistoryIcon from '@mui/icons-material/History';
+import dayjs from 'dayjs'
 
 const PaymentHistory = ({paymentRecords}) => {
   return (
@@ -56,7 +56,7 @@ const PaymentHistory = ({paymentRecords}) => {
                             sx={{cursor: "pointer"}}
                       >
                         <TableCell sx={{minWidth: 150}}>
-                            {moment(record.datePaid).format('MMMM Do YYYY')}
+                            {dayjs(record.datePaid).format('MMMM DD, YYYY')}
                         </TableCell>
                         <TableCell>
                             {toCommas(record.amountPaid)}

@@ -2,11 +2,12 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Table, TableBody, T
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from 'react'
 import HistoryIcon from '@mui/icons-material/History';
-import moment from 'moment';
 import { toCommas } from '../../utils/toCommas';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { useSelector } from 'react-redux';
-
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
 
 const PaymentHistory = ({paymentHistory}) => {
     const user = useSelector(store => store.auth.user)
@@ -71,16 +72,14 @@ const PaymentHistory = ({paymentHistory}) => {
                                     sx={{cursor: "pointer"}}
                             >
                                 <TableCell>
-                                {user?.name === record.paidBy? "You" : record.paidBy}
+                                {user?.name === record.paidBy? `You (${dayjs(record.createdAt).fromNow()})` : `${record.paidBy}(${dayjs(record.createdAt).fromNow()})`}
                                 </TableCell>
                                 <TableCell>
                                 {record.clientName}
                                 </TableCell>
                                 <TableCell sx={{minWidth: "100px"}}>
-                                    {moment(record.datePaid).format('MMMM Do YYYY')}
-                                    {/* -(
-                                    {moment(record.createdAt).fromNow()}
-                                    ) */}
+                                    {/* {dayjs(record.datePaid).format('MMMM DD YYYY')} */}
+                                    {dayjs(record.datePaid).format("MMMM DD, YYYY")}
                                 </TableCell>
                                 <TableCell>
                                     <Typography sx={{color: '#00A86B', fontSize: '14px'}}>{toCommas(record.amountPaid)}</Typography>

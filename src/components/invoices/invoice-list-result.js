@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
-import moment from 'moment'
 import {
   Avatar,
   Box,
@@ -40,6 +39,9 @@ import { useDeleteinvoiceMutation, useGetallinvoiceMutation } from '../../redux/
 import { deleteInvoiceAction, setInvoiceAction } from '../../redux/invoiceAction';
 import ConfirmDialog from '../dialogs/ConfirmDialog';
 import Notification from '../dialogs/Notification';
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
 // import { applicants } from '../../__mocks__/customers';
 
 export const InvoiceListResult = () => {
@@ -224,7 +226,7 @@ if(user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "C
                     {invoice.total}
                   </TableCell>
                   <TableCell sx={{minWidth: 100}} onClick={() => Router.push(`invoice/${invoice._id}`)}>
-                    {moment(invoice.dueDate).fromNow()}
+                    {dayjs(invoice.dueDate).fromNow()}
                   </TableCell>
                   <TableCell onClick={() => Router.push(`invoice/${invoice._id}`)}>
                     <Button variant="contained" color={`${invoice.status === "PAID"? "success" : invoice.status === "PARTIAL"? "warning" : "error"}`} sx={{padding: "0"}}>{invoice.status}</Button>

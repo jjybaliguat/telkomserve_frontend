@@ -7,7 +7,6 @@ import { Download as DownloadIcon } from '../../icons/download';
 import EditIcon from '@mui/icons-material/Edit';
 import SendIcon from '@mui/icons-material/Send';
 import ReactToPrint from "react-to-print";
-import moment from 'moment'
 import { toCommas } from '../../utils/toCommas'
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -19,9 +18,7 @@ import { useCreateinvoiceMutation, useGetinvoiceMutation, useGettotalcountMutati
 import {format} from 'date-fns'
 import { addInvoiceAction, setInvoiceAction, setSingleInvoice, updateInvoiceAction } from "../../redux/invoiceAction"
 import { updateClientAction } from "../../redux/clientSlice"
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs'
 
 export const Invoice = () => {
     const dispatch = useDispatch()
@@ -198,7 +195,7 @@ const handleRates =(e) => {
                                       <Typography>Account Number: <b>{client.accountNumber}</b></Typography>
                                       <Typography>Address: <b>{client.address}</b></Typography>
                                       <Typography>Phone: <b>{client.phone}</b></Typography>
-                                      <Typography>Internet Plan: <b>Plan {client.internetPlan}</b></Typography>
+                                      <Typography>Internet Plan: <b>{client.internetPlan}</b></Typography>
                                       <Button color="primary" size="small" style={{textTransform: 'none'}} onClick={()=> setClient(null)}>Change</Button>
                                   </div>
                                 )
@@ -224,9 +221,9 @@ const handleRates =(e) => {
                                 <Typography variant="h6" gutterBottom>Status</Typography>
                                 <Typography variant="h5" color="error" gutterBottom>UNPAID</Typography>
                                 <Typography variant="overline" gutterBottom>Date</Typography>
-                                <Typography variant="body2" gutterBottom>{moment().format("MMM Do YYYY")}</Typography>
+                                <Typography variant="body2" gutterBottom>{dayjs().format("MMM DD, YYYY")}</Typography>
                                 <Typography variant="overline" gutterBottom>Due Date</Typography>
-                                <Typography variant="body2" gutterBottom>{selectedDate? moment(selectedDate).format("MMM Do YYYY"): moment(today).format("MMM Do YYYY")}</Typography>
+                                <Typography variant="body2" gutterBottom>{selectedDate? dayjs(selectedDate).format("MMM DD, YYYY"): dayjs().date().format("MMM DD, YYYY")}</Typography>
                                 <Typography variant="overline" gutterBottom>Amount</Typography>
                                 <Typography variant="h6" gutterBottom>PHP {toCommas(total)}</Typography>
                             </Grid>

@@ -32,11 +32,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import NoData from '../svgIcons/NoData';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import moment from 'moment';
 import { useDeletejoborderMutation, useGetalljoborderMutation } from '../../redux/jobOrderApiSlice';
 import { deleteJobOrderAction, setJobOrder } from '../../redux/jobOrderAction';
 import ConfirmDialog from '../dialogs/ConfirmDialog';
 import Notification from '../dialogs/Notification';
+import dayjs from 'dayjs'
 // import { applicants } from '../../__mocks__/customers';
 
 export const JobOrdersResult = () => {
@@ -217,7 +217,7 @@ export const JobOrdersResult = () => {
                     </Box>
                   </TableCell>
                   <TableCell onClick={() => Router.push(`/dashboard/job-order/${joborder._id}`)}>
-                    {moment(joborder?.installationDate).format("MMM Do YYYY")}
+                    {dayjs(joborder?.installationDate).format("MMM DD, YYYY")}
                   </TableCell>
                   <TableCell onClick={() => Router.push(`/dashboard/job-order/${joborder._id}`)}>
                   <Button variant="contained" color={`${joborder.status === "DONE"? "success" : "warning"}`} sx={{padding: "0"}}>{joborder.status}</Button>

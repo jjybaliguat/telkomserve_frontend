@@ -8,7 +8,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import SendIcon from '@mui/icons-material/Send';
 import PrintIcon from '@mui/icons-material/Print';
 import ReactToPrint from "react-to-print";
-import moment from 'moment'
 import { toCommas } from '../../utils/toCommas'
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -28,6 +27,7 @@ import Notification from "../dialogs/Notification"
 import { LoadingButton } from "@mui/lab"
 import axios from "axios"
 import { saveAs } from 'file-saver';
+import dayjs from 'dayjs'
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -343,9 +343,9 @@ export const InvoiceDetails = () => {
                                     <Typography variant="h6" gutterBottom>Status</Typography>
                                     <Typography variant="h5" color={`${invoiceData?.status === "PAID"? "success.main" : invoiceData.status === "PARTIAL"? "warning.main" : "error"}`} gutterBottom>{status}</Typography>
                                     <Typography variant="overline" gutterBottom>Date</Typography>
-                                    <Typography variant="body2" gutterBottom>{moment().format("MMM Do YYYY")}</Typography>
+                                    <Typography variant="body2" gutterBottom>{dayjs().format("MMM DD, YYYY")}</Typography>
                                     <Typography variant="overline" gutterBottom>Due Date</Typography>
-                                    <Typography variant="body2" gutterBottom>{selectedDate? moment(selectedDate).format("MMM Do YYYY"): moment(today).format("MMM Do YYYY")}</Typography>
+                                    <Typography variant="body2" gutterBottom>{selectedDate? dayjs(selectedDate).format("MMM DD, YYYY"): dayjs().date().format("MMM DD, YYYY")}</Typography>
                                     <Typography variant="overline" gutterBottom>Amount</Typography>
                                     <Typography variant="h6" gutterBottom>PHP {toCommas(total)}</Typography>
                                 </Grid>

@@ -3,13 +3,13 @@ import {getFirestore} from 'firebase/firestore'
 import {getStorage} from 'firebase/storage'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDystoxemuJuTzy-ewqPjfYuKRyFK2i8So",
-  authDomain: "rdnaks-website.firebaseapp.com",
-  projectId: "rdnaks-website",
-  storageBucket: "rdnaks-website.appspot.com",
-  messagingSenderId: "409384853492",
-  appId: "1:409384853492:web:ddd455cbe9e51dd09de3a1",
-  measurementId: "G-PZT2QP4BMP"
+  apiKey: process.env.FIREBASE_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID,
+  measurementId: process.env.MESUREMENT_ID
 };
 
 // Initialize Firebase
