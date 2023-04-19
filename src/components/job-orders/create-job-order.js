@@ -223,6 +223,7 @@ export const CreateJobOrder = () => {
                                                 label="Select Customer" 
                                                 margin="normal" 
                                                 variant="outlined"
+                                                required
                                                 />}
                                             value={applicant?.name}
                                             onChange={(event, value) => {setApplicant(value)}}

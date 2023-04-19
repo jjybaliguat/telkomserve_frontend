@@ -221,8 +221,8 @@ const CustomerListResults = () => {
      {clients?.length?             
     <Card ref={printRef}>
         <Box sx={{minWidth: 300, padding: "1.5rem" }}>
+        <TableContainer>
         <PerfectScrollbar>
-          <TableContainer>
           <Table ref={csvRef} size="small">
             <TableHead>
               <TableRow>
@@ -357,8 +357,8 @@ const CustomerListResults = () => {
               )} */}
             </TableBody>
           </Table>
-          </TableContainer>
           </PerfectScrollbar>
+          </TableContainer>
         </Box>
       <TablePagination
         component="div"

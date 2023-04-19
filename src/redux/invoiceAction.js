@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit"
 const initialState = {
     invoices: [],
     pagelimit: 10,
+    filter: null
 }
 
 const invoiceSlice = createSlice({
@@ -28,6 +29,9 @@ const invoiceSlice = createSlice({
         setPageLimit: (state, action) => {
             state.pagelimit = action.payload
         },
+        setFilter: (state, action) => {
+            state.filter = action.payload
+        },
     }
 
 })
@@ -38,6 +42,8 @@ export const {
     deleteInvoiceAction,
     setPageLimit,
     updateInvoiceAction,
+    setSort,
+    setFilter,
 } = invoiceSlice.actions
 
 export default invoiceSlice.reducer

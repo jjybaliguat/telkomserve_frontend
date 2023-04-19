@@ -72,7 +72,7 @@ const PaymentHistory = ({paymentHistory}) => {
                                     sx={{cursor: "pointer"}}
                             >
                                 <TableCell>
-                                {user?.name === record.paidBy? `You (${dayjs(record.createdAt).fromNow()})` : `${record.paidBy}(${dayjs(record.createdAt).fromNow()})`}
+                                {user?.name === record.paidBy? "You" : `${record.paidBy}`}
                                 </TableCell>
                                 <TableCell>
                                 {record.clientName}

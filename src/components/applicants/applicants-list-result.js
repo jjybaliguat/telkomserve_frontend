@@ -263,7 +263,7 @@ export const ApplicantsListResults = ({ ...rest }) => {
                   <TableCell>
                     {applicants.address}
                   </TableCell>
-                  <TableCell>
+                  <TableCell sx={{cursor: "pointer", textDecoration: "underline", color: "primary.main"}} onClick={()=>window.location.href = `tel: ${applicants.phone}`}>
                     {applicants.phone}
                   </TableCell>
                   <TableCell>

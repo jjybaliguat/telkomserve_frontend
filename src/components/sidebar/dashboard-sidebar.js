@@ -29,6 +29,8 @@ import MarkChatReadIcon from '@mui/icons-material/MarkChatRead';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import AssignmentIcon from '@mui/icons-material/Assignment'
 import EmailIcon from '@mui/icons-material/Email';
+import MessageIcon from '@mui/icons-material/Message';
+import NextLink from 'next/link'
 
 const items = [
   {
@@ -60,6 +62,11 @@ const items = [
     href: '/dashboard/email',
     icon: (<EmailIcon fontSize="small" />),
     title: 'Email'
+  },
+  {
+    href: '/dashboard/sms',
+    icon: (<MessageIcon fontSize="small" />),
+    title: 'SMS'
   },
   {
     href: '/dashboard/account',
@@ -282,7 +289,7 @@ export const DashboardSidebar = (props) => {
             </List>
           {/* For SMS dropdown section */}
 
-          <List
+          {/* <List
               sx={{mb: 0.5, py: 0, px: 2}}
               component="nav"
               aria-labelledby="nested-list-subheader"
@@ -303,9 +310,9 @@ export const DashboardSidebar = (props) => {
                   open={smsNavOpen}
                 />
               ))}
-            </List>
+            </List> */}
         </Box>
-        {/* <Divider sx={{ borderColor: '#2D3748' }} />
+        <Divider sx={{ borderColor: '#2D3748' }} />
         <Box
           sx={{
             px: 2,
@@ -317,12 +324,6 @@ export const DashboardSidebar = (props) => {
             variant="subtitle2"
           >
             Need more features?
-          </Typography>
-          <Typography
-            color="neutral.500"
-            variant="body2"
-          >
-            Check out our Pro solution template.
           </Typography>
           <Box
             sx={{
@@ -341,7 +342,7 @@ export const DashboardSidebar = (props) => {
             />
           </Box>
           <NextLink
-            href="https://material-kit-pro-react.devias.io/"
+            href="#"
             passHref
           >
             <Button
@@ -352,10 +353,10 @@ export const DashboardSidebar = (props) => {
               sx={{ mt: 2 }}
               variant="contained"
             >
-              Pro Live Preview
+              Request a feature
             </Button>
           </NextLink>
-        </Box> */}
+        </Box>
       </Box>
     </>
   );

@@ -113,7 +113,9 @@ const CustomButton = styled(Button)(({ theme }) => ({
  
      useEffect(() => {
        if(invoice) {
-        formik.values.amountPaid = (Number(invoice.total) - Number(invoice.totalAmountReceived))}
+        const totalReceived = invoice.totalAmountReceived == undefined ? 0 : Number(invoice.totalAmountReceived)
+        formik.values.amountPaid = (Number(invoice.total) - totalReceived)
+       }
         formik.values.clientName = invoice?.client?.name
      },[invoice])
      
@@ -122,6 +124,15 @@ const CustomButton = styled(Button)(({ theme }) => ({
              setPaymentRecords(invoice?.paymentRecords)
          }
      }, [invoice])
+
+     useEffect(()=> {
+      if(invoice){
+        if(Number(invoice.total) < formik.values.amountPaid){
+          alert("Amount paid cannot be larger than invoice total")
+          formik.values.amountPaid = Number(invoice.total)
+        }
+      }
+     }, [formik.values.amountPaid])
  
      //Get the total amount paid
      useEffect(() => {
@@ -186,7 +197,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
                   >
                     <TextField
                         error={Boolean(formik.touched.amountPaid && formik.errors.amountPaid)}
-                        helpertext={formik.touched.amountPaid && formik.errors.amountPaid}
+                        helperText={formik.touched.amountPaid && formik.errors.amountPaid}
                         type="number" 
                         name="amountPaid" 
                         label="Amount Paid"
@@ -206,7 +217,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
                         <InputLabel id="method">Payment Method</InputLabel>
                         <Select
                             error={Boolean(formik.touched.paymentMethod && formik.errors.paymentMethod)}
-                            helpertext={formik.touched.paymentMethod && formik.errors.paymentMethod}
+                            helperText={formik.touched.paymentMethod && formik.errors.paymentMethod}
                             labelId="method"
                             id="demo-simple-select"
                             margin="normal"

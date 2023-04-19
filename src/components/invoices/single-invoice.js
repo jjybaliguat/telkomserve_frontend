@@ -1,12 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/router"
-import { Box, Container } from "@mui/system"
-import { Autocomplete, Button, Card, CardContent, Grid, IconButton, InputBase, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextareaAutosize, TextField, Tooltip, Typography } from "@mui/material"
-import { Download as DownloadIcon } from '../../icons/download';
-import EditIcon from '@mui/icons-material/Edit';
-import SendIcon from '@mui/icons-material/Send';
-import ReactToPrint from "react-to-print";
+import { Box } from "@mui/system"
+import { Autocomplete, Button, Card, CardContent, Grid, IconButton, InputBase, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material"
 import { toCommas } from '../../utils/toCommas'
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -14,19 +10,22 @@ import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 import Fab from '@mui/material/Fab';
 import { initialState } from "../../utils/initialState"
-import { useCreateinvoiceMutation, useGetinvoiceMutation, useGettotalcountMutation, useUpdateinvoiceMutation } from "../../redux/invoiceApiSlice"
+import { useCreateinvoiceMutation, useGettotalcountMutation } from "../../redux/invoiceApiSlice"
 import {format} from 'date-fns'
-import { addInvoiceAction, setInvoiceAction, setSingleInvoice, updateInvoiceAction } from "../../redux/invoiceAction"
-import { updateClientAction } from "../../redux/clientSlice"
+import { addInvoiceAction} from "../../redux/invoiceAction"
 import dayjs from 'dayjs'
+import { useDeleteoneMutation, useFetchallMutation } from "../../redux/toCreateInvoiceSlice"
 
 export const Invoice = () => {
     const dispatch = useDispatch()
     const [createinvoice] = useCreateinvoiceMutation()
+    const [fetchall] = useFetchallMutation()
+    const [deleteone] = useDeleteoneMutation()
     const [gettotalcount] = useGettotalcountMutation()
     const user = useSelector(store => store.auth.user)
     const router = useRouter()
     const clients = useSelector(store => store.clients.clients)
+    const [clientList, setClientList] = useState(clients)
     const invoices = useSelector(store => store.invoice.invoices)
     // const invoice = useSelector(store => store.invoice.singleInvoice)
     const [ client, setClient] = useState(null)
@@ -43,15 +42,35 @@ export const Invoice = () => {
     const [ rates, setRates] = useState(0)
     const [loading, setLoading] = useState(false)
 
+
+
   useEffect(() => {
       getTotalcount()
+      fetchInvoiceToCreate()
   },[router])
+
+  const fetchInvoiceToCreate = async() => {
+    try {
+      const response = await fetchall()
+      const list = []
+      response.data.map((item) => {
+        const client = clients.find((client)=> client._id === item.clientId)
+        list.push(client)
+      })
+      if(!list.length){
+        setClientList(clients)
+      }else{
+        setClientList(list)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const getTotalcount = async() => {
     try {
       const response = await gettotalcount()
       setInvoiceData({...invoiceData, invoiceNumber: (Number(response.data) + 1).toString().padStart(3, '0')})
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -110,7 +129,7 @@ const handleRates =(e) => {
   setInvoiceData((prevState) => ({...prevState, tax: e.target.value}))
 }
     const clientsProps = {
-        options: clients,
+        options: clientList,
         getOptionLabel: (option) => option.name
       };
     
@@ -140,10 +159,14 @@ const handleRates =(e) => {
           creator: user._id
         }
           )
-          dispatch(addInvoiceAction(response.data))
-          setInvoiceData(initialState)
-          setLoading(false)
-          router.push(`/dashboard/invoice/${response.data._id}`)
+
+          if(response.data){
+            await deleteone(client?._id)
+            setLoading(false)
+            dispatch(addInvoiceAction(response.data))
+            setInvoiceData(initialState)
+            router.push(`/dashboard/invoice/${response.data._id}`)
+          }
 
       }
 
@@ -209,9 +232,10 @@ const handleRates =(e) => {
                                                 label="Select Customer" 
                                                 margin="normal" 
                                                 variant="outlined"
+                                                required
                                                 />}
                                             value={clients?.name}
-                                            onChange={(event, value) => {setClient(value); setSelectedDate(`${monthNow}/${value.dueDate}/${yearNow}`)}}
+                                            onChange={(event, value) => {setClient(value); setSelectedDate(`${monthNow}/${value?.dueDate}/${yearNow}`)}}
                                             
                                     />
                                 </div>
@@ -336,10 +360,11 @@ const handleRates =(e) => {
                                 id="datetime-local"
                                 label="Due Date"
                                 type="date"
-                                defaultValue={new Date()}
+                                // defaultValue={new Date()}
                                 InputLabelProps={{
                                   shrink: true,
                                 }}
+                                required
                                 onChange={(e) => setSelectedDate(e.target.value)}
                               />
                               <Typography>Client Due Date: {client?.dueDate}</Typography>

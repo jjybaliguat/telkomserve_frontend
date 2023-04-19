@@ -18,7 +18,7 @@ const Page = () => {
       if(invoiceId){
           // dispatch(setSingleInvoice(singleInvoice))
           if(singleInvoice){
-            setClientName(singleInvoice.client.name)
+            setClientName(singleInvoice.client?.name)
           }
     }
   }, [router])

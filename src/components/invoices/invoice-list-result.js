@@ -24,6 +24,10 @@ import {
   TableContainer,
   Tooltip,
   IconButton,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import { Search as SearchIcon } from '../../icons/search';
 import { ShoppingBag } from '../../icons/shopping-bag';
@@ -36,12 +40,16 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { selectCurrentUser, setPageLimit } from '../../redux/authSlice';
 import { useDeleteinvoiceMutation, useGetallinvoiceMutation } from '../../redux/invoiceApiSlice';
-import { deleteInvoiceAction, setInvoiceAction } from '../../redux/invoiceAction';
+import { deleteInvoiceAction, setFilter, setInvoiceAction, setSort } from '../../redux/invoiceAction';
 import ConfirmDialog from '../dialogs/ConfirmDialog';
 import Notification from '../dialogs/Notification';
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import isTomorrow from 'dayjs/plugin/isTomorrow'
+import isToday from 'dayjs/plugin/isToday'
 dayjs.extend(relativeTime)
+dayjs.extend(isTomorrow)
+dayjs.extend(isToday)
 // import { applicants } from '../../__mocks__/customers';
 
 export const InvoiceListResult = () => {
@@ -52,15 +60,72 @@ export const InvoiceListResult = () => {
     const [getallinvoice] = useGetallinvoiceMutation()
     const [deleteinvoice] = useDeleteinvoiceMutation()
     const invoices = useSelector(store => store.invoice.invoices)
+    const [invoiceList, setInvoiceList] = useState(invoices)
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
     const [page, setPage] = useState(0)
     const [query, setQuery] = useState("")
-    // const overDue = invoices?.filter((invoice) => invoice.dueDate <= new Date().toISOString())
+    const filter = useSelector(store=>store.invoice.filter)
+    const [status, setStatus] = useState("all")
+    const today = dayjs().date()
+
+    function getDate(num){
+      const daysinMonth = dayjs().daysInMonth()
+      const lastDay_lastMonth = dayjs().date(0).date()
+      const ans = today + num
+      if(ans > daysinMonth){
+        return ans - daysinMonth
+      }else if(ans <= 0){
+        return ans + lastDay_lastMonth
+      }
+      else{
+        return ans
+      }
+    }
+
 
     const handlePageChange = (event, newPage) => {
       setPage(newPage);
     };
+
+    useEffect(()=>{
+      if(!filter || filter === "all"){
+        if(status === 'all'){
+          setInvoiceList(invoices)
+        }else{
+        setInvoiceList(invoices.filter((invoice)=>invoice.status === status))
+        }
+      }else if(filter === "overdue"){
+        setInvoiceList(invoices?.filter((invoice) => invoice.dueDate <= new Date().toISOString() && invoice.status === "UNPAID"))
+      }
+      else{
+        const newList = []
+        invoices.map((item)=> {
+          if(filter == dayjs(item.dueDate).date() && dayjs(item.dueDate).month() === dayjs().month()){
+            newList.push(item)
+          }
+        })
+        if(status === 'all'){
+          setInvoiceList(newList)
+        }else{
+          setInvoiceList(newList.filter((invoice)=>invoice.status === status))
+        }
+      }
+      }, [filter, status])
+
+      // useEffect(()=> {
+      //   // console.log(status);
+      //   if(status === "all"){
+      //     setInvoiceList(invoiceList)
+      //   }else if(status === "PAID"){
+      //     console.log(status);
+      //     setInvoiceList(invoiceList.filter((invoice)=>invoice.status === "PAID"))
+      //   }else if(status === "UNPAID"){
+      //     setInvoiceList(invoiceList.filter((invoice)=>invoice.status === "UNPAID"))
+      //   }else if(status === "PARTIAL"){
+      //     setInvoiceList(invoiceList.filter((invoice)=>invoice.status === "PARTIAL"))
+      //   }
+      // }, [status])
 
     const handleDelete = async(id) => {
       const response = await deleteinvoice(id)
@@ -129,49 +194,86 @@ if(user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "C
           >
             Invoices
           </Typography>
-          <Box sx={{ m: 1 }}>
-            {/* <Button
-              startIcon={(<UploadIcon fontSize="small" />)}
-              sx={{ mr: 1 }}
-            >
-              Import
-            </Button> */}
-            {/* <Button
-              startIcon={(<DownloadIcon fontSize="small" />)}
-              sx={{ mr: 1 }}
-            >
-              Export
-            </Button>
-            <Button
-              color="primary"
-              variant="contained"
-              // onClick={() => { setOpenPopup(true)}}
-            >
-              Create Job Order
-            </Button> */}
-          </Box>
         </Box>
         <Box sx={{ mt: 3 }}>
-              <Box sx={{ maxWidth: 300 }}>
-                <TextField
-                  fullWidth
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SvgIcon
-                          color="action"
-                          fontSize="small"
-                        >
-                          <SearchIcon />
-                        </SvgIcon>
-                      </InputAdornment>
-                    )
-                  }}
-                  placeholder="Search client invoice"
-                  variant="outlined"
-                  onChange={(e) => setQuery(e.target.value)}
-                />
+          <Card>
+            <CardContent>
+              <Box sx={{ display: 'flex'}}>
+              <Grid
+                container
+                spacing={3}
+              >
+                <Grid
+                  item
+                  md={6}
+                  xs={12}
+                >
+                  <TextField
+                    fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <SvgIcon
+                            color="action"
+                            fontSize="small"
+                          >
+                            <SearchIcon />
+                          </SvgIcon>
+                        </InputAdornment>
+                      )
+                    }}
+                    placeholder="Search client by name"
+                    variant="outlined"
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
+                </Grid>
+                <Grid
+                  item
+                  md={3}
+                  xs={6}
+                >
+                  <FormControl fullWidth>
+                    <InputLabel id="sortBy">Filter Due Date</InputLabel>
+                      <Select
+                        labelId="sortBy"
+                        id="demo-simple-select"
+                        value={filter}
+                        label="Age"
+                        onChange={(e) => dispatch(setFilter(e.target.value))}
+                      >
+                        <MenuItem value="all">All</MenuItem>
+                        <MenuItem value="overdue">Over Due</MenuItem>
+                        <MenuItem value={`${getDate(-1)}`}>Due yesterday</MenuItem>
+                        <MenuItem value={`${getDate(0)}`}>Due today</MenuItem>
+                        <MenuItem value={`${getDate(1)}`}>Due tomorrow</MenuItem>
+                      </Select>
+                  </FormControl>
+                </Grid>
+                <Grid
+                  item
+                  md={3}
+                  xs={6}
+                >
+                  <FormControl fullWidth>
+                    <InputLabel id="sortBy">Filter Status</InputLabel>
+                      <Select
+                        labelId="status"
+                        id="demo-simple-select"
+                        value={status}
+                        label="Status"
+                        onChange={(e) => setStatus(e.target.value)}
+                      >
+                        <MenuItem value="all">All</MenuItem>
+                        <MenuItem value="PAID">Paid</MenuItem>
+                        <MenuItem value="UNPAID">Unpaid</MenuItem>
+                        <MenuItem value="PARTIAL">Partial</MenuItem>
+                      </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
               </Box>
+            </CardContent>
+          </Card>
         </Box>
       </Box>
   
@@ -206,8 +308,8 @@ if(user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "C
                 </TableRow>
               </TableHead>
               <TableBody>
-                 {invoices?.filter((invoice) =>
-                  invoice.client?.name.toLowerCase().includes(query)).slice(page*limit, page*limit+limit).map((invoice) => (
+                 {invoiceList?.filter((invoice) =>
+                  invoice?.client?.name.toLowerCase().includes(query)).slice(page*limit, page*limit+limit).map((invoice) => (
                   <TableRow
                   hover
                   key={invoice._id}
@@ -226,7 +328,7 @@ if(user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "C
                     {invoice.total}
                   </TableCell>
                   <TableCell sx={{minWidth: 100}} onClick={() => Router.push(`invoice/${invoice._id}`)}>
-                    {dayjs(invoice.dueDate).fromNow()}
+                    {dayjs(invoice.dueDate).isToday() ? "today" : dayjs(invoice.dueDate).isTomorrow()? "tomorrow" : dayjs(invoice.dueDate).fromNow()}
                   </TableCell>
                   <TableCell onClick={() => Router.push(`invoice/${invoice._id}`)}>
                     <Button variant="contained" color={`${invoice.status === "PAID"? "success" : invoice.status === "PARTIAL"? "warning" : "error"}`} sx={{padding: "0"}}>{invoice.status}</Button>

@@ -147,7 +147,7 @@ const Page = () => {
               >
                  <Applicants sx={{ height: '90%' }} />
               </Grid>
-              <Grid
+              {/* <Grid
                 item
                 xl={3}
                 lg={4}
@@ -155,7 +155,7 @@ const Page = () => {
                 xs={12}
               >
                 <DueClients sx={{ height: '90%' }} />
-              </Grid>
+              </Grid> */}
               <Grid
                 item
                 xl={3}

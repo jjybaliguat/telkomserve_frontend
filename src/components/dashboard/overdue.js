@@ -4,8 +4,14 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Box } from '@mui/system';
 import NextLink from 'next/link';
 import DescriptionIcon from '@mui/icons-material/Description';
+import { useDispatch } from 'react-redux';
+import { setFilter } from '../../redux/invoiceAction';
 
-export const OverdueInvoices = ({total, ...others}) => (
+export const OverdueInvoices = ({total, ...others}) => {
+
+  const dispatch = useDispatch()
+
+  return (
   <Card {...others}>
     <CardContent>
       <Grid
@@ -59,6 +65,7 @@ export const OverdueInvoices = ({total, ...others}) => (
                 fontWeight: 'fontWeightBold',
                 fontSize: '12px'
               }}
+              onClick={()=>dispatch(setFilter('overdue'))}
             >
               Click here to view
             </Button>
@@ -66,4 +73,5 @@ export const OverdueInvoices = ({total, ...others}) => (
         </Box>
     </CardContent>
   </Card>
-);
+  )
+}
