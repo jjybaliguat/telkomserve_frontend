@@ -7,6 +7,7 @@ import applicantReducer from '../redux/applicantSlice'
 import employeeReducer from '../redux/employeesAction'
 import quicklinkReducer from '../redux/landing/quicklinksAction'
 import jobOrderReducer from '../redux/jobOrderAction'
+import smsReducer from '../redux/smsAction'
 import storage from "redux-persist/lib/storage"
 import { persistReducer, FLUSH,
     REHYDRATE,
@@ -31,6 +32,7 @@ const reducer = combineReducers({
     employee: employeeReducer,
     fiber: quicklinkReducer,
     joborders: jobOrderReducer,
+    messages: smsReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, reducer)

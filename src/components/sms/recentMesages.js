@@ -1,23 +1,45 @@
-import React from 'react'
-import { Box, Button, Card, CardContent, Divider, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
+import React, { useState } from 'react'
+import { Box, Button, Card, CardContent, Divider, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material'
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { useEffect } from 'react';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRetrivesmsMutation } from '../../redux/smsSlice';
+import { setMessages } from '../../redux/smsAction';
+import Empty from '../svgIcons/Empty';
+import dayjs from 'dayjs'
+
+Array.prototype.sortBy = function(p) {
+    return this.slice(0).sort(function(b,a) {
+      return (a[p] > b[p]) ? 1 : (a[p] < b[p]) ? -1 : 0;
+    });
+}
 
 const RecentMesages = () => {
-    const API_KEY = process.env.SMS_API_KEY
+    const dispatch = useDispatch()
+    const [retrivesms] = useRetrivesmsMutation()
+    const messages = useSelector(store=>store.messages.messages)
 
     useEffect(()=> {
         getMessages()
     }, [])
 
-    const getMessages = ()  => {
-        const response = axios.get(`https://api.semaphore.co/api/v4/messages?apikey=${API_KEY}`, {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-        console.log(response);
+    const getMessages = async()  => {
+        try {
+            const response = await retrivesms()
+            if(response.data){
+                dispatch(setMessages(response.data))
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+
+    if(!messages.length){
+        return <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', paddingTop: '20px'}}>
+        <Empty />
+        <p style={{padding: '40px', color: 'gray'}}>No recent messages available.</p>
+      </div>
     }
 
   return (
@@ -27,9 +49,13 @@ const RecentMesages = () => {
             <Box
                 sx={{padding: "1rem"}}
             >
-                <TableContainer>
+                <TableContainer sx={{ maxHeight: 440 }}>
                     <PerfectScrollbar>
-                        <Table>
+                        <Table 
+                        stickyHeader 
+                        aria-label="sticky table"
+                        size='small'
+                        >
                             <TableHead>
                                 <TableRow>
                                     <TableCell>
@@ -53,7 +79,49 @@ const RecentMesages = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                
+                                {
+                                    messages?.sortBy('created_at').map((message)=>
+                                    (
+                                        <TableRow
+                                            hover
+                                            key={message?.message_id}
+                                        >
+                                            <TableCell>
+                                                {message?.recipient}
+                                            </TableCell>
+                                            <Tooltip 
+                                            title={message?.message.length > 36 ? message.message : ''}
+                                            placement="top-end"
+                                            arrow
+                                            >
+                                                <TableCell 
+                                                style={{
+                                                    whiteSpace: "nowrap",
+                                                    textOverflow: "ellipsis",
+                                                    width: "300px",
+                                                    display: "block",
+                                                    overflow: "hidden"
+                                                }}
+                                                >
+                                                    {message?.message}
+                                                </TableCell>
+                                            </Tooltip>
+                                            <TableCell>
+                                                {message?.status}
+                                            </TableCell>
+                                            <TableCell>
+                                                {message?.network}
+                                            </TableCell>
+                                            <TableCell>
+                                                {message?.type}
+                                            </TableCell>
+                                            <TableCell>
+                                                {dayjs(message?.created_at).format("MMMM D, YYYY h:mm A")}
+                                            </TableCell>
+                                        </TableRow>
+                                    )
+                                    )
+                                }
                             </TableBody>
                         </Table>
                     </PerfectScrollbar>

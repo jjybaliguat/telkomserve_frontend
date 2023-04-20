@@ -14,7 +14,6 @@ module.exports = {
     MESSAGING_SENDER_ID: '409384853492',
     APP_ID: '1:409384853492:web:ddd455cbe9e51dd09de3a1',
     MESUREMENT_ID: 'G-PZT2QP4BMP',
-    SMS_API_KEY: '1abb1b8bb71a211c0b47165e7fa040c1'
   },
   experimental: {
     newNextLinkBehavior: false,

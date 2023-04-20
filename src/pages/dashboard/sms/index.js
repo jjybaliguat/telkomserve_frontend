@@ -5,8 +5,30 @@ import SingleSms from '../../../components/sms/singleSms';
 import Head from 'next/head';
 import BulkSms from '../../../components/sms/bulkSms';
 import RecentMesages from '../../../components/sms/recentMesages';
+import { useRetriveaccountMutation } from '../../../redux/smsSlice';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
-const Page = () => (
+const Page = () => {
+    const [retrieveaccount] = useRetriveaccountMutation()
+    const [creditBalance, setCreditBalance] = useState('')
+
+    useEffect(()=> {
+        getAccount()
+    }, [])
+
+    const getAccount = async() => {
+        try {
+            const response = await retrieveaccount()
+            if(response.data){
+                setCreditBalance(response.data.credit_balance)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    return (
     <>
         <Head>
         <title>
@@ -27,6 +49,10 @@ const Page = () => (
                 >
                 SMS
                 </Typography>
+                <p>
+                    Credit Balance: {creditBalance}
+                </p>
+                
                 <Grid container
                     spacing={3}
                 >
@@ -50,15 +76,21 @@ const Page = () => (
                 <Grid container
                     sx={{marginTop: "2rem"}}
                 >
-                    <Typography
-                    variant="h4"
-                    >
-                    Recent Messages
-                    </Typography>
-                    <Divider sx={{marginTop: "1rem"}}/>
                     <Grid
                         item
                         md={12}
+                        xs={12}
+                    >
+                        <Typography
+                        variant="h4"
+                        >
+                        Recent Messages
+                        </Typography>
+                    </Grid>
+                    <Grid
+                        item
+                        md={12}
+                        xs={12}
                     >
                         <RecentMesages />
                     </Grid>
@@ -66,7 +98,8 @@ const Page = () => (
             </Container>
         </Box>
     </>
-)
+    )
+}
 
 Page.getLayout = (page) => (
     <DashboardLayout>
