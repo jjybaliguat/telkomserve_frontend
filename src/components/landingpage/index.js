@@ -122,13 +122,13 @@ const Landing = () => {
                     sidebarItem.map((item, index)=> {
                       return(
                       <ListItem
+                        key={index}
                         sx={{
                           cursor: "pointer",
                           marginBottom: "1rem",
                         }}
                       >
                         <CustomLink
-                          key={index}
                           href={item.href}
                           title={item.title}
                           toggleSidebar={toggleSidebar}
