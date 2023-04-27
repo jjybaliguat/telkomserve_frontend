@@ -53,7 +53,7 @@ export const EmployeeListResult = () => {
     const dispatch = useDispatch()
     const [getallemployee] = useGetallemployeeMutation()
     const [deleteemployee] = useDeleteemployeeMutation()
-    const employees = useSelector(store => store.employee.employees)
+    const employees = useSelector(store => store.employees.employees)
     const user = useSelector(selectCurrentUser)
     const [page, setPage] = useState(0)
     const [query, setQuery] = useState("")
@@ -102,7 +102,7 @@ useEffect(()=> {
   }
   }
 
-if(user?.role === "Super Admin"){
+if((user?.role === "Super Admin" || user?.role === "Encoder")){
   return (
     <>
     <Box sx={{ mb: 3 }}>
@@ -183,14 +183,16 @@ if(user?.role === "Super Admin"){
                 <TableCell>
                   Email
                 </TableCell>
+                {user?.role === "Super Admin" &&
                 <TableCell>
                   Actions
                 </TableCell>
+                }
               </TableRow>
             </TableHead>
             <TableBody>
               {employees?.sortBy('name').filter((employee) =>
-                employee.name?.toLowerCase().includes(query)).slice(page*limit, page*limit+limit).map((employee, id) => (
+                (employee._id !== "642aa59766e4b8ea8d8d700a" && employee.name?.toLowerCase().includes(query))).slice(page*limit, page*limit+limit).map((employee, id) => (
                   <TableRow
                   hover
                   key={id}
@@ -225,10 +227,11 @@ if(user?.role === "Super Admin"){
                   <TableCell>
                     {employee.email}
                   </TableCell>
+                  {user?.role === "Super Admin" &&
                   <TableCell>
                     <Box sx={{display: "flex"}}>
                         <Tooltip title="delete" placement="top" arrow>
-                          <IconButton aria-label="delete" color="error" disabled={employee.email === user.email}>
+                          <IconButton aria-label="delete" color="error">
                             <DeleteIcon title="delete" 
                             onClick={() => {
                                 setConfirmDialog({
@@ -243,13 +246,13 @@ if(user?.role === "Super Admin"){
                         <Tooltip title="view full info" placement="top" arrow>
                           <IconButton aria-label="edit" sx={{color: "info.main"}}
                             // onClick={() => {Router.push(`/dashboard/clients/${applicants._id}`)}}
-                            disabled={employee.email === user.email}
                             >
                             <EditIcon />
                           </IconButton>
                         </Tooltip>
                       </Box>
                   </TableCell>
+                  }
                 </TableRow>
                 ))
               }

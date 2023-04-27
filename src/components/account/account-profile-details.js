@@ -16,13 +16,13 @@ import * as Yup from 'yup';
 import { useUpdateadminMutation } from '../../redux/authApiSlice';
 import { toast } from 'react-toastify';
 import Router from 'next/router'
+import Notification from '../dialogs/Notification';
 
 export const AccountProfileDetails = (props) => {
   const user = useSelector(selectCurrentUser)
   const dispatch = useDispatch()
   const [updateadmin] = useUpdateadminMutation()
-  const notifyError = (msg, {...props}) => toast.error(msg, props);
-  const notifySuccess = (msg, {...props}) => toast.success(msg, props);
+  const [notify, setNotify] = useState({isOpen: false, message: '', type: ''})
   const [isLoading, setIsLoading] = useState(false)
 
   const formik = useFormik({
@@ -48,106 +48,102 @@ export const AccountProfileDetails = (props) => {
           if(!user.error){
             setIsLoading(false)
             dispatch(updateUserAction(user.data))
-            notifySuccess("Profile info saved", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
+            setNotify({
+              isOpen: true,
+              message: 'Profile info saved',
+              type: "success"
             })
           }else{
-            notifyError(`${user.error?.data.message}`, {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-              })
+            setNotify({
+              isOpen: true,
+              message: `${user.error?.data.message}`,
+              type: "error"
+            })
             setIsLoading(false)
           }
   }})
 
   return (
-    <form onSubmit={formik.handleSubmit}
-      autoComplete="off"
-      noValidate
-      {...props}
-    >
-      <Card>
-        <CardHeader
-          subheader="The information can be edited"
-          title="Profile"
-        />
-        <Divider />
-        <CardContent>
-          <Grid
-            container
-            spacing={3}
-          >
+    <>
+      <Notification
+        notify={notify}
+        setNotify={setNotify}
+      />
+      <form onSubmit={formik.handleSubmit}
+        autoComplete="off"
+        noValidate
+        {...props}
+      >
+        <Card>
+          <CardHeader
+            subheader="The information can be edited"
+            title="Profile"
+          />
+          <Divider />
+          <CardContent>
             <Grid
-              item
-              md={6}
-              xs={12}
+              container
+              spacing={3}
             >
-              <TextField
-                error={Boolean(formik.touched.name && formik.errors.name)}
-                fullWidth
-                helperText={formik.touched.name && formik.errors.name}
-                label="name"
-                margin="normal"
-                name="name"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="name"
-                value={formik.values.name}
-                variant="outlined"
-              />
+              <Grid
+                item
+                md={6}
+                xs={12}
+              >
+                <TextField
+                  error={Boolean(formik.touched.name && formik.errors.name)}
+                  fullWidth
+                  helperText={formik.touched.name && formik.errors.name}
+                  label="name"
+                  margin="normal"
+                  name="name"
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  type="name"
+                  value={formik.values.name}
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid
+                item
+                md={6}
+                xs={12}
+              >
+                <TextField
+                  error={Boolean(formik.touched.email && formik.errors.email)}
+                  fullWidth
+                  helperText={formik.touched.email && formik.errors.email}
+                  label="email"
+                  margin="normal"
+                  name="email"
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  type="email"
+                  value={formik.values.email}
+                  variant="outlined"
+                />
+              </Grid>
             </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                error={Boolean(formik.touched.email && formik.errors.email)}
-                fullWidth
-                helperText={formik.touched.email && formik.errors.email}
-                label="email"
-                margin="normal"
-                name="email"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="email"
-                value={formik.values.email}
-                variant="outlined"
-              />
-            </Grid>
-          </Grid>
-        </CardContent>
-        <Divider />
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            p: 2
-          }}
-        >
-          <Button
-            type='submit'
-            color="primary"
-            variant="contained"
-            disabled={!formik.isValid}
+          </CardContent>
+          <Divider />
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              p: 2
+            }}
           >
-            {isLoading? 'Saving...' : 'Save details'}
-          </Button>
-        </Box>
-      </Card>
-    </form>
+            <Button
+              type='submit'
+              color="primary"
+              variant="contained"
+              disabled={!formik.isValid}
+            >
+              {isLoading? 'Saving...' : 'Save details'}
+            </Button>
+          </Box>
+        </Card>
+      </form>
+    </>
   );
 };

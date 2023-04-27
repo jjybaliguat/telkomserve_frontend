@@ -3,7 +3,7 @@ import NextLink from 'next/link';
 import Router from 'next/router';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Box, Button, Container, Grid, Link, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Container, Grid, Link, TextField, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Facebook as FacebookIcon } from '../../icons/facebook';
 import { Google as GoogleIcon } from '../../icons/google';
@@ -13,11 +13,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUserAction } from '../../redux/authSlice';
 import { useLoginMutation } from '../../redux/authApiSlice'
 import Notification from '../../components/dialogs/Notification';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../../utils/firebase';
 
 
 const Login = () => {
   const [login] = useLoginMutation()
-  const [errorMess, setErrorMessage] = useState('')
+  const [errorMess, setErrorMessage] = useState(null)
   const dispatch = useDispatch()
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
   const logged_in = useSelector(store => store.auth.logged_in)
@@ -49,6 +51,7 @@ const Login = () => {
     }),
     onSubmit: async () => {
       try {
+        await signInWithEmailAndPassword(auth, formik.values.email, formik.values.password)
         const user = await login(formik.values).unwrap()
         dispatch(setUserAction({...user}))
         setNotify({
@@ -60,11 +63,12 @@ const Login = () => {
         setErrorMessage('')
       } catch (error) {
         console.log(error);
-        setNotify({
-          isOpen: true,
-          message: error?.data?.message,
-          type: 'error'
-        })
+        setErrorMessage(error.message)
+        // setNotify({
+        //   isOpen: true,
+        //   message: error.message,
+        //   type: 'error'
+        // })
         Router.push('/admin')
       }
   }})
@@ -121,21 +125,17 @@ const Login = () => {
                 pt: 3
               }}
             >
-              <Typography
-                align="center"
-                color="textSecondary"
-                variant="body1"
-              >
-                or login with email address
-              </Typography>
-              {/* Error message */}
-              <Typography
-                align="center"
-                color="red"
-                variant="h4"
-              >
-                {errorMess}
-              </Typography>
+              {errorMess &&
+                <Alert
+                sx={{
+                  color: '#fff'
+                }}
+                variant='filled'
+                severity='error'
+                >
+                  {errorMess}
+                </Alert>
+              }
             </Box>
             <TextField
               error={Boolean(formik.touched.email && formik.errors.email)}

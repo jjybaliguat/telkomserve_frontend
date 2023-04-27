@@ -14,11 +14,13 @@ import { jobInitialState } from "../../utils/initialState"
 import {format} from 'date-fns'
 import { useCreatejoborderMutation, useGetjoborderscountMutation } from "../../redux/jobOrderApiSlice"
 import { addJobOrderAction } from "../../redux/jobOrderAction"
+import { selectCurrentUser } from "../../redux/authSlice"
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 export const CreateJobOrder = () => {
+    const user = useSelector(selectCurrentUser)
     const dispatch = useDispatch()
     const router = useRouter()
     const applicants = useSelector(store=>store.applicants.applicants)
@@ -140,6 +142,7 @@ export const CreateJobOrder = () => {
         setJobOrderData((prevState) => ({...prevState, tax: e.target.value}))
       }
 
+if((user?.role === "Super Admin" || user?.role === "Encoder")){
     return(
         <Box sx={{ mt: 3 }}>
           <form onSubmit={handleSubmit}>
@@ -392,4 +395,10 @@ export const CreateJobOrder = () => {
           </form>
         </Box>
     )
+  }else{
+    return <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center',height: "100vh", flexDirection: 'column'}}>
+        <img src="/assets/errors/error-401.png" height={300} />
+        <p style={{padding: '40px', color: 'gray'}}>Sorry, you are not allowed to access this resource!</p>
+      </div>
+  }
 }

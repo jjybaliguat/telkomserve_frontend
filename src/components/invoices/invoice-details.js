@@ -28,11 +28,13 @@ import { LoadingButton } from "@mui/lab"
 import axios from "axios"
 import { saveAs } from 'file-saver';
 import dayjs from 'dayjs'
+import { selectCurrentUser } from "../../redux/authSlice"
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 export const InvoiceDetails = () => {
+    const user = useSelector(selectCurrentUser)
     const componentRef = useRef()
     const dispatch = useDispatch()
     const [getinvoice] = useGetinvoiceMutation()
@@ -234,7 +236,8 @@ export const InvoiceDetails = () => {
     //         setTotal(invoice.total)
     //     }
     // }, [invoice])
-
+    
+if((user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "Collector")){
     return(
         <>
             <Notification
@@ -286,14 +289,16 @@ export const InvoiceDetails = () => {
                                 )}
                                 content={() => componentRef.current}
                             />
-                            <Button
+                            {(user?.role === "Super Admin" || user?.role === "Encoder") &&
+                                <Button
                                 startIcon={(<EditIcon fontSize="small" />)}
                                 // onClick={() => window.location.href = `/dashboard/invoice/edit/${invoiceData._id}`}
                                 onClick={() => Router.push(`/dashboard/invoice/edit/${invoiceData._id}`)}
                                 disabled={status === "PAID"}
-                            >
-                                Edit
-                            </Button>
+                                >
+                                    Edit
+                                </Button>
+                            }
                             <Button
                                 variant="contained"
                                 onClick={() => setOpen((prev) => !prev)}
@@ -435,4 +440,10 @@ export const InvoiceDetails = () => {
             </Box>
         </>
     )
+}else{
+    return <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center',height: "100vh", flexDirection: 'column'}}>
+        <img src="/assets/errors/error-401.png" height={300} />
+        <p style={{padding: '40px', color: 'gray'}}>Sorry, you are not allowed to access this resource!</p>
+      </div>
+  }
 }

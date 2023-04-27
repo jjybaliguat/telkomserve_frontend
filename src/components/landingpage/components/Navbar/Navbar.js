@@ -14,7 +14,8 @@ const CustomLink = (props) => {
     // // const active = href ? (router.pathname === href) : false;
 
     return (
-        <LinkS to={href}
+        <LinkS 
+            to={href}
             spy={true} 
             smooth={true}
             exact="true"
@@ -26,7 +27,7 @@ const CustomLink = (props) => {
     )
 }
 
-const Navbar = () => {
+const Navbar = ({toggleSidebar}) => {
     const [hideLogo, setHideLogo] = useState(false)
 
     window.onscroll = function(){
@@ -95,7 +96,14 @@ const Navbar = () => {
                 </Stack>
             </Grid>
             <Grid item sx={{marginRight: "2rem", display: {lg: "none", md: "none", xs: "flex"}}}> 
-                <MenuIcon sx={{fontSize: "3rem", color: "#fff"}} />
+                <MenuIcon 
+                sx={{
+                    fontSize: "3rem", 
+                    color: "#fff",
+                    cursor: "pointer"
+                }}
+                onClick={toggleSidebar}
+                 />
             </Grid>
         </Grid>
     </AppBar>

@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
-    messages: []
+    messages: [],
+    credit_balance: 0
 }
 
 const smsSlice = createSlice({
@@ -13,6 +14,9 @@ const smsSlice = createSlice({
         },
         addMessages: (state, action) => {
             state.messages.push(action.payload)
+        },
+        setCreditBalance: (state, action) => {
+            state.credit_balance = action.payload
         }
     }
 
@@ -20,7 +24,8 @@ const smsSlice = createSlice({
 
 export const {
     setMessages,
-    addMessages
+    addMessages,
+    setCreditBalance
 } = smsSlice.actions
 
 export default smsSlice.reducer

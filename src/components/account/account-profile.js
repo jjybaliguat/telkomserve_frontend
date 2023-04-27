@@ -24,6 +24,7 @@ import {
     getDownloadURL
   } from "firebase/storage";
 import { v4 } from "uuid";
+import Notification from '../dialogs/Notification';
 
 export const AccountProfile = (props) => {
   const dispatch = useDispatch()
@@ -34,8 +35,8 @@ export const AccountProfile = (props) => {
 
   const [image, setImage] = useState(user?.photo)
   const [isUploaded, setIsUploaded] = useState(false)
-  const notifyError = (msg, {...props}) => toast.error(msg, props);
-  const notifySuccess = (msg, {...props}) => toast.success(msg, props);
+  const [notify, setNotify] = useState({isOpen: false, message: '', type: ''})
+ 
 
   const onImageChange = async (e) => {
     const file = e.target.files[0]
@@ -61,30 +62,20 @@ export const AccountProfile = (props) => {
                   dispatch(updateUserAction(user.data))
                   setIsLoading(false)
                   setIsUploaded(false)
-                  notifySuccess("Profile photo saved", {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    })
+                  setNotify({
+                    isOpen: true,
+                    message: 'Profile photo saved',
+                    type: 'success'
+                  })
                       }
                       updateProfile()
                     });
                   })
       } catch (error) {
-          notifyError("Something went wrong!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          setNotify({
+            isOpen: true,
+            message: 'Something went wrong!',
+            type: 'errror'
           })
           setIsLoading(false)
           setIsUploaded(false)
@@ -92,80 +83,86 @@ export const AccountProfile = (props) => {
   }
 
   return(
-  <Card {...props}>
-    <CardContent>
-      <Box
-        sx={{
-          alignItems: 'center',
-          display: 'flex',
-          flexDirection: 'column'
-        }}
-      >
-        <label htmlFor='file-upload'>
-          <Avatar
-            src={image}
-            sx={{
-              height: 100,
-              mb: 2,
-              width: 100,
-            }}
-          />
-        </label>
-        <Typography
-          color="textPrimary"
-          gutterBottom
-          variant="h5"
+    <>
+    <Notification 
+      notify={notify}
+      setNotify={setNotify}
+    />
+    <Card {...props}>
+      <CardContent>
+        <Box
+          sx={{
+            alignItems: 'center',
+            display: 'flex',
+            flexDirection: 'column'
+          }}
         >
-          {user?.name}
-        </Typography>
-        <Typography
-          color="textSecondary"
-          variant="body2"
-        >
-          {`Role: ${user?.role}`}
-        </Typography>
-      </Box>
-    </CardContent>
-    <Divider />
-    <Card>
-        <CardContent>
-          <form
-            autoComplete="off"
-            noValidate
-            onSubmit={handleSubmit}
+          <label htmlFor='file-upload'>
+            <Avatar
+              src={image}
+              sx={{
+                height: 100,
+                mb: 2,
+                width: 100,
+              }}
+            />
+          </label>
+          <Typography
+            color="textPrimary"
+            gutterBottom
+            variant="h5"
           >
-            <Grid
-              container
-              spacing={3}
-              >
-              <TextField
-                fullWidth
-                type='file'
-                name="photo"
-                onChange={(e) => onImageChange(e)}
-                required
-                id='file-upload'
-                variant="outlined"
-                accept='.jpeg, .png, .jpg'
-                // sx={{display: 'none'}}
-              />
-              {/* <FileBase64
-                multiple={ false }
-                onDone={({base64}) => onImageChange(base64)} /> */}
-              <Button
-                type='submit'
-                color="primary"
-                fullWidth
-                variant="text"
-                disabled={!isUploaded}
-              >
-                {isLoading? 'Updating...' : 'Update Profile'}
-              </Button>
-            </Grid>
-          </form>
-        </CardContent>
+            {user?.name}
+          </Typography>
+          <Typography
+            color="textSecondary"
+            variant="body2"
+          >
+            {`Role: ${user?.role}`}
+          </Typography>
+        </Box>
+      </CardContent>
+      <Divider />
+      <Card>
+          <CardContent>
+            <form
+              autoComplete="off"
+              noValidate
+              onSubmit={handleSubmit}
+            >
+              <Grid
+                container
+                spacing={3}
+                >
+                <TextField
+                  fullWidth
+                  type='file'
+                  name="photo"
+                  onChange={(e) => onImageChange(e)}
+                  required
+                  id='file-upload'
+                  variant="outlined"
+                  accept='.jpeg, .png, .jpg'
+                  // sx={{display: 'none'}}
+                />
+                {/* <FileBase64
+                  multiple={ false }
+                  onDone={({base64}) => onImageChange(base64)} /> */}
+                <Button
+                  type='submit'
+                  color="primary"
+                  fullWidth
+                  variant="text"
+                  disabled={!isUploaded}
+                >
+                  {isLoading? 'Updating...' : 'Update Profile'}
+                </Button>
+              </Grid>
+            </form>
+          </CardContent>
+      </Card>
     </Card>
-  </Card>
+  </>
   )
 }
 

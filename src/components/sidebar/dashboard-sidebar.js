@@ -232,18 +232,72 @@ export const DashboardSidebar = (props) => {
           }}
         />
         <Box sx={{ flexGrow: 1 }}>
-          {items.map((item) => (
-            <NavItem
+          {/* {items.map((item) => ( */}
+            {/* <NavItem
               key={item.title}
               icon={item.icon}
               href={item.href}
               title={item.title}
+            /> */}
+            <NavItem
+              icon={<DashboardIcon fontSize="small" />}
+              href='/dashboard'
+              title='Dashboard'
             />
-          ))}
-
-          {/* For Clients dropdown section */}
-
-          <List
+            <NavItem
+              icon={<HelpIcon fontSize="small" />}
+              href='/dashboard/applicants'
+              title='Applicants'
+            />
+            {user?.role !== "Collector" &&
+            <NavItem
+              icon={<ViewListIcon fontSize="small" />}
+              href='/dashboard/job-orders'
+              title='Job Orders'
+            />
+            }
+            {user?.role !== "Installer" &&
+            <NavItem
+              icon={<AssignmentIcon fontSize="small" />}
+              href='/dashboard/invoices'
+              title='Invoices'
+            />
+            }
+            {user?.role === "Super Admin" &&
+            <NavItem
+              icon={<GroupsIcon fontSize="small" />}
+              href='/dashboard/employees'
+              title='Employees'
+            />
+            }
+            {(user?.role === "Super Admin" || user?.role === "Encoder") &&
+            <NavItem
+              icon={<EmailIcon fontSize="small" />}
+              href='/dashboard/email'
+              title='Email'
+            />
+            }
+            {(user?.role === "Super Admin" || user?.role === "Encoder") &&
+            <NavItem
+              icon={<MessageIcon fontSize="small" />}
+              href='/dashboard/sms'
+              title='SMS'
+            />
+            }
+            <NavItem
+              icon={<UserIcon fontSize="small" />}
+              href='/dashboard/account'
+              title='Profile'
+            />
+            <NavItem
+              icon={<CogIcon fontSize="small" />}
+              href='/dashboard/settings'
+              title='Settings'
+            />
+          {/* ))} */}
+          {user?.role === "Super Admin" &&
+          <>
+            <List
               sx={{mb: 0.5, py: 0, px: 2}}
               component="nav"
               aria-labelledby="nested-list-subheader"
@@ -264,8 +318,8 @@ export const DashboardSidebar = (props) => {
                   open={siteNavOpen}
                 />
               ))}
-            </List>
-          <List
+          </List>
+          {/* <List
               sx={{mb: 0.5, py: 0, px: 2}}
               component="nav"
               aria-labelledby="nested-list-subheader"
@@ -286,31 +340,9 @@ export const DashboardSidebar = (props) => {
                   open={clientNavOpen}
                 />
               ))}
-            </List>
-          {/* For SMS dropdown section */}
-
-          {/* <List
-              sx={{mb: 0.5, py: 0, px: 2}}
-              component="nav"
-              aria-labelledby="nested-list-subheader"
-            >
-            <ListItemButton onClick={smshandleClick}>
-                <ListItemIcon>
-                  <GroupsIcon />
-                </ListItemIcon>
-                <ListItemText primary="SMS" />
-                {clientNavOpen ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-              {smsItem.map((item) => (
-                <SmsMenu
-                  key={item.title}
-                  icon={item.icon}
-                  href={item.href}
-                  title={item.title}
-                  open={smsNavOpen}
-                />
-              ))}
-            </List> */}
+          </List> */}
+          </>
+        }
         </Box>
         <Divider sx={{ borderColor: '#2D3748' }} />
         <Box

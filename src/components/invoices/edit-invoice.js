@@ -167,6 +167,7 @@ const handleRates =(e) => {
         setInvoiceData(initialState)
   }
 
+  if((user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "Collector")){
     return(
         <Box sx={{ mt: 3 }}>
           <form onSubmit={handleSubmit}>
@@ -399,4 +400,10 @@ const handleRates =(e) => {
           </form>
         </Box>
     )
+  }else{
+    return <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center',height: "100vh", flexDirection: 'column'}}>
+        <img src="/assets/errors/error-401.png" height={300} />
+        <p style={{padding: '40px', color: 'gray'}}>Sorry, you are not allowed to access this resource!</p>
+      </div>
+  }
 }

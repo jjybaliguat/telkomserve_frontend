@@ -166,7 +166,7 @@ if(!invoices?.length || !invoices){
       </div>
  }     
 
-if(user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "Collector"){
+if((user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "Collector")){
   return (
     invoices?.length &&
       <>
@@ -302,9 +302,11 @@ if(user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "C
                   <TableCell>
                     Status
                   </TableCell>
+                  {(user?.role === "Super Admin" || user?.role === "Encoder") &&
                   <TableCell>
                     actions
                   </TableCell>
+                  }
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -333,16 +335,25 @@ if(user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "C
                   <TableCell onClick={() => Router.push(`invoice/${invoice._id}`)}>
                     <Button variant="contained" color={`${invoice.status === "PAID"? "success" : invoice.status === "PARTIAL"? "warning" : "error"}`} sx={{padding: "0"}}>{invoice.status}</Button>
                   </TableCell>
+                  {(user?.role === "Super Admin" || user?.role === "Encoder") && 
                   <TableCell>
                     <Box sx={{display: "flex"}}>
-                      <Tooltip title="Edit" placement="top" arrow>
+                      <Tooltip 
+                      title="edit"
+                      placement="top" 
+                      arrow
+                      >
+                        <span>
                             <IconButton aria-label="edit" sx={{color: "info.main"}}
-                              onClick={()=> window.location.href = `/dashboard/invoice/edit/${invoice._id}`}
                               disabled={invoice.status === "PAID"}
                               >
-                              <EditIcon />
+                              <EditIcon
+                                onClick={()=> window.location.href = `/dashboard/invoice/edit/${invoice._id}`}
+                              />
                             </IconButton>
+                        </span>
                         </Tooltip>
+                        {(user?.role === "Super Admin") &&
                         <Tooltip title="delete" placement="top" arrow>
                           <IconButton aria-label="delete" color="error"
                           onClick={() => {
@@ -356,8 +367,10 @@ if(user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "C
                             <DeleteIcon title="delete" />
                           </IconButton>
                         </Tooltip>
+                        }
                       </Box>
                   </TableCell>
+                  }
                 </TableRow>
                 ))}
               </TableBody>
@@ -379,7 +392,7 @@ if(user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "C
   );
   }else{
     return <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center',height: "100vh", flexDirection: 'column'}}>
-        <h1>Unauthorized!</h1>
+        <img src="/assets/errors/error-401.png" height={300} />
         <p style={{padding: '40px', color: 'gray'}}>Sorry, you are not allowed to access this resource!</p>
       </div>
   }

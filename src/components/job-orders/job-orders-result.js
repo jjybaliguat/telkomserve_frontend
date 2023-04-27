@@ -37,9 +37,12 @@ import { deleteJobOrderAction, setJobOrder } from '../../redux/jobOrderAction';
 import ConfirmDialog from '../dialogs/ConfirmDialog';
 import Notification from '../dialogs/Notification';
 import dayjs from 'dayjs'
+import { selectCurrentUser } from '../../redux/authSlice';
+import InfoIcon from '@mui/icons-material/Info';
 // import { applicants } from '../../__mocks__/customers';
 
 export const JobOrdersResult = () => {
+    const user = useSelector(selectCurrentUser)
     const dispatch = useDispatch()
     const joborders = useSelector(store => store.joborders.jobOrders)
     const [getalljoborder] = useGetalljoborderMutation()
@@ -96,6 +99,7 @@ export const JobOrdersResult = () => {
       </div>
     }
 
+  if((user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "Installer")){
   return (
     <>
     <ConfirmDialog
@@ -129,13 +133,15 @@ export const JobOrdersResult = () => {
           >
             Import
           </Button> */}
-          <Button
+          {(user?.role === "Super Admin" || user?.role === "Encoder") &&
+            <Button
             color="primary"
             variant="contained"
             onClick={() => Router.push("/dashboard/job-order")}
           >
             Create Job Order
           </Button>
+          }
         </Box>
       </Box>
       <Box sx={{ mt: 3 }}>
@@ -224,6 +230,7 @@ export const JobOrdersResult = () => {
                   </TableCell>
                   <TableCell>
                     <Box sx={{display: "flex"}}>
+                      {user?.role !== "Installer" &&
                         <Tooltip title="delete" placement="top" arrow>
                           <IconButton aria-label="delete" color="error">
                             <DeleteIcon title="delete" 
@@ -237,11 +244,12 @@ export const JobOrdersResult = () => {
                                 />
                           </IconButton>
                         </Tooltip>
+                      }
                         <Tooltip title="view full info" placement="top" arrow>
                           <IconButton aria-label="edit" sx={{color: "info.main"}}
                             // onClick={() => {Router.push(`/dashboard/clients/${applicants._id}`)}}
                             >
-                            <EditIcon />
+                            <InfoIcon />
                           </IconButton>
                         </Tooltip>
                       </Box>
@@ -264,5 +272,11 @@ export const JobOrdersResult = () => {
       />
     </Card>
   </>
-  );
+  )
+  }else{
+    return <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center',height: "100vh", flexDirection: 'column'}}>
+        <img src="/assets/errors/error-401.png" height={300} />
+        <p style={{padding: '40px', color: 'gray'}}>Sorry, you are not allowed to access this resource!</p>
+      </div>
+  }
 };

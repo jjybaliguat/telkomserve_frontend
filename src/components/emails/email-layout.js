@@ -6,6 +6,8 @@ import {EmailSideBar} from './email-sidebar';
 import EmailInbox from './inbox';
 import EmailPopup from './emai-popup';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../redux/authSlice';
 
 const EmailLayoutRoot = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -16,6 +18,9 @@ const EmailLayoutRoot = styled('div')(({ theme }) => ({
 
 const Email = () => {
   const [openPopup, setOpenPopup] = useState(false)
+  const user = useSelector(selectCurrentUser)
+
+  if((user?.role === "Super Admin" || user?.role === "Encoder")){
   return (
     <>
     <EmailLayoutRoot>
@@ -65,6 +70,12 @@ const Email = () => {
     <EmailNavbar />
     </>
   )
+}else{
+    return <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center',height: "100vh", flexDirection: 'column'}}>
+        <img src="/assets/errors/error-401.png" height={300} />
+        <p style={{padding: '40px', color: 'gray'}}>Sorry, you are not allowed to access this resource!</p>
+      </div>
+  }
 }
 
 export default Email

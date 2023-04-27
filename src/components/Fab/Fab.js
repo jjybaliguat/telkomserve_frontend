@@ -18,8 +18,9 @@ import EmailIcon from '@mui/icons-material/Email';
 
 
 const FabButton = () => {
-    const dispatch = useDispatch()
-    const [createemployee] = useCreateemployeeMutation()
+  const user = useSelector(selectCurrentUser)
+  const dispatch = useDispatch()
+  const [createemployee] = useCreateemployeeMutation()
   const mainButtonStyles = {backgroundColor: '#1976D2'}
   const [openPopup, setOpenPopup] = useState(false)
   const [addEmployeePopup, setAddEmployeePopup] = useState(false)
@@ -55,7 +56,6 @@ const FabButton = () => {
 const addEmployee = async(data, resetForm) => {
   setLoading(true)
   const employee = await createemployee(data)
-  console.log(employee);
   if(!employee.error){
     dispatch(addEmployeeAction(employee.data))
     setNotify({
@@ -117,12 +117,14 @@ const addEmployee = async(data, resetForm) => {
                 >
                   <PersonAddIcon />
               </Action>
-              <Action
+              {user?.role === "Super Admin" &&
+                <Action
                   text="Create Employee"
                   onClick={() => setAddEmployeePopup(true)}
                 >
                   <PersonAddIcon />
-              </Action>
+                </Action>
+              }
               {
                 location.pathname !== '/dashboard/email' && (
                 <Action

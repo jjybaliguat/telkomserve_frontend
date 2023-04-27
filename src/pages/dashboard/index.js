@@ -23,9 +23,12 @@ import { OverdueInvoices } from '../../components/dashboard/overdue';
 import Empty from '../../components/svgIcons/Empty';
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { selectCurrentUser } from '../../redux/authSlice';
+import { TotalJobOrders } from '../../components/dashboard/total-joborder';
 dayjs.extend(relativeTime)
 
 const Page = () => {
+  const user = useSelector(selectCurrentUser)
   const dispatch = useDispatch()
   const clients = useSelector(store=>store.clients.clients)
   const invoices = useSelector(store => store.invoice?.invoices)
@@ -156,6 +159,18 @@ const Page = () => {
               >
                 <DueClients sx={{ height: '90%' }} />
               </Grid> */}
+              {(user?.role !== "Collector") &&
+              <Grid
+                item
+                xl={3}
+                lg={4}
+                sm={12}
+                xs={12}
+              >
+                <TotalJobOrders sx={{ height: '90%'}} />
+              </Grid>
+              }
+              {(user?.role !== "Installer") &&
               <Grid
                 item
                 xl={3}
@@ -165,6 +180,9 @@ const Page = () => {
               >
                 <TotalInvoice totalInvoice={invoices?.length} sx={{ height: '90%' }} />
               </Grid>
+              }
+              {(user?.role === "Super Admin" || user?.role === "Encoder") &&
+              <>
               <Grid
                 item
                 xl={3}
@@ -219,6 +237,8 @@ const Page = () => {
               >
                 <TotalAmount sx={{ height: '90%' }} totalAmount={totalAmount}/>
               </Grid>
+              </>
+              }
             </Grid>
           </Container>
         </Box>
@@ -230,6 +250,8 @@ const Page = () => {
           }}
         >
           <Container maxWidth={false}>
+            {(user?.role === "Super Admin" || user?.role === "Encoder") &&
+            <>
             <Box>
               {paymentHistory.length !== 0 && (
               <section>
@@ -246,6 +268,8 @@ const Page = () => {
               </section>
               )}
             </Box>
+            </>
+            }
             <Box sx={{marginTop: "3rem"}}>
               <CustomerListResults />
             </Box>

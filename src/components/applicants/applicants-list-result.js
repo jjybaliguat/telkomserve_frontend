@@ -36,9 +36,11 @@ import { setApplicantsAction } from '../../redux/applicantSlice';
 import Empty from '../svgIcons/Empty';
 import DeleteIcon from '@mui/icons-material/Delete';
 import InfoIcon from '@mui/icons-material/Info';
+import { selectCurrentUser } from '../../redux/authSlice';
 // import { applicants } from '../../__mocks__/customers';
 
 export const ApplicantsListResults = ({ ...rest }) => {
+  const user = useSelector(selectCurrentUser)
   const dispatch = useDispatch()
   const [getallapplicants] = useGetallapplicantsMutation()
   const applicants = useSelector(store => store.applicants.applicants)
@@ -143,6 +145,7 @@ export const ApplicantsListResults = ({ ...rest }) => {
           >
             Export
           </Button>
+          {(user?.role === "Super Admin" || user?.role === "Encoder") &&
           <Button
             color="primary"
             variant="contained"
@@ -150,6 +153,7 @@ export const ApplicantsListResults = ({ ...rest }) => {
           >
             Create Job Order
           </Button>
+          }
         </Box>
       </Box>
       <Box sx={{ mt: 3 }}>
@@ -216,9 +220,11 @@ export const ApplicantsListResults = ({ ...rest }) => {
                 <TableCell>
                   Account Number
                 </TableCell>
+                {(user?.role === "Super Admin" || user?.role === "Encoder") &&
                 <TableCell>
                   Action
                 </TableCell>
+                }
               </TableRow>
             </TableHead>
             <TableBody>
@@ -272,6 +278,7 @@ export const ApplicantsListResults = ({ ...rest }) => {
                   <TableCell>
                     {applicants.accountNumber}
                   </TableCell>
+                  {(user?.role === "Super Admin" || user?.role === "Encoder") &&
                   <TableCell>
                     <Box sx={{display: "flex"}}>
                         <Tooltip title="delete" placement="top" arrow>
@@ -294,6 +301,7 @@ export const ApplicantsListResults = ({ ...rest }) => {
                         </Tooltip>
                       </Box>
                   </TableCell>
+                  }
                 </TableRow>
               ))}
               {/* {emptyRows > 0 && (

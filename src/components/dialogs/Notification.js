@@ -22,6 +22,8 @@ export default function Notification(props) {
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
             onClose={handleClose}>
             <Alert
+                sx={{color: '#fff'}}
+                variant="filled"
                 severity={notify.type}
                 onClose={handleClose}>
                 {notify.message}

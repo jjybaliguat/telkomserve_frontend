@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Avatar, Button, Card, CardContent, CardHeader, CircularProgress, Divider, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import { useFormik } from 'formik'
@@ -7,6 +7,9 @@ import * as Yup from 'yup';
 import { AppBar, Dialog, DialogContent, DialogTitle, IconButton, Toolbar, Typography } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
 import styled from '@emotion/styled';
+import { createUserWithEmailAndPassword } from "firebase/auth"
+import { auth } from '../../utils/firebase'
+import Notification from './Notification';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -19,13 +22,16 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 const AddEmmployeeFormDialog = (props) => {
     const {addEmployee, setAddEmployeePopup, loading, title, children, openPopup, ...others} = props
+    const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
+
     const formik = useFormik({
         initialValues: {
           name: '',
           email: '',
           phone: '',
           address: '',
-          role: ''
+          role: '',
+          password: '123456789'
         },
         validationSchema: Yup.object({
           name: Yup
@@ -50,12 +56,38 @@ const AddEmmployeeFormDialog = (props) => {
             .required('role is required'),
         }),
         onSubmit: async () => {
+        try {
+          await createUserWithEmailAndPassword(auth, formik.values.email, formik.values.password)
           addEmployee(formik.values, resetForm)
+        } catch (error) {
+          console.log(error);
+          setNotify({
+            isOpen: true,
+            message: error.message,
+            type: 'error'
+        })
+        }
       }})
 
       const resetForm = () => formik.handleReset()
+
+      const createEmployee = async(e) => {
+        e.preventDefault()
+        e.preventDefault()
+        try {
+          const response = await createUserWithEmailAndPassword(auth, formik.values.email, formik.values.password)
+          console.log(response);
+        } catch (error) {
+          console.log(error);
+        }
+      }
     
       return (
+        <>
+          <Notification
+              notify={notify}
+              setNotify={setNotify}
+              />
         <BootstrapDialog open={openPopup}
       maxWidth="md" onClose={()=>setAddEmployeePopup(false)}>
         <AppBar sx={{ position: 'relative', backgroundColor: 'primary.main' }}>
@@ -97,7 +129,7 @@ const AddEmmployeeFormDialog = (props) => {
         </DialogTitle>
         <Divider />
         <DialogContent>
-          <form onSubmit={formik.handleSubmit}
+          <form onSubmit={(e)=>createEmployee(e)}
             autoComplete="off"
             noValidate
           >
@@ -211,6 +243,7 @@ const AddEmmployeeFormDialog = (props) => {
           </form>
         </DialogContent>
     </BootstrapDialog>
+    </>
       )
 }
 

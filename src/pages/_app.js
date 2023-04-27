@@ -13,8 +13,6 @@ import { store } from '../lib/store';
 import {Provider} from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import '../theme/additional.css'
 
 registerChartJs();
@@ -46,18 +44,6 @@ const App = (props) => {
                   {
                     getLayout(<>
                           <Component {...pageProps} />
-                          <ToastContainer 
-                          position="top-right"
-                          autoClose={5000}
-                          hideProgressBar={false}
-                          newestOnTop={false}
-                          closeOnClick
-                          rtl={false}
-                          pauseOnFocusLoss
-                          draggable
-                          pauseOnHover
-                          theme="light"
-                          />
                       </>)
                   }
             </ThemeProvider>

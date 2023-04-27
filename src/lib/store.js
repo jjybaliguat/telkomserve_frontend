@@ -29,7 +29,7 @@ const reducer = combineReducers({
     clients: clientReducer,
     applicants: applicantReducer,
     invoice: invoiceReducer,
-    employee: employeeReducer,
+    employees: employeeReducer,
     fiber: quicklinkReducer,
     joborders: jobOrderReducer,
     messages: smsReducer,
