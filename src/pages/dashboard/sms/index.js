@@ -64,7 +64,7 @@ if((user?.role === "Super Admin" || user?.role === "Encoder")){
                         marginBottom: "1rem"
                     }}
                     >
-                    You have no remaining credit balance. Login to your <a href="https://semaphore.co" target="_blank">
+                    You have no remaining credit balance. Login to your <a href="https://semaphore.co">
                     semaphore.co</a> account and purchase some sms credits!</Alert>
                 }
                 <p>
