@@ -33,8 +33,8 @@ const InvoiceResult = () => {
     const [getinvoice] = useGetinvoiceMutation()
     const router = useRouter()
     const invoiceId = router.query.invoiceId
-    const invoices = useSelector(store => store.invoice.invoices)
-    const singleInvoice =  invoices.find(invoice => invoice._id === invoiceId)
+    // const invoices = useSelector(store => store.invoice.invoices)
+    // const singleInvoice =  invoices.find(invoice => invoice._id === invoiceId)
     const [ client, setClient] = useState(null)
     const [invoiceData, setInvoiceData] = useState(null)
     const today = new Date();
@@ -63,25 +63,16 @@ const InvoiceResult = () => {
       }
 
     useEffect(() => {
-        if(invoiceId){
-            // dispatch(setSingleInvoice(singleInvoice))
-            if(singleInvoice){
-                setInvoiceData(singleInvoice)
-                setRates(singleInvoice.rates)
-                setClient(singleInvoice.client)
-                setType(singleInvoice.type)
-                setStatus(singleInvoice.status)
-                setSelectedDate(singleInvoice.dueDate)
-                setVat(singleInvoice.vat)
-                setSubTotal(singleInvoice.subTotal)
-                setTotal(singleInvoice.total)
-                setLoading(false)
-            }else{
-                setLoading(false)
-            }
-            // console.log(singleInvoice)
-        }
-    }, [router])
+        setRates(invoiceData.rates)
+        setClient(invoiceData.client)
+        setType(invoiceData.type)
+        setStatus(invoiceData.status)
+        setSelectedDate(invoiceData.dueDate)
+        setVat(invoiceData.vat)
+        setSubTotal(invoiceData.subTotal)
+        setTotal(invoiceData.total)
+        setLoading(false)
+    }, [invoiceData])
 
     useEffect(() => {
         const getInvoice = async() => {
