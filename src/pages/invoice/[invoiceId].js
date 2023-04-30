@@ -34,7 +34,7 @@ const InvoiceResult = () => {
     const router = useRouter()
     const invoiceId = router.query.invoiceId
     // const invoices = useSelector(store => store.invoice.invoices)
-    // const singleInvoice =  invoices.find(invoice => invoice._id === invoiceId)
+    // const invoiceData =  invoices.find(invoice => invoice._id === invoiceId)
     const [ client, setClient] = useState(null)
     const [invoiceData, setInvoiceData] = useState(null)
     const today = new Date();
@@ -63,14 +63,14 @@ const InvoiceResult = () => {
       }
 
     useEffect(() => {
-        setRates(invoiceData.rates)
-        setClient(invoiceData.client)
-        setType(invoiceData.type)
-        setStatus(invoiceData.status)
-        setSelectedDate(invoiceData.dueDate)
-        setVat(invoiceData.vat)
-        setSubTotal(invoiceData.subTotal)
-        setTotal(invoiceData.total)
+        setRates(invoiceData?.rates)
+        setClient(invoiceData?.client)
+        setType(invoiceData?.type)
+        setStatus(invoiceData?.status)
+        setSelectedDate(invoiceData?.dueDate)
+        setVat(invoiceData?.vat)
+        setSubTotal(invoiceData?.subTotal)
+        setTotal(invoiceData?.total)
         setLoading(false)
     }, [invoiceData])
 
@@ -84,8 +84,8 @@ const InvoiceResult = () => {
       }, [invoiceId])
 
       let totalAmountReceived = 0
-      for(var i = 0; i < singleInvoice?.paymentRecords?.length; i++) {
-          totalAmountReceived += Number(singleInvoice?.paymentRecords[i]?.amountPaid)
+      for(var i = 0; i < invoiceData?.paymentRecords?.length; i++) {
+          totalAmountReceived += Number(invoiceData?.paymentRecords[i]?.amountPaid)
       }
 
       const downloadInvoicePdf = async(e) => {
