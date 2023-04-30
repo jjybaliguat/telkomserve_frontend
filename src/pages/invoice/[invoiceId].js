@@ -39,16 +39,13 @@ const InvoiceResult = () => {
     const [invoiceData, setInvoiceData] = useState(null)
     const today = new Date();
     const [selectedDate, setSelectedDate] = useState(format(new Date(), "MM/dd/yyyy"));
-    const [subTotal, setSubTotal] = useState(0)
+    const [subTotal, setSubTotal] = useState(null)
     const [total, setTotal] = useState(0)
     const [vat, setVat] = useState(0)
     const [status, setStatus ] = useState('')
     const [type, setType] = useState('INVOICE')
     const [ rates, setRates] = useState(0)
     const [loading, setLoading] = useState(true)
-    const [open, setOpen] = useState(false)
-    const [sendLoading, setSendLoading] = useState(false)
-    const [downloadLoading, setDownloadLoading] = useState(false)
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
     const APP_API = process.env.nodeEnv === "production" ? process.env.PRODUCTION_APP_API : process.env.DEV_APP_API
 
@@ -75,6 +72,7 @@ const InvoiceResult = () => {
     }, [invoiceData])
 
     useEffect(() => {
+        setLoading(true)
         const getInvoice = async() => {
           const response = await getinvoice(invoiceId)
           setInvoiceData(response.data)
@@ -188,21 +186,14 @@ const InvoiceResult = () => {
            </div>
     }
         
-    if(!invoiceId || !client){
+    if(!invoiceId || !invoiceData || !total){
             return (
-                loading? (
-                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', paddingTop: '20px', height: "100vh"}}>
-                    <CircularProgress size={75}/>
-                </div>)
-                :
-                (
                 <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', paddingTop: '20px'}}>
                     <NoData />
                     <p style={{padding: '40px', color: 'gray'}}>Something Went Wrong. No invoice available. Try to reload the page</p>
                     <Button sx={{fontSize: "1.5rem"}} onClick={() => window.location.reload()}>Reload</Button>
                 </div>
                 )
-            )
      }  
     return(
         <>
