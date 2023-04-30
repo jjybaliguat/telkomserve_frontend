@@ -197,7 +197,7 @@ export const JobOrdersResult = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {joborders.filter((joborder)=>
+              {joborders?.filter((joborder)=>
                 joborder?.applicant?.name.toLowerCase().includes(query)).slice(page*limit, page*limit+limit).map((joborder)=>(
                 <TableRow
                   hover

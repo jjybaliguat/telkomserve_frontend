@@ -274,7 +274,7 @@ if((user?.role === "Super Admin" || user?.role === "Encoder")){
                                     </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                      {jobOrderData.items.map((itemField, index) => (
+                                      {jobOrderData?.items?.map((itemField, index) => (
                                         <TableRow hover key={index}>
                                           <TableCell  scope="row" style={{width: '40%' }}> <InputBase style={{width: '100%'}} outline="none" sx={{ ml: 1, flex: 1 }} type="text" name="description" onChange={e => handleChange(index, e)} value={itemField.description} placeholder="Item name or description" required/> </TableCell>
                                           <TableCell align="right"> <InputBase sx={{ ml: 1, flex: 1 }} type="text" name="price" onChange={e => handleChange(index, e)} value={itemField.price} required/> </TableCell>
