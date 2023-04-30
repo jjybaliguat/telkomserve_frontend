@@ -1,12 +1,12 @@
 module.exports = {
   reactStrictMode: true,
   env: {
-    nodeEnv: 'production',
+    nodeEnv: 'development',
     DEV_APP_API: 'http://localhost:5000/api/v1',
     // PRODUCTION_APP_API: 'https://rdnaks-api.onrender.com/api/v1',
     PRODUCTION_APP_API: 'https://api.rdnaksnds.com/api/v1',
     DEV_APP_URL: 'http://localhost:3000',
-    APP_URL: 'https://rdnaksict.vercel.app',
+    APP_URL: 'https://rdnaksnds.com',
     GOOGLE_API: 'AIzaSyC6LsjcErgaKvmmIJcWfIJyBkf3SxFivNc',
     FIREBASE_KEY: 'AIzaSyDystoxemuJuTzy-ewqPjfYuKRyFK2i8So',
     AUTH_DOMAIN: 'rdnaks-website.firebaseapp.com',
