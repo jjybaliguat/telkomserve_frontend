@@ -63,7 +63,7 @@ export const EditInvoice = (props) => {
   }, [router, invoiceId])
 
   useEffect(() => {
-    invoiceData.items.map((item, i)=>{
+    invoiceData?.items?.map((item, i)=>{
         values[i] = {
           description: item.description,
           price: item.price,
@@ -265,7 +265,7 @@ const handleRates =(e) => {
                                     </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                      {invoiceData.items.map((itemField, index) => (
+                                      {invoiceData?.items?.map((itemField, index) => (
                                         <TableRow hover key={index}>
                                           <TableCell  scope="row" style={{width: '40%' }}> <InputBase style={{width: '100%'}} outline="none" sx={{ ml: 1, flex: 1 }} type="text" name="description" onChange={e => handleChange(index, e)} value={itemField.description} placeholder="Item name or description" /> </TableCell>
                                           <TableCell align="right"> <InputBase sx={{ ml: 1, flex: 1 }} type="number" name="price" onChange={e => handleChange(index, e)} value={itemField.price} placeholder="0" /> </TableCell>

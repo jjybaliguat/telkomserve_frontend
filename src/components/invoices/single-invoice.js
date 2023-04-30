@@ -53,7 +53,7 @@ export const Invoice = () => {
     try {
       const response = await fetchall()
       const list = []
-      response.data.map((item) => {
+      response.data?.map((item) => {
         const client = clients.find((client)=> client._id === item.clientId)
         list.push(client)
       })
@@ -269,7 +269,7 @@ if((user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "
                                     </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                      {invoiceData.items.map((itemField, index) => (
+                                      {invoiceData?.items?.map((itemField, index) => (
                                         <TableRow hover key={index}>
                                           <TableCell  scope="row" style={{width: '40%' }}> <InputBase style={{width: '100%'}} outline="none" sx={{ ml: 1, flex: 1 }} type="text" name="description" onChange={e => handleChange(index, e)} value={itemField.description} placeholder="Item name or description" required/> </TableCell>
                                           <TableCell align="right"> <InputBase sx={{ ml: 1, flex: 1 }} type="text" name="price" onChange={e => handleChange(index, e)} value={itemField.price} required/> </TableCell>

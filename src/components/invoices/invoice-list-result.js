@@ -100,7 +100,7 @@ export const InvoiceListResult = () => {
       }
       else{
         const newList = []
-        invoices.map((item)=> {
+        invoices?.map((item)=> {
           if(filter == dayjs(item.dueDate).date() && dayjs(item.dueDate).month() === dayjs().month()){
             newList.push(item)
           }
