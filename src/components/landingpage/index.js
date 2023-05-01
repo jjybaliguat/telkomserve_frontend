@@ -8,6 +8,7 @@ import { Box, Drawer, List, ListItem, Typography } from '@mui/material';
 import Pricing from './containers/pricing';
 import Services from './containers/services';
 import { Link } from 'react-scroll';
+import Faqs from './containers/Faqs';
 
 const CustomLink = (props) => {
   const {href, title, toggleSidebar} = props
@@ -68,6 +69,7 @@ const Landing = () => {
       <Box sx={{ bgcolor: "background.dark", position: "relative",}}>
         <Services />
         <Pricing />
+        <Faqs />
       </Box>
       <Drawer
             anchor='right'

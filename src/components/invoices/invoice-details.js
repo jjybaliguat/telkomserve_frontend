@@ -29,6 +29,7 @@ import axios from "axios"
 import { saveAs } from 'file-saver';
 import dayjs from 'dayjs'
 import { selectCurrentUser } from "../../redux/authSlice"
+import SmsIcon from '@mui/icons-material/Sms';
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -56,6 +57,7 @@ export const InvoiceDetails = () => {
     const [loading, setLoading] = useState(true)
     const [open, setOpen] = useState(false)
     const [sendLoading, setSendLoading] = useState(false)
+    const [sendsmsLoading, setSendsmsLoading] = useState(false)
     const [downloadLoading, setDownloadLoading] = useState(false)
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
     const APP_API = process.env.nodeEnv === "production" ? process.env.PRODUCTION_APP_API : process.env.DEV_APP_API
@@ -152,6 +154,10 @@ export const InvoiceDetails = () => {
                     type: 'error'
                 })
             })
+        }
+
+        const sendSms = async(e) => {
+            alert("this feature is under development")
         }
 
       const sendPdf = async(e) => {
@@ -268,7 +274,16 @@ if((user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "
                             loading={sendLoading}
                             loadingPosition="start"
                             >
-                            <span>{sendLoading? "Sending..." : "Send To Client"}</span>
+                            <span>{sendLoading? "Sending..." : "Email To Client"}</span>
+                        </LoadingButton>
+                        <LoadingButton
+                            size="small"
+                            onClick={sendSms}
+                            startIcon={<SmsIcon />}
+                            loading={sendsmsLoading}
+                            loadingPosition="start"
+                            >
+                            <span>{sendsmsLoading? "Sending..." : "Message To Client"}</span>
                         </LoadingButton>
                         {/* <LoadingButton
                             size="small"
