@@ -4,6 +4,9 @@ import OutlinedButton from "../Buttons/OutlinedButton";
 import Title from "../Title";
 import CheckIcon from '@mui/icons-material/Check';
 import ApplyNowbtn from "../Buttons/ApplyNowbtn";
+import Router from 'next/router'
+import { useDispatch } from "react-redux";
+import { setSelectedindex } from "../../../../redux/landing/quicklinksAction";
 
 const planDescription = [
     "Unlimited Internet",
@@ -13,6 +16,7 @@ const planDescription = [
 ]
 
 const PricingCard = ({ title, price, speed, image }) => {
+  const dispatch = useDispatch()
   return (
     <Box
       sx={{
@@ -61,7 +65,9 @@ const PricingCard = ({ title, price, speed, image }) => {
           }}
         />
 
-        <OutlinedButton arrow fit>
+        <OutlinedButton arrow fit
+          onClick={() => {Router.push("/fiber"); dispatch(setSelectedindex(1))}}
+        >
           Apply Now
         </OutlinedButton>
       </Stack>

@@ -177,7 +177,7 @@ const Footer = () => {
             <img src="/static/images/fb.png" height={40}/>
             <img src="/static/images/ml.jpg" height={40}/>
         </Stack>
-        <Typography>All rights reserved @ RDNAKS 2023 </Typography>
+        <Typography>Copyright @ RDNAKSNDS 2023 </Typography>
     </Box>
     </>
   )
