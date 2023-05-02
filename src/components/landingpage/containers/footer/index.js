@@ -100,7 +100,7 @@ const Footer = () => {
                       cursor: "pointer",
                       display: "flex",
                       alignItems: "center"
-                    }}><ArrowForwardIosIcon fontSize="14px" sx={{marginRight: "10px"}}/>FAQ'S</span>
+                    }}><ArrowForwardIosIcon fontSize="14px" sx={{marginRight: "10px"}}/>FAQ&apos;S</span>
                     </Link>
                     <Link
                         to="contact"
