@@ -18,12 +18,7 @@ const faqsItem = [
   },
 ]
 
-const Faqs = () => {
-  const [open1, setOpen1] = useState(true)
-  const toggleOpen1 = () => setOpen1(!open1)
-  const [open2, setOpen2] = useState(false)
-  const toggleOpen2 = () => setOpen2(!open2)
-
+const PaymentSteps = () => {
   return (
     <>
     <Box 
@@ -138,4 +133,4 @@ const Faqs = () => {
   )
 }
 
-export default Faqs
+export default PaymentSteps

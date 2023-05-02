@@ -108,12 +108,14 @@ const Hero = () => {
         </Box>
 
         <Container 
-            sx={{height: "fit-content",
+            sx={{
+            height: "fit-content",
             mt: 8,
             color: "#fff",
             paddingBottom: "10rem",
             [theme.breakpoints.up("md")]: { mt: 10 },
-            }}>
+            }}
+            >
             <Grid container
                 flexDirection={{xs: "column", md: "row"}}
                 alignItems="center"

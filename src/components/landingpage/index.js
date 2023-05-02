@@ -9,6 +9,7 @@ import Pricing from './containers/pricing';
 import Services from './containers/services';
 import { Link } from 'react-scroll';
 import Faqs from './containers/Faqs';
+import Footer from './containers/footer';
 
 const CustomLink = (props) => {
   const {href, title, toggleSidebar} = props
@@ -19,6 +20,7 @@ const CustomLink = (props) => {
         spy={true} 
         smooth={true}
         exact="true"
+        offset={-70}
         duration={500}
         onClick={toggleSidebar}
         onKeyDown={toggleSidebar}
@@ -66,10 +68,21 @@ const Landing = () => {
       <Navbar toggleSidebar={toggleSidebar} />
       <Hero />
       <Section2 />
-      <Box sx={{ bgcolor: "background.dark", position: "relative",}}>
+      <Box sx={{ 
+        bgcolor: "background.dark", 
+        position: "relative",
+        paddingBottom: "5rem"
+      }}>
         <Services />
         <Pricing />
-        <Faqs />
+        {/* <Faqs /> */}
+      </Box>
+      <Faqs />
+      <Box sx={{ 
+        bgcolor: "background.dark", 
+        position: "relative",
+      }}>
+        <Footer />
       </Box>
       <Drawer
             anchor='right'
@@ -98,6 +111,7 @@ const Landing = () => {
                   spy={true} 
                   smooth={true}
                   exact="true"
+                  offset={-70}
                   duration={500}
                   onClick={toggleSidebar}
                   onKeyDown={toggleSidebar}
