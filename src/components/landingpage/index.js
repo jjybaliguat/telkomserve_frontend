@@ -4,12 +4,13 @@ import Navbar from './components/Navbar/Navbar';
 import Hero from './containers/MainHero';
 import About from './containers/services';
 import Section2 from './containers/section2';
-import { Box, Drawer, List, ListItem, Typography } from '@mui/material';
+import { Box, Divider, Drawer, List, ListItem, Typography } from '@mui/material';
 import Pricing from './containers/pricing';
 import Services from './containers/services';
 import { Link } from 'react-scroll';
 import Faqs from './containers/Faqs';
 import Footer from './containers/footer';
+import Contact from './containers/contact';
 
 const CustomLink = (props) => {
   const {href, title, toggleSidebar} = props
@@ -71,11 +72,12 @@ const Landing = () => {
       <Box sx={{ 
         bgcolor: "background.dark", 
         position: "relative",
-        paddingBottom: "5rem"
+        paddingBottom: "5rem",
       }}>
         <Services />
         <Pricing />
-        {/* <Faqs /> */}
+        <Divider />
+        <Contact />
       </Box>
       <Faqs />
       <Box sx={{ 

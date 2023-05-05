@@ -76,8 +76,8 @@ const Navbar = ({toggleSidebar}) => {
                     <CustomLink href="home" title="HOME" />
                     <CustomLink href="services" title="SERVICES" />
                     <CustomLink href="pricing" title="PLANS" />
-                    <CustomLink href="faqs" title="FAQ'S" />
                     <CustomLink href="contact" title="CONTACT US" />
+                    <CustomLink href="faqs" title="FAQ'S" />
                     <ApplyNowbtn 
                         onClick={() => Router.push("/fiber")}
                         sx={{px: 3, display: {md:`${hideLogo? "flex" : "none"}`, xs: "none"}}} />
