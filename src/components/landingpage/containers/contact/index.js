@@ -46,7 +46,7 @@ const Contact = () => {
             setSuccess(null)
             setError(null)
             try {
-                const response = await axios.post('http://localhost:5000/api/v1/client/send-message', formik.values)
+                const response = await axios.post('https://api.rdnaksnds.com/api/v1/client/send-message', formik.values)
                 if(response.data){
                     setSuccess(response?.data?.msg)
                     setLoading(false)
