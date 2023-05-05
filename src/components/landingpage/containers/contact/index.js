@@ -78,7 +78,7 @@ const Contact = () => {
           <Title variant={{ xs: "h3", md: "h2" }} sx={{ mb: { xs: 5, md: 8 }}}>
             Contact Us
           </Title>
-          <Typography variant="h4" sx={{letterSpacing: "0.05em"}}>If you have questions in mind, don't hesitate to contact us.</Typography>
+          <Typography variant="h4" sx={{letterSpacing: "0.05em"}}>If you have questions in mind, don&apos;t hesitate to contact us.</Typography>
           <Grid container
             sx={{
                 marginTop: "3rem"
