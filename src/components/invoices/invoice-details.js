@@ -64,12 +64,12 @@ export const InvoiceDetails = () => {
 
     const company= {
         businessName: "RDNAKS NETWORK AND DATA SOLUTION",
-        email: "rdnaksict@gmail.com",
-        logo: 'https://rdnaksict.vercel.app/static/images/rdnaksLogo2.png',
+        email: "rdnaksnds@rdnaksnds.com",
+        logo: 'https://rdnaksnds.com/static/images/rdnaksLogo2.png',
         phoneNumber: "09308127173 / 09267609934",
         contactAddress: "Block 156 lot 23 Southville 8B San Isidro, Rod. Rizal",
         Tin: "495097258000",
-        website: 'http://rdnaksict.vercel.app'
+        website: 'https://rdnaksnds.com'
       }
 
     useEffect(() => {
