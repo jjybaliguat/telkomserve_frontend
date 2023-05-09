@@ -8,6 +8,10 @@ import { AppBar, Dialog, DialogContent, DialogTitle, IconButton, Toolbar, Typogr
 import { styled } from '@mui/material/styles'
 import CloseIcon from '@mui/icons-material/Close';
 
+function getRandom(length) {
+  return `01${Math.floor(Math.pow(10, length-1) + Math.random() * 9 * Math.pow(10, length-1))}`;
+}
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
       padding: theme.spacing(2),
@@ -30,7 +34,7 @@ const AddClientFormDialog = (props) => {
           installationBalance: '0',
           installationDate: '',
           connectionStatus: 'activated',
-          verificationCode: '0'
+          verificationCode: '0',
         },
         validationSchema: Yup.object({
           name: Yup
@@ -67,7 +71,7 @@ const AddClientFormDialog = (props) => {
             .required('installation date is required'),
         }),
         onSubmit: async () => {
-          addClient(formik.values, resetForm)
+          addClient({...formik.values, accountNumber: getRandom(8)}, resetForm)
       }})
 
       const resetForm = () => formik.handleReset()
