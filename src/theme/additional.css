@@ -152,4 +152,9 @@
   -webkit-transition: all .25s  ease-in-out;
 }
 
+.link{
+  text-decoration: none;
+  color: #2196f3;
+}
+
 

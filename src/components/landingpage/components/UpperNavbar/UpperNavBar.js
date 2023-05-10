@@ -52,12 +52,12 @@ const UpperNavbar = () => {
                                     </Box>
                                 </Box>
                             </Link>
-                            <Link href="mailto:rdnaks@rdnaksict.net" underline="none">
+                            <Link href="mailto:rdnaksnds@rdnaksnds.com" underline="none">
                                 <Box sx={{display: "flex", gap: "1rem"}} alignItems="center">
                                     <PhoneInTalkIcon sx={{color: "#2196f3", height: 40}}/>
                                     <Box sx={{display: "grid"}}>
                                         <Typography color="#959595">Email</Typography>
-                                        <Typography style={{cursor: "pointer", fontWeight: "bold"}}>rdnaks@rdnaksict.net</Typography>
+                                        <Typography style={{cursor: "pointer", fontWeight: "bold"}}>rdnaksnds@rdnaksnds.com</Typography>
                                     </Box>
                                 </Box>
                             </Link>

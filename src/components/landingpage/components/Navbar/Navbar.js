@@ -1,5 +1,5 @@
-import { AppBar, Button, Grid, Stack, Typography } from '@mui/material'
-import { Box, Container, styled } from '@mui/system'
+import { AppBar, Button, Grid, Menu, MenuItem, Popover, Stack, Typography } from '@mui/material'
+import { Box, Container, styled, alpha } from '@mui/system'
 import PhoneInTalkIcon from '@mui/icons-material/PhoneInTalk';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Router, { useRouter } from 'next/router';
@@ -7,6 +7,42 @@ import React, { useEffect, useState } from 'react'
 import MenuIcon from '@mui/icons-material/Menu';
 import { LinkS } from './NavElements';
 import ApplyNowbtn from '../Buttons/ApplyNowbtn';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useDispatch } from 'react-redux';
+import { setSelectedindex } from '../../../../redux/landing/quicklinksAction';
+
+const StyledMenu = styled((props) => (
+    <Menu
+      elevation={0}
+      {...props}
+    />
+  ))(({ theme }) => ({
+    '& .MuiPaper-root': {
+      borderRadius: 6,
+      marginTop: theme.spacing(1),
+      minWidth: 180,
+      color:
+        theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+      boxShadow:
+        'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+      '& .MuiMenu-list': {
+        padding: '4px 0',
+      },
+      '& .MuiMenuItem-root': {
+        '& .MuiSvgIcon-root': {
+          fontSize: 18,
+          color: theme.palette.text.secondary,
+          marginRight: theme.spacing(1.5),
+        },
+        '&:active': {
+          backgroundColor: alpha(
+            theme.palette.primary.main,
+            theme.palette.action.selectedOpacity,
+          ),
+        },
+      },
+    },
+  }));
 
 const CustomLink = (props) => {
     const {href, title} = props
@@ -28,7 +64,23 @@ const CustomLink = (props) => {
 }
 
 const Navbar = ({toggleSidebar}) => {
+    const dispatch = useDispatch()
     const [hideLogo, setHideLogo] = useState(false)
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [anchorEl2, setAnchorEl2] = useState(null);
+    const open = Boolean(anchorEl);
+    const open2 = Boolean(anchorEl2);
+
+    const handleHover = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
+    const handleHover2 = (event) => {
+        setAnchorEl2(event.currentTarget);
+      };
+      const handleClose = () => {
+        setAnchorEl(null);
+        setAnchorEl2(null);
+      };
 
     window.onscroll = function(){
       scrollFunction()
@@ -78,21 +130,103 @@ const Navbar = ({toggleSidebar}) => {
                     <CustomLink href="pricing" title="PLANS" />
                     <CustomLink href="contact" title="CONTACT US" />
                     <CustomLink href="faqs" title="FAQ'S" />
+                    <Typography
+                        id="support-menu"
+                        underline="none"
+                        onMouseEnter={handleHover}
+                        // onClick={handleHover}
+                        aria-owns={open ? 'support-menu' : undefined}
+                        aria-haspopup="true"
+                        sx={{
+                            fontWeight: 'bold',
+                            color: 'rgba(255,255,255,.6)',
+                            display: "flex",
+                            alignItems: "center",
+                            "&:hover": {
+                                color: "#fff",
+                            },
+                            cursor: "pointer"
+                        }}
+                    >SUPPORT <KeyboardArrowDownIcon /></Typography>
                     <ApplyNowbtn 
                         onClick={() => Router.push("/fiber")}
-                        sx={{px: 3, display: {md:`${hideLogo? "flex" : "none"}`, xs: "none"}}} />
-                    {/* <CustomLink href="#about" scroll={false}>
-                        <Typography style={{cursor: "pointer", fontWeight: "bold"}}>ABOUT</Typography>
-                    </CustomLink>
-                    <CustomLink href="" scroll={false}>
-                        <Typography style={{cursor: "pointer", fontWeight: "bold"}}>PRICING</Typography>
-                    </CustomLink>
-                    <CustomLink href="" scroll={false}>
-                        <Typography style={{cursor: "pointer", fontWeight: "bold"}}>FAQ'S</Typography>
-                    </CustomLink>
-                    <CustomLink href="" scroll={false}>
-                        <Typography style={{cursor: "pointer", fontWeight: "bold"}}>CONTACT US</Typography>
-                    </CustomLink> */}
+                        sx={{px: 3, display: {md:`${hideLogo? "flex" : "none"}`, xs: "none"}}} 
+                    />
+                    <StyledMenu
+                        id="support-menu"
+                        MenuListProps={{
+                        'aria-labelledby': 'support-menu',
+                        }}
+                        anchorEl={anchorEl}
+                        open={open}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                          }}
+                          transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                          }}
+                        onClose={handleClose}
+                    >
+                        <MenuItem 
+                        id="quicklinks-menu"
+                        aria-owns={open2 ? 'quicklinks-menu' : undefined}
+                        aria-haspopup="true"
+                        onMouseEnter={handleHover2}
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                            }}
+                        >
+                            Quick Links <span style={{marginLeft: "1rem"}}><KeyboardArrowDownIcon /></span>
+                        </MenuItem>
+                        {/* <MenuItem onClick={()=> {handleClose(); Router.push('/fiber')}} disableRipple>
+                        Duplicate
+                        </MenuItem>
+                        <MenuItem onClick={handleClose} disableRipple>
+                        Archive
+                        </MenuItem>
+                        <MenuItem onClick={handleClose} disableRipple>
+                        More
+                        </MenuItem> */}
+                    </StyledMenu>
+                    <StyledMenu
+                        id="quicklinks-menu"
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left',
+                          }}
+                          transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                          }}
+                        MenuListProps={{
+                        'aria-labelledby': 'quicklinks-menu',
+                        }}
+                        anchorEl={anchorEl2}
+                        open={open2}
+                        onClose={handleClose}
+                    >
+                        <MenuItem onClick={()=> {handleClose(); Router.push('/fiber'); dispatch(setSelectedindex(0))}}>
+                            Check Availability
+                        </MenuItem>
+                        <MenuItem onClick={()=> {handleClose(); Router.push('/fiber'); dispatch(setSelectedindex(1))}} disableRipple>
+                            Application
+                        </MenuItem>
+                        <MenuItem onClick={()=>{handleClose(); Router.push('/fiber'); dispatch(setSelectedindex(2))}} disableRipple>
+                            Check Bills
+                        </MenuItem>
+                        <MenuItem onClick={()=>{handleClose(); Router.push('/fiber'); dispatch(setSelectedindex(3))}} disableRipple>
+                            SOA
+                        </MenuItem>
+                        <MenuItem onClick={()=>{handleClose(); Router.push('/fiber'); dispatch(setSelectedindex(4))}} disableRipple>
+                            Submit Proof of Payment
+                        </MenuItem>
+                        <MenuItem onClick={()=>{handleClose(); Router.push('/fiber'); dispatch(setSelectedindex(5))}} disableRipple>
+                            Installation Status
+                        </MenuItem>
+                    </StyledMenu>
                 </Stack>
             </Grid>
             <Grid item sx={{marginRight: "2rem", display: {lg: "none", md: "none", xs: "flex"}}}> 

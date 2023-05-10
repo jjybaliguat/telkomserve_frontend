@@ -21,6 +21,8 @@ const TabsContent = [
   "Check Availability",
   "Apply Now",
   "Check Bills",
+  "Statement of Account",
+  "Submit Proof of Payment",
   "Installation Status",
 ]
 
@@ -167,7 +169,7 @@ const Page = () => {
                 <CheckBills />
               </Stack>
             </Box>
-            <Box sx={{display: selectedIndex === 3? "block" : "none"}}>
+            <Box sx={{display: selectedIndex === 5? "block" : "none"}}>
               <Stack justifyContent="center">
                 {/* {TabsContent[0]} */}
                 <InstallationStatus />
