@@ -123,7 +123,13 @@ const Page = () => {
               Application | RDNAKS ICT
             </title>
         </Head>
-      <Box sx={{backgroundColor: "#fff", paddingTop: "3rem", height: "fit-content", paddingBottom: "3rem"}}>
+      <Box 
+      sx={{
+        backgroundColor: "#FFFF", 
+        paddingTop: "3rem", 
+        height: "900px", 
+        paddingBottom: "3rem"
+        }}>
         <Container justifyContent="center" maxWidth="md">
         <p
           style={{ marginBottom: "1.5rem", textAlign: "center"}}
@@ -154,16 +160,27 @@ const Page = () => {
             })}
           </Box>
           <Box sx={{bgcolor: "#fff", padding: "2rem"}}>
-            <Box sx={{display: selectedIndex === 0? "block" : "none"}}>
+            <Box 
+            sx={{
+              display: selectedIndex === 0? "block" : "none",
+              height: "fit-content", 
+              }}>
               <Stack justifyContent="center">
                 {/* {TabsContent[0]} */}
                 <CheckAvailability />
               </Stack>
             </Box>
-            <Box sx={{display: selectedIndex === 1? "block" : "none", height: "fit-content", minHeight: "100vh"}}>
+            <Box 
+            sx={{
+              display: selectedIndex === 1? "block" : "none", 
+              height: "fit-content", 
+              maxHeight: "100vh"
+              }}>
                 <BasicDetails />
             </Box>
-            <Box sx={{display: selectedIndex === 2? "block" : "none"}}>
+            <Box sx={{display: selectedIndex === 2? "block" : "none",
+              height: "fit-content", 
+          }}>
               <Stack justifyContent="center">
                   {/* {TabsContent[0]} */}
                 <CheckBills />
