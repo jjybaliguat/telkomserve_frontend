@@ -47,5 +47,5 @@ export const store = configureStore({
               },
             immutableCheck: false
         }).concat(apiSlice.middleware),
-    devTools: true
+    devTools: false
 })
