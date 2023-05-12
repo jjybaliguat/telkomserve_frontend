@@ -6,6 +6,8 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import EmailIcon from '@mui/icons-material/Email';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -46,7 +48,7 @@ const Contact = () => {
             setSuccess(null)
             setError(null)
             try {
-                const response = await axios.post(`${process.env.DEV_APP_API}/client/send-message`, formik.values)
+                const response = await axios.post(`https://api.rdnaksnds.com/api/v1/client/send-message`, formik.values)
                 if(response.data){
                     setSuccess(response?.data?.msg)
                     setLoading(false)
@@ -137,11 +139,11 @@ const Contact = () => {
                                         bgcolor: "primary.main",
                                     }}
                                     >
-                                        <LocationOnIcon />
+                                        <EmailIcon />
                                     </Avatar>
                                     <Stack gap={1}>
                                         <Typography variant="h4">Email</Typography>
-                                        <Typography>renalyndabalos24@gmail.com</Typography>
+                                        <Typography>rdnaksnds@rdnaksnds.com</Typography>
                                     </Stack>
                                 </Stack>
                                 <Stack direction="row" gap={2}
@@ -152,7 +154,7 @@ const Contact = () => {
                                         bgcolor: "primary.main",
                                     }}
                                     >
-                                        <LocationOnIcon />
+                                        <LocalPhoneIcon />
                                     </Avatar>
                                     <Stack gap={1}>
                                         <Typography variant="h4">Phone</Typography>

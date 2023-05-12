@@ -41,7 +41,7 @@ const EmailPopup = (props) => {
             message: message
         }
         
-        const response = await axios.post('https://api.rdnaksnds.com/api/v1/send-multiple', formData)
+        const response = await axios.post('http://localhost:5000/api/v1/send-multiple', formData)
         
         if(response.data.success){
             setLoading(false)
