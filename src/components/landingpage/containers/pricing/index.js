@@ -39,7 +39,10 @@ const Pricing = () => {
     }
   }
   return (
-    <Container sx={{ mt: { xs: 10, md: 20, lg: 25 }}} id="pricing">
+    <Container sx={{ 
+      mt: { xs: 10, md: 20, lg: 25 },
+      paddingBottom: "5rem"
+    }} id="pricing">
       <Title variant={{ xs: "h3", md: "h2" }} sx={{ mb: { xs: 5, md: 8 }, color: "#fff" }}>
         Fiber Plans
       </Title>

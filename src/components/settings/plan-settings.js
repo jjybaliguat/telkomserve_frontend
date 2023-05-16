@@ -256,7 +256,6 @@ const PlansSetting = () => {
                         required
                     />
                     <TextField
-                        autoFocus
                         margin="dense"
                         id="price"
                         label="Plan Price"
@@ -267,7 +266,6 @@ const PlansSetting = () => {
                         required
                     />
                     <TextField
-                        autoFocus
                         margin="dense"
                         id="speed"
                         label="Plan Speed (ex. UpTo 50MBPS)"
