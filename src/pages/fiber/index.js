@@ -16,6 +16,7 @@ import CheckAvailability from '../../components/landingpage/components/quicklink
 import axios from 'axios'
 import CheckBills from '../../components/landingpage/components/quicklinks/check-bills'
 import InstallationStatus from '../../components/landingpage/components/quicklinks/installation-status'
+import SOA from '../../components/landingpage/components/quicklinks/soa'
 
 const TabsContent = [
   "Check Availability",
@@ -184,6 +185,14 @@ const Page = () => {
               <Stack justifyContent="center">
                   {/* {TabsContent[0]} */}
                 <CheckBills />
+              </Stack>
+            </Box>
+            <Box sx={{display: selectedIndex === 3? "block" : "none",
+              height: "fit-content", 
+          }}>
+              <Stack justifyContent="center">
+                  {/* {TabsContent[0]} */}
+                {/* <SOA /> */}
               </Stack>
             </Box>
             <Box sx={{display: selectedIndex === 5? "block" : "none"}}>

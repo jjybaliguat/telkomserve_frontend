@@ -67,19 +67,13 @@ const Navbar = ({toggleSidebar}) => {
     const dispatch = useDispatch()
     const [hideLogo, setHideLogo] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null);
-    const [anchorEl2, setAnchorEl2] = useState(null);
     const open = Boolean(anchorEl);
-    const open2 = Boolean(anchorEl2);
 
     const handleHover = (event) => {
         setAnchorEl(event.currentTarget);
       };
-    const handleHover2 = (event) => {
-        setAnchorEl2(event.currentTarget);
-      };
       const handleClose = () => {
         setAnchorEl(null);
-        setAnchorEl2(null);
       };
 
     window.onscroll = function(){
@@ -131,11 +125,11 @@ const Navbar = ({toggleSidebar}) => {
                     <CustomLink href="contact" title="CONTACT US" />
                     <CustomLink href="faqs" title="FAQ'S" />
                     <Typography
-                        id="support-menu"
+                        id="quicklinks-menu"
                         underline="none"
-                        onMouseEnter={handleHover}
-                        // onClick={handleHover}
-                        aria-owns={open ? 'support-menu' : undefined}
+                        // onMouseEnter={handleHover}
+                        onClick={handleHover}
+                        aria-owns={open ? 'quicklinks-menu' : undefined}
                         aria-haspopup="true"
                         sx={{
                             fontWeight: 'bold',
@@ -153,59 +147,20 @@ const Navbar = ({toggleSidebar}) => {
                         sx={{px: 3, display: {md:`${hideLogo? "flex" : "none"}`, xs: "none"}}} 
                     />
                     <StyledMenu
-                        id="support-menu"
-                        MenuListProps={{
-                        'aria-labelledby': 'support-menu',
-                        }}
-                        anchorEl={anchorEl}
-                        open={open}
+                        id="quicklinks-menu"
                         anchorOrigin={{
                             vertical: 'bottom',
-                            horizontal: 'right',
+                            horizontal: 'bottom',
                           }}
                           transformOrigin={{
                             vertical: 'top',
-                            horizontal: 'right',
-                          }}
-                        onClose={handleClose}
-                    >
-                        <MenuItem 
-                        id="quicklinks-menu"
-                        aria-owns={open2 ? 'quicklinks-menu' : undefined}
-                        aria-haspopup="true"
-                        onMouseEnter={handleHover2}
-                            sx={{
-                                display: "flex",
-                                alignItems: "center",
-                            }}
-                        >
-                            Quick Links <span style={{marginLeft: "1rem"}}><KeyboardArrowDownIcon /></span>
-                        </MenuItem>
-                        {/* <MenuItem onClick={()=> {handleClose(); Router.push('/fiber')}} disableRipple>
-                        Duplicate
-                        </MenuItem>
-                        <MenuItem onClick={handleClose} disableRipple>
-                        Archive
-                        </MenuItem>
-                        <MenuItem onClick={handleClose} disableRipple>
-                        More
-                        </MenuItem> */}
-                    </StyledMenu>
-                    <StyledMenu
-                        id="quicklinks-menu"
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                          }}
-                          transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
+                            horizontal: 'bottom',
                           }}
                         MenuListProps={{
                         'aria-labelledby': 'quicklinks-menu',
                         }}
-                        anchorEl={anchorEl2}
-                        open={open2}
+                        anchorEl={anchorEl}
+                        open={open}
                         onClose={handleClose}
                     >
                         <MenuItem onClick={()=> {handleClose(); Router.push('/fiber'); dispatch(setSelectedindex(0))}}>

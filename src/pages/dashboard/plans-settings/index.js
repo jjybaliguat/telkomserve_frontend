@@ -1,20 +1,34 @@
 import React from 'react'
 import { DashboardLayout } from '../../../components/dashboard-layout';
+import { collection } from 'firebase/firestore';
+import { db } from '../../../utils/firebase';
+import PlansSetting from '../../../components/settings/plan-settings';
+import Head from 'next/head';
+import { Box, Container } from '@mui/material';
 
-const Page = () => (
+const Page = () => {
 
+  return(
   <>
-    <div style={{display: 'flex', alignItems: 'center', 
-      justifyContent: 'center', flexDirection: 'column', paddingTop: '20px',
-      }}>
-      <img 
-          src='/static/images/underDevelopment.svg'
-          style={{height: '300px'}}
-      />
-      <p style={{padding: '40px', color: 'gray'}}>Invoice Section is under development!</p>
-    </div>
+    <Head>
+      <title>
+        Plan Setting | RDNAKS ICT
+      </title>
+    </Head>
+    <Box
+      component="main"
+      sx={{
+        flexGrow: 1,
+        py: 3
+      }}
+    >
+      <Container maxWidth={false}>
+          <PlansSetting />
+      </Container>
+    </Box>
   </>
-)
+  )
+}
 
 Page.getLayout = (page) => (
   <DashboardLayout>

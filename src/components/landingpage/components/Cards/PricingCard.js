@@ -55,7 +55,7 @@ const PricingCard = ({ title, price, speed, image }) => {
         })}
 
         <img
-          src={image}
+          src="https://firebasestorage.googleapis.com/v0/b/rdnaks-website.appspot.com/o/img%2FinternetPlanImage%2Fbrowsing.jpg?alt=media&token=5ecb9933-aa11-45b9-aa08-2d4adb6d1fcc"
           height={20}
           style={{
             width: "100%",

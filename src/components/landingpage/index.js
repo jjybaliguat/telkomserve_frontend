@@ -4,7 +4,7 @@ import Navbar from './components/Navbar/Navbar';
 import Hero from './containers/MainHero';
 import About from './containers/services';
 import Section2 from './containers/section2';
-import { Avatar, Box, Button, Divider, Drawer, List, ListItem, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Button, Divider, Drawer, List, ListItem, Menu, MenuItem, Stack, Typography, alpha, styled } from '@mui/material';
 import Pricing from './containers/pricing';
 import Services from './containers/services';
 import { Link } from 'react-scroll';
@@ -15,6 +15,9 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import EmailIcon from '@mui/icons-material/Email';
+import Router from 'next/router'
+import { useDispatch } from 'react-redux';
+import { setSelectedindex } from '../../redux/landing/quicklinksAction';
 
 const CustomLink = (props) => {
   const {href, title, toggleSidebar} = props
@@ -64,10 +67,53 @@ const sidebarItem = [
   },
 ]
 
+const StyledMenu = styled((props) => (
+  <Menu
+    elevation={0}
+    {...props}
+  />
+))(({ theme }) => ({
+  '& .MuiPaper-root': {
+    borderRadius: 6,
+    marginTop: theme.spacing(1),
+    minWidth: 180,
+    color:
+      theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+    boxShadow:
+      'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+    '& .MuiMenu-list': {
+      padding: '4px 0',
+    },
+    '& .MuiMenuItem-root': {
+      '& .MuiSvgIcon-root': {
+        fontSize: 18,
+        color: theme.palette.text.secondary,
+        marginRight: theme.spacing(1.5),
+      },
+      '&:active': {
+        backgroundColor: alpha(
+          theme.palette.primary.main,
+          theme.palette.action.selectedOpacity,
+        ),
+      },
+    },
+  },
+}));
+
 const Landing = () => {
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const dispatch = useDispatch()
+
+  const handleHover = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <>
@@ -167,12 +213,53 @@ const Landing = () => {
                     color: "#fff",
                     marginBottom: "2rem"
                   }}
+                  id="quicklinks-menu"
+                  onClick={handleHover}
+                  aria-owns={open ? 'quicklinks-menu' : undefined}
+                  aria-haspopup="true"
                   >
                     <Typography>SUPPORT</Typography>
                     <span>
                       <KeyboardArrowDownIcon />
                     </span>
                   </Button>
+
+                  <StyledMenu
+                        id="quicklinks-menu"
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                          }}
+                          transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left',
+                          }}
+                        MenuListProps={{
+                        'aria-labelledby': 'quicklinks-menu',
+                        }}
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                    >
+                        <MenuItem onClick={()=> {handleClose(); Router.push('/fiber'); dispatch(setSelectedindex(0))}}>
+                            Check Availability
+                        </MenuItem>
+                        <MenuItem onClick={()=> {handleClose(); Router.push('/fiber'); dispatch(setSelectedindex(1))}} disableRipple>
+                            Application
+                        </MenuItem>
+                        <MenuItem onClick={()=>{handleClose(); Router.push('/fiber'); dispatch(setSelectedindex(2))}} disableRipple>
+                            Check Bills
+                        </MenuItem>
+                        <MenuItem onClick={()=>{handleClose(); Router.push('/fiber'); dispatch(setSelectedindex(3))}} disableRipple>
+                            SOA
+                        </MenuItem>
+                        <MenuItem onClick={()=>{handleClose(); Router.push('/fiber'); dispatch(setSelectedindex(4))}} disableRipple>
+                            Submit Proof of Payment
+                        </MenuItem>
+                        <MenuItem onClick={()=>{handleClose(); Router.push('/fiber'); dispatch(setSelectedindex(5))}} disableRipple>
+                            Installation Status
+                        </MenuItem>
+                    </StyledMenu>
 
                   <Divider />
 

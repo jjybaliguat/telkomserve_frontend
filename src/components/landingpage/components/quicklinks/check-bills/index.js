@@ -24,7 +24,7 @@ const CheckBills = () => {
     const [resendCodeLoading, setResendCodeLoading] = useState(false)
     const [disabledResendCode, setDisabledResendCode] = useState(false)
     const [done, setDone] = useState(false)
-    const [activeStep, setActiveStep] = useState(0)
+    const [checkbillStep, setCheckbillStep] = useState(0)
     const [counter, setCounter] = useState(59)
     const [activeOtpIndex, setActiveOtpIndex] = useState(0)
     const [email, setEmail] = useState('')
@@ -147,7 +147,7 @@ const CheckBills = () => {
     <Grid container flexDirection="column" alignItems="center"
       sx={{
         position: "relative",
-        display: activeStep === 0 ? "flex" : "none",
+        display: checkbillStep === 0 ? "flex" : "none",
         paddingTop: "1.5rem"
       }}
     >
@@ -158,7 +158,7 @@ const CheckBills = () => {
           right: "0"
         }}
         disabled={!(formik.isValid && formik.dirty && accountValid)}
-        onClick={()=>setActiveStep(1)}
+        onClick={()=>setCheckbillStep(1)}
         >
           <ArrowForwardIcon />
         </Button>
@@ -214,7 +214,7 @@ const CheckBills = () => {
     <Grid container flexDirection="column" alignItems="center"
       sx={{
         position: "relative",
-        display: activeStep === 1 ? "flex" : "none",
+        display: checkbillStep === 1 ? "flex" : "none",
         paddingTop: "1.5rem"
       }}
     >

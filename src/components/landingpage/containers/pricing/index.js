@@ -7,6 +7,12 @@ import { db } from "../../../../utils/firebase";
 import { collection, query, where, getDocs, onSnapshot } from "firebase/firestore"
 import { useDispatch, useSelector } from "react-redux";
 
+Array.prototype.sortBy = function(p) {
+  return this.slice(0).sort(function(a,b) {
+    return (a[p] > b[p]) ? 1 : (a[p] < b[p]) ? -1 : 0;
+  });
+}
+
 const { title, ITEMS } = PricingPageContent;
 
 const Pricing = () => {
@@ -39,7 +45,7 @@ const Pricing = () => {
       </Title>
 
       <Grid container spacing={3}>
-        {plans?.map((item) => (
+        {plans?.sortBy('date').map((item) => (
           <Grid item xs={12} md={4} key={item.title}>
             <PricingCard {...item} />
           </Grid>
