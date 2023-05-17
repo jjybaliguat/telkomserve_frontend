@@ -17,6 +17,7 @@ import axios from 'axios'
 import CheckBills from '../../components/landingpage/components/quicklinks/check-bills'
 import InstallationStatus from '../../components/landingpage/components/quicklinks/installation-status'
 import StatementOfAccount from '../../components/landingpage/components/quicklinks/statement-account'
+import ProofPayment from '../../components/landingpage/components/quicklinks/proof-payment'
 
 const TabsContent = [
   "Check Availability",
@@ -194,6 +195,14 @@ const Page = () => {
               <Stack justifyContent="center">
                   {/* {TabsContent[0]} */}
                 <StatementOfAccount />
+              </Stack>
+            </Box>
+            <Box sx={{display: selectedIndex === 4? "block" : "none",
+              height: "fit-content", 
+            }}>
+              <Stack justifyContent="center">
+                  {/* {TabsContent[0]} */}
+                <ProofPayment />
               </Stack>
             </Box>
             <Box sx={{display: selectedIndex === 5? "block" : "none"}}>

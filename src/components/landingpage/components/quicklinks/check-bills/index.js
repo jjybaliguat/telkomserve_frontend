@@ -177,7 +177,7 @@ const CheckBills = () => {
                       name="accountNumber"
                       onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
-                      type="string"
+                      type="text"
                       value={formik.values.accountNumber}
                       variant="outlined"
                       />
