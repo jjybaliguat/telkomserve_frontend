@@ -128,7 +128,7 @@ const CheckBills = () => {
         let newOtp = ''
         otp.map((item)=>newOtp+=item)
         try {
-          const response = await axios.post('https://api.rdnaksnds.com/api/v1/client/checkbills', {
+          const response = await axios.post(`${process.env.PRODUCTION_APP_API}/client/checkbills`, {
           otp: newOtp,
           accountNumber: formik.values.accountNumber
         })
@@ -163,7 +163,7 @@ const CheckBills = () => {
           <ArrowForwardIcon />
         </Button>
         <Grid item sx={{padding: "1rem"}} width={{md: "60%", xs: "100%"}}>
-          <Typography sx={{ fontSize: "14px", textAlign: "center"}}>Check your Bills. 
+          <Typography sx={{ fontSize: "1rem", textAlign: "center"}}>Check your Bills. 
           Please enter your account number.</Typography>
         </Grid>
         <Grid item width={{md: "40%", xs: "90%"}}>

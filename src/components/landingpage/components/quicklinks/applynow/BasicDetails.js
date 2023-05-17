@@ -73,7 +73,7 @@ const BasicDetails = () => {
   return (
     <Grid container flexDirection="column" alignItems="center">
         <Grid item sx={{padding: "1rem"}}>
-          <Typography sx={{ fontSize: "14px", textAlign: "center"}}>Get the internet that you deserve at affordable prices. 
+          <Typography sx={{ fontSize: "1rem", textAlign: "center"}}>Get the internet that you deserve at affordable prices. 
           Lets start with your basic details.</Typography>
         </Grid>
         <Grid item sx={{padding: "1rem", marginTop: "1rem"}} width={{xs: "100%", md: "50%"}}>
@@ -137,7 +137,7 @@ const BasicDetails = () => {
                     // checked={formik.values.termsAccepted}
                     onChange={(e) => handleClickTerm(e)}
                     />} 
-                    label={<Typography sx={{fontSize: "12px"}}>I have read, understand, and expressly 
+                    label={<Typography sx={{fontSize: "14px"}}>I have read, understand, and expressly 
                     consent to the processing of my personal information as described in the <Link passHref href="/fiber/privacy-policy">Privacy Policy.</Link></Typography>} />
                 </FormGroup>
                 <Button 

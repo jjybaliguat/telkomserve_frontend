@@ -16,9 +16,7 @@ import CheckAvailability from '../../components/landingpage/components/quicklink
 import axios from 'axios'
 import CheckBills from '../../components/landingpage/components/quicklinks/check-bills'
 import InstallationStatus from '../../components/landingpage/components/quicklinks/installation-status'
-import SOA from '../../components/landingpage/components/quicklinks/soa'
-import Footer from '../../components/landingpage/containers/footer'
-import Link from 'next/link'
+import StatementOfAccount from '../../components/landingpage/components/quicklinks/statement-account'
 
 const TabsContent = [
   "Check Availability",
@@ -184,7 +182,7 @@ const Page = () => {
             </Box>
             <Box sx={{display: selectedIndex === 2? "block" : "none",
               height: "fit-content", 
-          }}>
+            }}>
               <Stack justifyContent="center">
                   {/* {TabsContent[0]} */}
                 <CheckBills />
@@ -192,10 +190,10 @@ const Page = () => {
             </Box>
             <Box sx={{display: selectedIndex === 3? "block" : "none",
               height: "fit-content", 
-          }}>
+            }}>
               <Stack justifyContent="center">
                   {/* {TabsContent[0]} */}
-                {/* <SOA /> */}
+                <StatementOfAccount />
               </Stack>
             </Box>
             <Box sx={{display: selectedIndex === 5? "block" : "none"}}>

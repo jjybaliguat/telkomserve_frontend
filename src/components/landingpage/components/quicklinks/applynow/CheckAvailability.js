@@ -154,8 +154,8 @@ const availableAreas = [
           <Typography sx={{ fontSize: "16px", textAlign: "center", fontWeight: "bold"}}>CHECK AVAILABILITY</Typography>
         </Grid>
         <Grid item>
-          <Typography sx={{ fontSize: "14px", textAlign: "center"}}>As of now, below are the serviceable areas by RDNAKS NETWORK.</Typography>
-          <Typography sx={{ fontSize: "14px", textAlign: "center"}}>If you think you are covered by one of this areas, you can proceed
+          <Typography sx={{ fontSize: "1rem", textAlign: "center"}}>As of now, below are the serviceable areas by RDNAKS NETWORK.</Typography>
+          <Typography sx={{ fontSize: "1rem", textAlign: "center"}}>If you think you are covered by one of this areas, you can proceed
           by selecting your area.</Typography>
         </Grid>
         <Grid item sx={{marginTop: "1rem"}}>
