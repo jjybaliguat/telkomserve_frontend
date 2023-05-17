@@ -17,6 +17,8 @@ import axios from 'axios'
 import CheckBills from '../../components/landingpage/components/quicklinks/check-bills'
 import InstallationStatus from '../../components/landingpage/components/quicklinks/installation-status'
 import SOA from '../../components/landingpage/components/quicklinks/soa'
+import Footer from '../../components/landingpage/containers/footer'
+import Link from 'next/link'
 
 const TabsContent = [
   "Check Availability",
@@ -128,7 +130,8 @@ const Page = () => {
       sx={{
         backgroundColor: "#FFFF", 
         paddingTop: "3rem", 
-        height: "900px", 
+        minHeight: "900px", 
+        height: "100vh", 
         paddingBottom: "3rem"
         }}>
         <Container justifyContent="center" maxWidth="md">
@@ -155,7 +158,7 @@ const Page = () => {
                   key={index} onClick={() => toggleTab(index)}
                   className={selectedIndex === index ? "tabs active-tabs" : "tabs"}
                   >
-                  <Typography sx={{fontSize:"14px"}}>{item}</Typography>
+                  <Typography sx={{fontSize: {md: "14px", xs: "12px"}}}>{item}</Typography>
                 </Button>
               )
             })}

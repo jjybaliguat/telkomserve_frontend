@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { resetApplicantDetails, setAcceptTerm, setActiveStep, setApplicantDetails, setSelectedindex } from '../../../../../redux/landing/quicklinksAction';
 import { useCheckemailMutation } from '../../../../../redux/authApiSlice'
 import Router from 'next/router';
+import Link from 'next/link';
 
 const BasicDetails = () => {
   const dispatch = useDispatch()
@@ -136,8 +137,8 @@ const BasicDetails = () => {
                     // checked={formik.values.termsAccepted}
                     onChange={(e) => handleClickTerm(e)}
                     />} 
-                    label={<Typography sx={{fontSize: "12px"}}>I agree to the Terms and Conditions,
-                        and allow rdnaks to collect my personal details to proceed with the application process.</Typography>} />
+                    label={<Typography sx={{fontSize: "12px"}}>I have read, understand, and expressly 
+                    consent to the processing of my personal information as described in the <Link passHref href="/fiber/privacy-policy">Privacy Policy.</Link></Typography>} />
                 </FormGroup>
                 <Button 
                 variant="contained"

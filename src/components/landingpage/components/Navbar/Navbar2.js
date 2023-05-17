@@ -45,6 +45,7 @@ const Navbar2 = () => {
             display: "flex",
             justifyContent: "center",
         }}
+        elevation="20"
     >
         <Grid container justifyContent="space-between" alignItems="center" sx={{padding: {lg: "0 5rem 0 5rem", xs: "0 2rem 0 2rem"}}}>
             <Grid item>
