@@ -1,10 +1,11 @@
-import { Alert, Button, CircularProgress, Grid, Stack, TextField, Typography } from '@mui/material'
+import { Alert, Box, Button, CircularProgress, Grid, Stack, TextField, Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import React, { useState } from 'react'
 import * as Yup from 'yup'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useEffect } from 'react';
+import { saveAs } from 'file-saver';
 import axios from 'axios';
 
 const StatementOfAccount = () => {
@@ -33,6 +34,8 @@ const StatementOfAccount = () => {
         onSubmit: async() => {
             setLoading(true)
             setDone(false)
+            setOtp(null)
+            setResult(null)
             setErrorMess(null);
             try {
                 const response = await axios.post(`${process.env.PRODUCTION_APP_API}/client/verify-accnum`, {
@@ -67,7 +70,6 @@ const StatementOfAccount = () => {
         })
 
         setResult(response.data);
-        alert("Were working on it! Thank you for your patience.")
         setDone(true)
         setLoading(false)
         } catch (error) {
@@ -86,6 +88,17 @@ const StatementOfAccount = () => {
           setDisabledResendCode(true)
           setCounter(59)
         }, 3000)
+      }
+
+      const downloadSoa = async() => {
+        try {
+          const response = await axios.post(`${process.env.PRODUCTION_APP_API}/client/generate-pdf`, {data: result}, { responseType: 'blob' })
+          const pdfBlob = new Blob([response.data], { type: 'application/pdf' })
+          saveAs(pdfBlob, `${formik.values.accountNumber}-soa.pdf`)
+        } catch (error) {
+          console.log(error);
+        }
+
       }
 
       useEffect(()=> {
@@ -251,6 +264,17 @@ const StatementOfAccount = () => {
                   </Stack>
             </form>
         </Grid>
+        {
+          result && (
+            <Box>
+              <Typography sx={{marginBottom: "1rem"}}>Result: </Typography>
+              <Button
+              variant="outlined"
+              onClick={downloadSoa}
+              >Click here to download your statement of account</Button>
+            </Box>
+          )
+        }
     </Grid>
     </>
   )
