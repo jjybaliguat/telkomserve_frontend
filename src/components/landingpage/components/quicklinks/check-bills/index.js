@@ -58,7 +58,7 @@ const CheckBills = () => {
                 if(sendOtp.data){
                   setEmail(response.data?.email)
                   setAccountValid(true)
-                  setActiveStep(1)
+                  setActiveOtpIndex(1)
                 }
               }
               setLoading(false)
