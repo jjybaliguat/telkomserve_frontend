@@ -58,7 +58,7 @@ const CheckBills = () => {
                 if(sendOtp.data){
                   setEmail(response.data?.email)
                   setAccountValid(true)
-                  setActiveOtpIndex(1)
+                  setCheckbillStep(1)
                 }
               }
               setLoading(false)
@@ -224,7 +224,7 @@ const CheckBills = () => {
           top: "0",
           left: "0"
         }}
-        onClick={()=> setActiveOtpIndex(0)}
+        onClick={()=> setCheckbillStep(0)}
         >
           <ArrowBackIcon />
         </Button>
