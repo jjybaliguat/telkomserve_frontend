@@ -70,7 +70,7 @@ const CheckBills = () => {
             //   console.log("ok")
             //   setLoading(false)
             //   setAccountValid(true)
-            //   setActiveStep(1)
+            //   setActiveOtpIndex(1)
             // }, 3000)
           }
     })
@@ -224,7 +224,7 @@ const CheckBills = () => {
           top: "0",
           left: "0"
         }}
-        onClick={()=> setActiveStep(0)}
+        onClick={()=> setActiveOtpIndex(0)}
         >
           <ArrowBackIcon />
         </Button>
