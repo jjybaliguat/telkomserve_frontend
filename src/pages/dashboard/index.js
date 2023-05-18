@@ -25,6 +25,7 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { selectCurrentUser } from '../../redux/authSlice';
 import { TotalJobOrders } from '../../components/dashboard/total-joborder';
+import Alert from '@mui/material/Alert';
 dayjs.extend(relativeTime)
 
 const Page = () => {
@@ -127,6 +128,8 @@ const Page = () => {
             py: 3
           }}
         >
+          <Alert severity="warning" variant="filled" sx={{margin: "1rem 2rem", fontSize: "1.2rem"}}>I'm currently working on the cheking of Statement of Account Feature. Please Don't delete the sample invoice that i generated .Thankyou
+             - Developer.</Alert>
           <Container maxWidth={false}>
             <Grid
               container
