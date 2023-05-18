@@ -128,7 +128,7 @@ const Page = () => {
             py: 3
           }}
         >
-          <Alert severity="warning" variant="filled" sx={{margin: "1rem 2rem", fontSize: "1.2rem"}}>I&apos;m currently working on the cheking of Statement of Account Feature. Please Don't delete the sample invoice that i generated .Thankyou
+          <Alert severity="warning" variant="filled" sx={{margin: "1rem 2rem", fontSize: "1.2rem"}}>I&apos;m currently working on the cheking of Statement of Account Feature. Please Don&apos;t delete the sample invoice that i generated .Thankyou
              - Developer.</Alert>
           <Container maxWidth={false}>
             <Grid
