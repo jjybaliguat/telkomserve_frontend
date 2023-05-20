@@ -31,16 +31,19 @@ import { Download as DownloadIcon } from '../../icons/download';
 import { getInitials } from '../../utils/get-initials';
 import Router from  'next/router'
 import { useDispatch, useSelector } from 'react-redux';
-import { useGetallapplicantsMutation } from '../../redux/authApiSlice';
-import { setApplicantsAction } from '../../redux/applicantSlice';
+import { useDeleteclientMutation, useGetallapplicantsMutation } from '../../redux/authApiSlice';
+import { deleteAppplicantAction, setApplicantsAction } from '../../redux/applicantSlice';
 import Empty from '../svgIcons/Empty';
 import DeleteIcon from '@mui/icons-material/Delete';
 import InfoIcon from '@mui/icons-material/Info';
 import { selectCurrentUser } from '../../redux/authSlice';
+import ConfirmDialog from '../dialogs/ConfirmDialog';
+import Notification from '../dialogs/Notification';
 // import { applicants } from '../../__mocks__/customers';
 
 export const ApplicantsListResults = ({ ...rest }) => {
   const user = useSelector(selectCurrentUser)
+  const [deleteclient] = useDeleteclientMutation()
   const dispatch = useDispatch()
   const [getallapplicants] = useGetallapplicantsMutation()
   const applicants = useSelector(store => store.applicants.applicants)
@@ -67,38 +70,34 @@ export const ApplicantsListResults = ({ ...rest }) => {
     }
   }
 
-
-  const handleSelectAll = (event) => {
-    let newselectedApplicantIds;
-
-    if (event.target.checked) {
-      newselectedApplicantIds = applicants?.map((applicants, id) => id);
-    } else {
-      newselectedApplicantIds = [];
+  const handleDelete = async(id) => {
+    try {
+      const response = await deleteclient(id)
+      if(response.data){
+        dispatch(deleteAppplicantAction(id))
+        setConfirmDialog({
+          ...confirmDialog,
+          isOpen: false
+      })
+        setNotify({
+          isOpen: true,
+          message: "Applicant deleted successfully",
+          type: "success"
+        })
+      }
+    } catch (error) {
+      setConfirmDialog({
+        ...confirmDialog,
+        isOpen: false
+    })
+      setNotify({
+        isOpen: true,
+        message: "Something went wrong!",
+        type: "success"
+      })
+      console.log(error.message)
     }
-
-    setSelectedApplicantIds(newselectedApplicantIds);
-  };
-
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedApplicantIds.indexOf(id);
-    let newselectedApplicantIds = [];
-
-    if (selectedIndex === -1) {
-      newselectedApplicantIds = newselectedApplicantIds.concat(selectedApplicantIds, id);
-    } else if (selectedIndex === 0) {
-      newselectedApplicantIds = newselectedApplicantIds.concat(selectedApplicantIds.slice(1));
-    } else if (selectedIndex === selectedApplicantIds.length - 1) {
-      newselectedApplicantIds = newselectedApplicantIds.concat(selectedApplicantIds.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newselectedApplicantIds = newselectedApplicantIds.concat(
-        selectedApplicantIds.slice(0, selectedIndex),
-        selectedApplicantIds.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelectedApplicantIds(newselectedApplicantIds);
-  };
+  }
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -116,6 +115,14 @@ export const ApplicantsListResults = ({ ...rest }) => {
   }
   return (
     <>
+    <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
+       <Notification
+        notify={notify}
+        setNotify={setNotify}
+       />
     <Box sx={{ mb: 3 }}>
       <Box
         sx={{
@@ -286,15 +293,15 @@ export const ApplicantsListResults = ({ ...rest }) => {
                             <DeleteIcon title="delete" onClick={() => {
                                 setConfirmDialog({
                                     isOpen: true,
-                                    title: 'Are you sure yo want to delete this client?',
+                                    title: 'Are you sure yo want to delete this applicant?',
                                     subTitle: "You can't undo this operation",
-                                    onConfirm: () => { handleDelete(clients._id) }
+                                    onConfirm: () => { handleDelete(applicants._id) }
                                 })}} fontSize="small"/>
                           </IconButton>
                         </Tooltip>
                         <Tooltip title="view full info" placement="top" arrow>
                           <IconButton aria-label="edit" sx={{color: "info.main"}}
-                            onClick={() => {Router.push(`/dashboard/clients/${applicants._id}`)}}
+                            onClick={() => {Router.push(`/dashboard/applicants/${applicants._id}`)}}
                             >
                             <InfoIcon />
                           </IconButton>

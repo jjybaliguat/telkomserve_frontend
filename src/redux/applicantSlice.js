@@ -18,7 +18,7 @@ const applicantSlice = createSlice({
         },
         deleteAppplicantAction: (state, action) => {
             const { id } = action.payload;
-            state.clients.splice(id, 1);
+            state.applicants.splice(id, 1);
         },
     },
 })

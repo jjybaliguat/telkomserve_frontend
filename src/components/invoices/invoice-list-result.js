@@ -113,24 +113,12 @@ export const InvoiceListResult = () => {
       }
       }, [filter, status])
 
-      // useEffect(()=> {
-      //   // console.log(status);
-      //   if(status === "all"){
-      //     setInvoiceList(invoiceList)
-      //   }else if(status === "PAID"){
-      //     console.log(status);
-      //     setInvoiceList(invoiceList.filter((invoice)=>invoice.status === "PAID"))
-      //   }else if(status === "UNPAID"){
-      //     setInvoiceList(invoiceList.filter((invoice)=>invoice.status === "UNPAID"))
-      //   }else if(status === "PARTIAL"){
-      //     setInvoiceList(invoiceList.filter((invoice)=>invoice.status === "PARTIAL"))
-      //   }
-      // }, [status])
 
     const handleDelete = async(id) => {
       const response = await deleteinvoice(id)
-      if(response){
-        dispatch(deleteInvoiceAction({id}))
+      if(response.data){
+        setInvoiceList(invoiceList.filter((invoice)=>invoice._id !== id))
+        dispatch(deleteInvoiceAction(id))
         setNotify({
           isOpen: true,
           message: 'Invoice Deleted Successfully',

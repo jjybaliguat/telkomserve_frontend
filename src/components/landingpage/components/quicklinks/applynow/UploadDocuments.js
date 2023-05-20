@@ -22,7 +22,7 @@ const UploadDocuments = () => {
   const dispatch = useDispatch()
   const appllicantDetails = useSelector(store=>store.fiber.appllicantDetails)
   const [registerclient] = useRegisterclientMutation()
-  const idpic = useSelector(store => store.fiber.appllicantDetails?.idpic)
+  const idPic = useSelector(store => store.fiber.appllicantDetails?.idPic)
   const housePic = useSelector(store => store.fiber.appllicantDetails?.housePic)
   const storage = getStorage();
   const [uploadingId, setUploadingId] = useState(false)
@@ -34,8 +34,8 @@ const UploadDocuments = () => {
     const files = e.target.files[0]
     files && setIdFilename(files.name)
 
-    if(idpic){
-      const idRef = ref(storage, idpic)
+    if(idPic){
+      const idRef = ref(storage, idPic)
 
       deleteObject(idRef).then(() => {
         setIdPic(null)
@@ -45,21 +45,21 @@ const UploadDocuments = () => {
     }
     if(files){
           setUploadingId(true)
-          const imageRef = ref(storage, `img/idpic/${files.name + v4()}`)
+          const imageRef = ref(storage, `img/idPic/${files.name + v4()}`)
            uploadBytes(imageRef, files).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((url) => {
-              dispatch(setApplicantDetails({idpic: url}))
+              dispatch(setApplicantDetails({idPic: url}))
               setUploadingId(false)
             });
           })
     }
   }
   const handleRemoveIdPic = () => {
-    const idRef = ref(storage, idpic)
+    const idRef = ref(storage, idPic)
 
     deleteObject(idRef).then(() => {
       setIdFilename('No selected file')
-      dispatch(setApplicantDetails({idpic: null}))
+      dispatch(setApplicantDetails({idPic: null}))
     }).catch((error) => {
       console.log(error);
     });
@@ -101,7 +101,7 @@ const UploadDocuments = () => {
   }
 
   const handleSubmit = async() => {
-    dispatch(setApplicantDetails({idpic, housePic}))
+    dispatch(setApplicantDetails({idPic, housePic}))
     dispatch(setActiveStep(4))
     const response = await registerclient({...appllicantDetails})
   }
@@ -111,7 +111,7 @@ const UploadDocuments = () => {
     <Grid container justifyContent="center" alignItems="center" flexDirection="column" sx={{position: "relative"}}>
       <Button
           sx={{position: "absolute", top: 0, right: 0}}
-          disabled={!idpic}
+          disabled={!idPic}
           onClick={()=>{
             handleSubmit()
           }}
@@ -144,8 +144,8 @@ const UploadDocuments = () => {
                   }}
                   />
                   {
-                    idpic ?
-                    <img src={idpic} width="90%" height="90%" alt={idFilename}/>
+                    idPic ?
+                    <img src={idPic} width="90%" height="90%" alt={idFilename}/>
                     :
                     uploadingId ?
                     <CircularProgress />
@@ -164,7 +164,7 @@ const UploadDocuments = () => {
                   <span>
                     <Tooltip title="Remove" placement="top">
                       <IconButton onClick={()=> handleRemoveIdPic()}
-                        disabled={idpic? "" : "true"}
+                        disabled={idPic? "" : "true"}
                       >
                         <DeleteIcon fontSize='small'/>
                       </IconButton>
@@ -217,7 +217,7 @@ const UploadDocuments = () => {
               variant="contained"
               onClick={()=>handleSubmit()}
               sx={{padding: "0.5rem 4rem", borderRadius: "24px"}}
-              disabled={!(idpic && housePic)}
+              disabled={!(idPic && housePic)}
               >
               Continue
               </Button>

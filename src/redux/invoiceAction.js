@@ -17,8 +17,8 @@ const invoiceSlice = createSlice({
             state.invoices.push(action.payload)
         },
         deleteInvoiceAction: (state, action) => {
-            const {id} = action.payload;
-            state.invoices = state.invoices.filter(invoice => invoice._id !== id)
+            const id = action.payload;
+            state.invoices = state.invoices.filter((invoice)=>invoice._id !== id)
         },
         updateInvoiceAction: (state, action) => {
             return {

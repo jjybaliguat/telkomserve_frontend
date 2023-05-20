@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/router"
 import { Box, Container } from "@mui/system"
-import { Autocomplete, Button, Card, CardContent, CircularProgress, Grid, IconButton, InputBase, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextareaAutosize, TextField, Tooltip, Typography } from "@mui/material"
+import { Autocomplete, Button, Card, CardContent, CircularProgress, Collapse, Grid, IconButton, InputBase, List, ListItemButton, ListItemIcon, ListItemText, Paper, Popover, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextareaAutosize, TextField, Tooltip, Typography } from "@mui/material"
 import { Download as DownloadIcon } from '../../icons/download';
 import EditIcon from '@mui/icons-material/Edit';
 import SendIcon from '@mui/icons-material/Send';
@@ -30,9 +30,13 @@ import { saveAs } from 'file-saver';
 import dayjs from 'dayjs'
 import { selectCurrentUser } from "../../redux/authSlice"
 import SmsIcon from '@mui/icons-material/Sms';
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import ScheduleSendIcon from '@mui/icons-material/ScheduleSend';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import ScheduleSendDialog from "../dialogs/scheduleSendDialog"
 
 export const InvoiceDetails = () => {
     const user = useSelector(selectCurrentUser)
@@ -56,11 +60,17 @@ export const InvoiceDetails = () => {
     const [ rates, setRates] = useState(0)
     const [loading, setLoading] = useState(true)
     const [open, setOpen] = useState(false)
+    const [anchorEl, setAnchorEl] = useState(null);
     const [sendLoading, setSendLoading] = useState(false)
+    const [scheduleSendLoading, setScheduleSendLoading] = useState(false)
     const [sendsmsLoading, setSendsmsLoading] = useState(false)
     const [downloadLoading, setDownloadLoading] = useState(false)
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
     const APP_API = process.env.nodeEnv === "production" ? process.env.PRODUCTION_APP_API : process.env.DEV_APP_API
+    const sendOpen = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
+    const [openSendScheduleDialog, setOpenScheduleDialog] = useState(false)
+    const [dateScheduled, setDateScheduled] = useState(null)
 
     const company= {
         businessName: "RDNAKS NETWORK AND DATA SOLUTION",
@@ -71,6 +81,11 @@ export const InvoiceDetails = () => {
         Tin: "495097258000",
         website: 'https://rdnaksnds.com'
       }
+
+      const toggleSendOpen = (event) => setAnchorEl(event.currentTarget);
+      const handleClose = () => {
+        setAnchorEl(null);
+      };
 
     useEffect(() => {
         if(invoiceId){
@@ -111,53 +126,99 @@ export const InvoiceDetails = () => {
           totalAmountReceived += Number(singleInvoice?.paymentRecords[i]?.amountPaid)
       }
 
-      const downloadInvoicePdf = async(e) => {
-        e.preventDefault()
-        setDownloadLoading(true)
-        await axios.post(`${APP_API}/create-pdf`, 
-            { 
-                name: invoiceData?.client.name,
-                address: invoiceData?.client.address,
-                phone: invoiceData?.client.phone,
-                email: invoiceData?.client.email,
-                accountNumber: invoiceData?.client.accountNumber,
-                dueDate: invoiceData?.dueDate,
-                date: invoiceData?.createdAt,
-                id: invoiceData?.invoiceNumber,
-                notes: invoiceData?.notes,
-                subTotal: toCommas(invoiceData?.subTotal),
-                total: toCommas(invoiceData?.total),
-                type: invoiceData?.type,
-                vat: invoiceData?.vat,
-                items: invoiceData?.items,
-                status: invoiceData?.status,
-                totalAmountReceived: toCommas(totalAmountReceived),
-                balanceDue: toCommas(total - totalAmountReceived),
-                company
-        })
-            .then(() => axios.get(`${APP_API}/fetch-pdf`, { responseType: 'blob' }))
-            .then((res) => {
-                const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+    //   const downloadInvoicePdf = async(e) => {
+    //     e.preventDefault()
+    //     setDownloadLoading(true)
+    //     await axios.post(`${APP_API}/create-pdf`, 
+    //         { 
+    //             name: invoiceData?.client.name,
+    //             address: invoiceData?.client.address,
+    //             phone: invoiceData?.client.phone,
+    //             email: invoiceData?.client.email,
+    //             accountNumber: invoiceData?.client.accountNumber,
+    //             dueDate: invoiceData?.dueDate,
+    //             date: invoiceData?.createdAt,
+    //             id: invoiceData?.invoiceNumber,
+    //             notes: invoiceData?.notes,
+    //             subTotal: toCommas(invoiceData?.subTotal),
+    //             total: toCommas(invoiceData?.total),
+    //             type: invoiceData?.type,
+    //             vat: invoiceData?.vat,
+    //             items: invoiceData?.items,
+    //             status: invoiceData?.status,
+    //             totalAmountReceived: toCommas(totalAmountReceived),
+    //             balanceDue: toCommas(total - totalAmountReceived),
+    //             company
+    //     })
+    //         .then(() => axios.get(`${APP_API}/fetch-pdf`, { responseType: 'blob' }))
+    //         .then((res) => {
+    //             const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
 
-                saveAs(pdfBlob, `${invoiceData?.client.accountNumber}-invoice.pdf`)
-            }).then(() =>  {
-                setDownloadLoading(false)
-                setNotify({
-                    isOpen: true,
-                    message: 'Invoice Downloaded Successfully',
-                    type: 'success'
-                })
-            }).catch((err) => {
-                setNotify({
-                    isOpen: true,
-                    message: err,
-                    type: 'error'
-                })
-            })
-        }
+    //             saveAs(pdfBlob, `${invoiceData?.client.accountNumber}-invoice.pdf`)
+    //         }).then(() =>  {
+    //             setDownloadLoading(false)
+    //             setNotify({
+    //                 isOpen: true,
+    //                 message: 'Invoice Downloaded Successfully',
+    //                 type: 'success'
+    //             })
+    //         }).catch((err) => {
+    //             setNotify({
+    //                 isOpen: true,
+    //                 message: err,
+    //                 type: 'error'
+    //             })
+    //         })
+    //     }
 
         const sendSms = async(e) => {
             alert("this feature is under development")
+        }
+        
+        const onScheduled = async(e) => {
+            e.preventDefault()
+            try {
+                const response = await axios.post(`${APP_API}/schedule-send`, {
+                    scheduledDate: dateScheduled,
+                    name: invoiceData?.client.name,
+                    address: invoiceData?.client.address,
+                    phone: invoiceData?.client.phone,
+                    email: 'justinejeraldbaliguat@gmail.com',
+                    accountNumber: invoiceData?.client.accountNumber,
+                    dueDate: invoiceData?.dueDate,
+                    date: invoiceData?.createdAt,
+                    id: invoiceData?.invoiceNumber,
+                    notes: invoiceData?.notes,
+                    subTotal: toCommas(invoiceData?.subTotal),
+                    total: toCommas(invoiceData?.total),
+                    type: invoiceData?.type,
+                    vat: invoiceData?.vat,
+                    items: invoiceData?.items,
+                    status: invoiceData?.status,
+                    totalAmountReceived: toCommas(totalAmountReceived),
+                    balanceDue: toCommas(total - totalAmountReceived),
+                    link: process.env.nodeEnv === "production"? `${process.env.APP_URL}/invoice/${invoiceData._id}` : `${process.env.DEV_APP_URL}/invoice/${invoiceData._id}`,
+                    company
+                }
+                    )
+                
+                if(response.data){
+                    setOpenScheduleDialog(false)
+                    setNotify({
+                        isOpen: true,
+                        message: response.data.msg,
+                        type: "success"
+                    })
+                }
+            } catch (error) {
+                setOpenScheduleDialog(false)
+                setNotify({
+                    isOpen: true,
+                    message: "Something went wrong!",
+                    type: "error"
+                })
+                console.log(error);
+            }
         }
 
       const sendPdf = async(e) => {
@@ -227,21 +288,6 @@ export const InvoiceDetails = () => {
                 )
             )
      }  
-
-    // useEffect(() => {
-    //     if(invoice) {
-    //         //Automatically set the default invoice values as the ones in the invoice to be updated
-    //         setInvoiceData(invoice)
-    //         setRates(invoice.rates)
-    //         setClient(invoice.client)
-    //         setType(invoice.type)
-    //         setStatus(invoice.status)
-    //         setSelectedDate(invoice.dueDate)
-    //         setVat(invoice.vat)
-    //         setSubTotal(invoice.subTotal)
-    //         setTotal(invoice.total)
-    //     }
-    // }, [invoice])
     
 if((user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "Collector")){
     return(
@@ -249,6 +295,13 @@ if((user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "
             <Notification
                 notify={notify}
                 setNotify={setNotify}
+            />
+            <ScheduleSendDialog
+                openSendScheduleDialog={openSendScheduleDialog}
+                setOpenScheduleDialog={setOpenScheduleDialog}
+                dateScheduled={dateScheduled}
+                setDateScheduled={setDateScheduled}
+                onScheduled={onScheduled}
             />
             <Box sx={{ mt: 3 }}>
                 <Box
@@ -266,16 +319,55 @@ if((user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "
                         >
                         Invoice Details
                     </Typography>
-                    <Box sx={{ ml: 1}}>
-                        <LoadingButton
-                            size="small"
-                            onClick={sendPdf}
-                            startIcon={<SendIcon />}
-                            loading={sendLoading}
-                            loadingPosition="start"
-                            >
-                            <span>{sendLoading? "Sending..." : "Email To Client"}</span>
-                        </LoadingButton>
+                    <Box sx={{ 
+                        ml: 1,
+                        display: "flex"
+                        }}>
+                            {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DateTimePicker
+                                label="Select Date and Time"
+                                onChange={(newValue)=> {setDateScheduled(newValue)}}
+                                renderInput={
+                                    (params)=> <TextField {...params} />
+                                }
+                                value={dayjs(dateScheduled)}
+                                />
+                            </LocalizationProvider> */}
+                            <Button aria-describedby="emailPopup" onClick={toggleSendOpen}>
+                                Email to client
+                            </Button>                
+                            <Popover
+                                id="emailPopup"
+                                open={sendOpen}
+                                anchorEl={anchorEl}
+                                onClose={handleClose}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                            > 
+                                <Stack direction="column">
+                                    <LoadingButton
+                                        size="small"
+                                        onClick={(e)=>sendPdf(e)}
+                                        startIcon={<SendIcon />}
+                                        loading={sendLoading}
+                                        loadingPosition="start"
+                                        >
+                                        <span>{sendLoading? "Sending..." : "Send Now"}</span>
+                                    </LoadingButton>
+                                    <LoadingButton
+                                        size="small"
+                                        // onClick={()=>setOpenScheduleDialog(true)}
+                                        onClick={()=>alert("Were still working in this feature. Thank you.")}
+                                        startIcon={<ScheduleSendIcon />}
+                                        loading={scheduleSendLoading}
+                                        loadingPosition="start"
+                                        >
+                                        <span>{scheduleSendLoading? "Sending..." : "Schedule send"}</span>
+                                    </LoadingButton>
+                                </Stack>
+                            </Popover>
                         <LoadingButton
                             size="small"
                             onClick={sendSms}
