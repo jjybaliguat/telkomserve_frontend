@@ -193,7 +193,6 @@ const Page = () => {
   const dispatch = useDispatch()
   const activestep = useSelector(store => store.fiber.activeStep)
   const appllicantDetails = useSelector(store => store.fiber.appllicantDetails)
-  console.log(appllicantDetails);
 
   return (
   <>

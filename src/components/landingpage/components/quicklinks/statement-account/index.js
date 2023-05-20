@@ -268,10 +268,17 @@ const StatementOfAccount = () => {
           result && (
             <Box>
               <Typography sx={{marginBottom: "1rem"}}>Result: </Typography>
-              <Button
-              variant="outlined"
-              onClick={downloadSoa}
-              >Click here to download your statement of account</Button>
+              {
+                !result.length? (
+                  <Typography>No Data as of Now!</Typography>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    onClick={downloadSoa}
+                    >Click here to download your statement of account
+                  </Button>
+                )
+              }
             </Box>
           )
         }

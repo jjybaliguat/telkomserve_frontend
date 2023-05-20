@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { Box, Button, Divider, Drawer, Link, List, ListItem, ListItemButton, ListItemText, ListSubheader, Typography, useMediaQuery } from '@mui/material';
+import { Badge, Box, Button, Divider, Drawer, Link, List, ListItem, ListItemButton, ListItemText, ListSubheader, Typography, useMediaQuery } from '@mui/material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -125,6 +125,7 @@ const smsItem = [
 
 export const DashboardSidebar = (props) => {
   const user = useSelector(selectCurrentUser)
+  const applicants = useSelector(state=>state.applicants.applicants)
   const { open, onClose } = props;
   const router = useRouter();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'), {
@@ -247,7 +248,10 @@ export const DashboardSidebar = (props) => {
             <NavItem
               icon={<HelpIcon fontSize="small" />}
               href='/dashboard/applicants'
-              title='Applicants'
+              title={<Badge
+                badgeContent={applicants.length} 
+                color="primary"
+                >Applicants</Badge>}
             />
             {user?.role !== "Collector" &&
             <NavItem

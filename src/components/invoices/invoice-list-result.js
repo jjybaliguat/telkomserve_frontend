@@ -130,7 +130,7 @@ export const InvoiceListResult = () => {
     const handleDelete = async(id) => {
       const response = await deleteinvoice(id)
       if(response){
-        dispatch(deleteInvoiceAction(id))
+        dispatch(deleteInvoiceAction({id}))
         setNotify({
           isOpen: true,
           message: 'Invoice Deleted Successfully',

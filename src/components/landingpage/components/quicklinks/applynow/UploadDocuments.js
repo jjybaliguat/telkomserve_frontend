@@ -103,9 +103,7 @@ const UploadDocuments = () => {
   const handleSubmit = async() => {
     dispatch(setApplicantDetails({idpic, housePic}))
     dispatch(setActiveStep(4))
-
     const response = await registerclient({...appllicantDetails})
-    console.log(response);
   }
 
 

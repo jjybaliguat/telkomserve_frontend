@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/router"
 import { Box } from "@mui/system"
-import { Autocomplete, Button, Card, CardContent, Grid, IconButton, InputBase, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material"
+import { Autocomplete, Badge, Button, Card, CardContent, Collapse, Grid, IconButton, InputBase, List, ListItemButton, ListItemText, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material"
 import { toCommas } from '../../utils/toCommas'
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -15,6 +15,8 @@ import {format} from 'date-fns'
 import { addInvoiceAction} from "../../redux/invoiceAction"
 import dayjs from 'dayjs'
 import { useDeleteoneMutation, useFetchallMutation } from "../../redux/toCreateInvoiceSlice"
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 
 export const Invoice = () => {
     const dispatch = useDispatch()
@@ -26,6 +28,7 @@ export const Invoice = () => {
     const router = useRouter()
     const clients = useSelector(store => store.clients.clients)
     const [clientList, setClientList] = useState(clients)
+    const [toCreateInvoiceList, setToCreateInvoiceList] = useState(null)
     const invoices = useSelector(store => store.invoice.invoices)
     // const invoice = useSelector(store => store.invoice.singleInvoice)
     const [ client, setClient] = useState(null)
@@ -41,8 +44,9 @@ export const Invoice = () => {
     const [type, setType] = useState('INVOICE')
     const [ rates, setRates] = useState(0)
     const [loading, setLoading] = useState(false)
+    const [open, setOpen] = useState(false)
 
-
+    const toggleOpen = () => setOpen(!open)
 
   useEffect(() => {
       getTotalcount()
@@ -57,6 +61,7 @@ export const Invoice = () => {
         const client = clients.find((client)=> client._id === item.clientId)
         list.push(client)
       })
+      setToCreateInvoiceList(list)
       if(!list.length){
         setClientList(clients)
       }else{
@@ -175,6 +180,36 @@ if((user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "
         <Box sx={{ mt: 3 }}>
           <form onSubmit={handleSubmit}>
             <Box sx={{ mt: 3 }}>
+              <Box sx={{marginBottom: "2rem"}}>
+                <Card sx={{maxWidth: 1000 , margin: "0 auto"}}>
+                  <CardContent>
+                    <ListItemButton onClick={toggleOpen}>
+                      <ListItemText primary={
+                      <Badge 
+                      badgeContent={toCreateInvoiceList?.length} 
+                      color="primary"
+                      >
+                        Client pending invoice creation 
+                      </Badge>
+                      } />
+                      {open ? <ExpandLess /> : <ExpandMore />}
+                    </ListItemButton>
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                      {toCreateInvoiceList && 
+                        toCreateInvoiceList.map((client, index)=>{
+                          return (
+                            <List component="div" disablePadding key={index}
+                            sx={{ ml: 10, listStyleType: 'number', display: "list-item", }}
+                            >
+                              <ListItemText primary={`${client.name} - (due date - ${client.dueDate})`} />
+                            </List>
+                          )
+                        })
+                      }
+                    </Collapse>
+                  </CardContent>
+                </Card>
+              </Box>
                 <Card sx={{maxWidth: 1000 , margin: "0 auto", p: 3}}>
                     <CardContent>
                         <Grid container justifyContent="space-between">
