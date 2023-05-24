@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/router"
 import { Box, Container } from "@mui/system"
-import { Autocomplete, Button, Card, CardContent, CircularProgress, Grid, IconButton, InputBase, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextareaAutosize, TextField, Tooltip, Typography } from "@mui/material"
+import { Autocomplete, Button, Card, CardContent, CircularProgress, Grid, IconButton, InputBase, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextareaAutosize, TextField, Tooltip, Typography } from "@mui/material"
 import EditIcon from '@mui/icons-material/Edit';
 import SendIcon from '@mui/icons-material/Send';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -24,6 +24,8 @@ import NoData from "../../components/svgIcons/NoData"
 import { useGetinvoiceMutation } from "../../redux/invoiceApiSlice"
 import Notification from "../../components/dialogs/Notification"
 import PaymentHistory from "../../components/invoices/paymentHistory"
+import Router from "next/router"
+import PaymentsIcon from '@mui/icons-material/Payments';
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -201,9 +203,9 @@ const InvoiceResult = () => {
                 notify={notify}
                 setNotify={setNotify}
             />
-            <Box sx={{ mt: 3 }}>
+            <Box sx={{ pt: 3, bgcolor: "#2c387e" }}>
                 <Container>
-                    <Box sx={{ ml: 1}}>
+                    <Box sx={{ ml: 5}}>
                         {/* <LoadingButton
                             size="small"
                             onClick={downloadInvoicePdf}
@@ -213,23 +215,36 @@ const InvoiceResult = () => {
                             >
                             <span>{downloadLoading? "Downloading..." : "Download as pdf"}</span>
                         </LoadingButton> */}
+                        <Stack direction="row" gap={2}>
                             <ReactToPrint
                                 trigger={() => (
                                     <Button
                                     startIcon={(<PrintIcon fontSize="small" />)}
+                                    sx={{color: "#fff"}}
                                     >
                                         Print / Download
                                     </Button>
                                 )}
                                 content={() => componentRef.current}
                             />
+                            <Button
+                                variant="contained"
+                                onClick={()=>Router.push('/payment-steps')}
+                                startIcon={<PaymentsIcon />}
+                                sx={{
+                                    boxShadow: "0 5px 20px rgb(0 0 0 / 0.7)"
+                                }}
+                                color="primary"
+                            >Pay Now
+                            </Button>
+                        </Stack>
                     </Box>
                 </Container>
                     {invoiceData?.paymentRecords?.length !== 0 && (
                         <PaymentHistory paymentRecords={invoiceData?.paymentRecords} />
                     )}
 
-                <Box sx={{ mt: 3 }} ref={componentRef}>
+                <Box sx={{ mt: 3, py: "2rem", px: "2rem" }} ref={componentRef}>
                     <Card sx={{maxWidth: 1000 , margin: "0 auto", p: 3}}>
                         <CardContent>
                             <Grid container justifyContent="space-between">

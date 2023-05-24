@@ -13,7 +13,7 @@ let currentOtpIndex = 0
 
 Array.prototype.sortBy = function(p) {
   return this.slice(0).sort(function(a,b) {
-    return (a[p] > b[p]) ? -1 : (a[p] < b[p]) ? 1 : 0;
+    return (a[p] > b[p]) ? 1 : (a[p] < b[p]) ? -1 : 0;
   });
 }
 
@@ -327,7 +327,7 @@ const CheckBills = () => {
             <Typography variant="h3" sx={{textAlign: "center"}}>No Data Available</Typography>
           )}
           {
-          result.sortBy('createdAt').map((item, index)=>{
+          result.sortBy('dueDate').map((item, index)=>{
             return (
             <Card sx={{ 
               display: 'flex',

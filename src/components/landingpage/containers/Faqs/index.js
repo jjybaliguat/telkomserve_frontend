@@ -1,10 +1,11 @@
-import { Box, Collapse, Container, List, ListItemButton, ListItemIcon, ListItemText, Stack, Typography } from '@mui/material'
+import { Box, Button, Collapse, Container, List, ListItemButton, ListItemIcon, ListItemText, Stack, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import Title from '../../components/Title'
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import Router from 'next/router'
 import { Link } from 'react-scroll';
 
 const faqsItem = [
@@ -97,17 +98,12 @@ const Faqs = () => {
                    }}
                   >
                       <ListItemText primary="You can pay thru Gcash payment, just scan the QR code on your router to proceed sending your bill. Our collector also will go to your home to get the payment." />
-                      <ListItemButton>
-                      <ListItemIcon>
-                        <ArrowForwardIcon />
-                      </ListItemIcon>
-                        <ListItemText 
-                        sx={{
-                          textDecoration: "underline",
-                          color: "primary.main"
-                        }}
-                        primary="Pay with QR code steps" />
-                      </ListItemButton>
+                      <Button
+                        startIcon={<ArrowForwardIcon />}
+                        onClick={()=>Router.push("/payment-steps")}
+                      >
+                        See Pay with QR Code Steps
+                      </Button>
                   </List>
                 </Collapse>
               </Box>
