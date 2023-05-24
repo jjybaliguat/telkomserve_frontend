@@ -37,6 +37,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import ScheduleSendDialog from "../dialogs/scheduleSendDialog"
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 export const InvoiceDetails = () => {
     const user = useSelector(selectCurrentUser)
@@ -86,6 +87,15 @@ export const InvoiceDetails = () => {
       const handleClose = () => {
         setAnchorEl(null);
       };
+
+      const handleCopyLink = () => {
+        navigator.clipboard.writeText(`${process.env.APP_URL}/invoice/${invoiceId}`)
+        setNotify({
+            isOpen: true,
+            message: "Link copied to clipboard",
+            type: "success"
+        })
+      }
 
     useEffect(() => {
         if(invoiceId){
@@ -321,7 +331,8 @@ if((user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "
                     </Typography>
                     <Box sx={{ 
                         ml: 1,
-                        display: "flex"
+                        display: "flex",
+                        flexWrap: "wrap"
                         }}>
                             {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DateTimePicker
@@ -377,6 +388,14 @@ if((user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "
                             >
                             <span>{sendsmsLoading? "Sending..." : "Message To Client"}</span>
                         </LoadingButton>
+                        <Button
+                            size="small"
+                            onClick={handleCopyLink}
+                            startIcon={<ContentCopyIcon />}
+                            loadingPosition="start"
+                            >
+                            <span>Copy Link</span>
+                        </Button>
                         {/* <LoadingButton
                             size="small"
                             onClick={downloadInvoicePdf}

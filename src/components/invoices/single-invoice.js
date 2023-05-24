@@ -59,9 +59,9 @@ export const Invoice = () => {
       const list = []
       response.data?.map((item) => {
         const client = clients?.find((client)=> client._id === item.clientId)
-        if(client){
-          list.push(client)
-        }
+        // if(client){
+        //   list.push(client)
+        // }
       })
       setToCreateInvoiceList(list) 
       if(!list.length){
