@@ -56,13 +56,14 @@ export const Invoice = () => {
   const fetchInvoiceToCreate = async() => {
     try {
       const response = await fetchall()
-      console.log(response)
       const list = []
       response.data?.map((item) => {
-        const client = clients.find((client)=> client._id === item.clientId)
-        list.push(client)
+        const client = clients?.find((client)=> client._id === item.clientId)
+        if(client){
+          list.push(client)
+        }
       })
-      setToCreateInvoiceList(list)
+      setToCreateInvoiceList(list) 
       if(!list.length){
         setClientList(clients)
       }else{
@@ -136,7 +137,7 @@ const handleRates =(e) => {
 }
     const clientsProps = {
         options: clientList,
-        getOptionLabel: (option) => option.name
+        getOptionLabel: (option) => option?.name
       };
     
     const CustomPaper = (props) => {

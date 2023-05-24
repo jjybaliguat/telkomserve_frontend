@@ -21,6 +21,7 @@ const persistConfig = {
     key: "root",
     version: 1,
     storage,
+    blacklist: ['joborders', 'messages', 'applicants']
 }
 
 const reducer = combineReducers({
