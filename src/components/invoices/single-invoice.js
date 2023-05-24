@@ -56,6 +56,7 @@ export const Invoice = () => {
   const fetchInvoiceToCreate = async() => {
     try {
       const response = await fetchall()
+      console.log(response)
       const list = []
       response.data?.map((item) => {
         const client = clients.find((client)=> client._id === item.clientId)
@@ -196,12 +197,12 @@ if((user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "
                     </ListItemButton>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                       {toCreateInvoiceList && 
-                        toCreateInvoiceList.map((client, index)=>{
+                        toCreateInvoiceList?.map((client, index)=>{
                           return (
                             <List component="div" disablePadding key={index}
                             sx={{ ml: 10, listStyleType: 'number', display: "list-item", }}
                             >
-                              <ListItemText primary={`${client.name} - (due date - ${client.dueDate})`} />
+                              <ListItemText primary={`${client?.name} - (due date - ${client?.dueDate})`} />
                             </List>
                           )
                         })

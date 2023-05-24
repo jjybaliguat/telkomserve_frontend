@@ -3,7 +3,7 @@ import { apiSlice } from '../lib/api/apiSlice'
 export const toCreteInvoiceApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         fetchall: builder.mutation({
-            query: credentials => ({
+            query: () => ({
                 url: '/to-create-invoice/',
                 method: 'GET',
             })
