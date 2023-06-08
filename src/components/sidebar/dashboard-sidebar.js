@@ -180,11 +180,19 @@ export const DashboardSidebar = (props) => {
               href="/dashboard"
               passHref
             >
+              <Box
+              sx={{
+                padding: "1rem",
+                display: "flex",
+                justifyContent: "center"
+            }}
+              >
                 <img
-                  src='/static/images/rdnaksLogo2.png'
-                  alt='Rdnaks Logo'
-                  style={{height: '120px'}}
-                />
+                    src='/static/images/logo.png'
+                    alt='Rdnaks Logo'
+                    style={{height: '100px'}}
+                  />
+              </Box>
             </Link>
           </Box>
           <Box sx={{ px: 2 }}>

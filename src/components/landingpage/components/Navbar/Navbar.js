@@ -106,12 +106,12 @@ const Navbar = ({toggleSidebar}) => {
             alignItems="center">
             {hideLogo? (
             <Grid item sx={{marginLeft: "2rem"}}>
-                <img src="static/images/rdnaksLogo2.png" height={100} width={150} />
+                <img src="static/images/logo.png" height={50} />
             </Grid>
             ) :
             (
             <Grid item sx={{marginLeft: "2rem" , display: {lg: "none", xs: "flex"}}}>
-                <img src="static/images/rdnaksLogo2.png" height={100} width={150} />
+                <img src="static/images/logo.png" height={50} />
             </Grid>
             )
             }

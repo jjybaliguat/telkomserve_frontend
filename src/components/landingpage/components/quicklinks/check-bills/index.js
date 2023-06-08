@@ -31,6 +31,7 @@ const CheckBills = () => {
     const [otp, setOtp] = useState(new Array(5).fill(""))
     const [errorMess, setErrorMess] = useState(null)
     const [result, setResult] = useState(null)
+    const APP_API = process.env.nodeEnv === "development" ? process.env.DEV_APP_API : process.env.PRODUCTION_APP_API
     const formik = useFormik({
         initialValues: {
             accountNumber: ''
@@ -48,11 +49,11 @@ const CheckBills = () => {
             setOtp(new Array(5).fill(""))
             setResult(null)
             try {
-              const response = await axios.post('https://api.rdnaksnds.com/api/v1/client/verify-accnum', {
+              const response = await axios.post(`${APP_API}/client/verify-accnum`, {
                 accountNumber: formik.values.accountNumber
               })
               if(response.data){
-                const sendOtp = await axios.post('https://api.rdnaksnds.com/api/v1/client/send-otp', {
+                const sendOtp = await axios.post(`${APP_API}/client/send-otp`, {
                   email: response.data?.email
                 })
                 if(sendOtp.data){
@@ -128,7 +129,7 @@ const CheckBills = () => {
         let newOtp = ''
         otp.map((item)=>newOtp+=item)
         try {
-          const response = await axios.post(`${process.env.PRODUCTION_APP_API}/client/checkbills`, {
+          const response = await axios.post(`${APP_API}/client/checkbills`, {
           otp: newOtp,
           accountNumber: formik.values.accountNumber
         })

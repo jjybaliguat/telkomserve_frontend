@@ -3,10 +3,10 @@
 export const mainHeroContent = {
     MainBG: "/static/images/HeroSection/fibercable.jpg",
     blackGradient: "/static/images/HeroSection/blackwhitegradient.png",
-    upperTitle: "We Provide A Better",
-    title: "Pure Fiber",
+    // upperTitle: "We Serves You A",
+    title: "Serves You A Better",
     title2: "Internet Connection",
-    subtitle: "The internet that you deserved!"
+    subtitle: "Connecting You to Limitless Possibilities!"
     // TreesImage,
     // CliffImage,
     // HorseImage,

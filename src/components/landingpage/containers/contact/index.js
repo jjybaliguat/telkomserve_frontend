@@ -16,6 +16,7 @@ const Contact = () => {
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(null)
     const [error, setError] = useState(null)
+    const APP_API = process.env.nodeEnv === "development" ? process.env.DEV_APP_API : process.env.PRODUCTION_APP_API
 
     const formik = useFormik({
         initialValues: {
@@ -48,7 +49,7 @@ const Contact = () => {
             setSuccess(null)
             setError(null)
             try {
-                const response = await axios.post(`https://api.rdnaksnds.com/api/v1/client/send-message`, formik.values)
+                const response = await axios.post(`${APP_API}/client/send-message`, formik.values)
                 if(response.data){
                     setSuccess(response?.data?.msg)
                     setLoading(false)
@@ -128,7 +129,7 @@ const Contact = () => {
                                     </Avatar>
                                     <Stack gap={1}>
                                         <Typography variant="h4">Location</Typography>
-                                        <Typography>Block 156 lot 23 Southville 8B</Typography>
+                                        <Typography>Block 1 lot 5 San Antonio Village Brgy San Isidro Rodriguez Rizal</Typography>
                                     </Stack>
                                 </Stack>
                                 <Stack direction="row" gap={2}
@@ -143,7 +144,7 @@ const Contact = () => {
                                     </Avatar>
                                     <Stack gap={1}>
                                         <Typography variant="h4">Email</Typography>
-                                        <Typography>rdnaksnds@rdnaksnds.com</Typography>
+                                        <Typography>telkomserve@zohomail.com</Typography>
                                     </Stack>
                                 </Stack>
                                 <Stack direction="row" gap={2}
@@ -158,14 +159,14 @@ const Contact = () => {
                                     </Avatar>
                                     <Stack gap={1}>
                                         <Typography variant="h4">Phone</Typography>
-                                        <Typography>09308127173 / 09267609934</Typography>
+                                        <Typography>09979112814</Typography>
                                     </Stack>
                                 </Stack>
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d784.9720719802945!2d121.14621465574075!3d14.75241814381432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397a547e6e46c89%3A0x26c244987c25bfc0!2sRdnaks%20Network%20And%20Data%20Solution!5e1!3m2!1sfil!2sph!4v1683289289919!5m2!1sfil!2sph" 
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d277.5168601104241!2d121.14907013393741!3d14.762354190096403!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sfil!2sph!4v1686196609320!5m2!1sfil!2sph" 
                                     width="100%" 
                                     height="200" 
                                     style={{border: "0"}} 
-                                    allowFullScreen="" 
+                                    allowFullScreen="true" 
                                     loading="lazy" 
                                     referrerPolicy="no-referrer-when-downgrade"
                                 >

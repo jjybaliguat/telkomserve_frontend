@@ -218,13 +218,13 @@ if((user?.role === "Super Admin" || user?.role === "Encoder" || user?.role === "
                             <Grid item>
                                 <img 
                                 alt="Company Logo" 
-                                src='/static/images/rdnaksLogo2.png'
+                                src='/static/images/logo.png'
                                 style={{height: '120px'}}
                                 />
-                                <Typography variant="h6">RDNAKS NETWORK AND DATA SOLUTION</Typography>
-                                <Typography sx={{fontSize: "14px"}}>Block 156 lot 23 Southville 8B</Typography>
-                                <Typography sx={{fontSize: "14px"}}>Phone: 09308127173 / 09267609934</Typography>
-                                <Typography sx={{fontSize: "14px"}}>TIN: 495097258000</Typography>
+                                <Typography variant="h6">TELKOMSERVE NETWORK AND DATA SOLUTION</Typography>
+                                <Typography sx={{fontSize: "14px"}}>Block 1 lot 5 San Antonio Village Brgy San Isidro Rodriguez Rizal</Typography>
+                                <Typography sx={{fontSize: "14px"}}>Phone: 09979112814 </Typography>
+                                {/* <Typography sx={{fontSize: "14px"}}>TIN: 495097258000</Typography> */}
                             </Grid>
                             <Grid item>
                                 <h1>{type}</h1>

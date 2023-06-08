@@ -49,7 +49,7 @@ const Navbar2 = () => {
     >
         <Grid container justifyContent="space-between" alignItems="center" sx={{padding: {lg: "0 5rem 0 5rem", xs: "0 2rem 0 2rem"}}}>
             <Grid item>
-                <img src="/static/images/rdnaksLogo2.png" height={100} width={150} />
+                <img src="/static/images/logo.png" height={70}/>
             </Grid>
             <Grid item>
                 <Stack direction="row" sx={{ display: { xs: 'none', md: 'flex'} }} gap={5}>

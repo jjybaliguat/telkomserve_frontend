@@ -182,12 +182,16 @@ const PlansSetting = () => {
                             xs={12}
                             md={3}
                             key={index}
+                            sx={{
+                                position: "relative"
+                            }}
                         >
                             <Card
                                 sx={{
                                     width: "100%",
                                     boxShadow: "0 3px 12px rgb(0 0 0 / 0.2)",
-                                    padding: "1rem"
+                                    padding: "1rem",
+                                    minHeight: "350px"
                                 }}
                             >
                                 <Stack>
@@ -205,7 +209,13 @@ const PlansSetting = () => {
                                     )
                                 })}
                                 </Stack>
-                                <Grid container justifyContent="space-between">
+                                <Grid container justifyContent="space-between"
+                                    sx={{
+                                        position: "absolute",
+                                        bottom: "0",
+                                        right: "10px"
+                                    }}
+                                >
                                     <Grid item>
                                         
                                     </Grid>

@@ -122,7 +122,7 @@ const Page = () => {
   <>
         <Head>
             <title>
-              Application | RDNAKS ICT
+              Application | TELKOMSERVE
             </title>
         </Head>
       <Box 

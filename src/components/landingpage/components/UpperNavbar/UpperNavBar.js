@@ -39,25 +39,25 @@ const UpperNavbar = () => {
                 <Grid container justifyContent="space-between"
                     alignItems="center">
                     <Grid item sx={{marginLeft: "3rem"}}>
-                        <img src="static/images/rdnaksLogo2.png" height={125} width={155} />
+                        <img src="static/images/logo.png" height={70} width={100} />
                     </Grid>
                     <Grid item sx={{marginRight: "3rem"}}>
                         <Box sx={{ display: { xs: 'none', md: 'flex', gap: "4rem" } }}>
-                            <Link href="tel: +639308127173" underline="none">
+                            <Link href="tel: +639979112814" underline="none">
                                 <Box sx={{display: "flex", gap: "1rem"}} alignItems="center">
                                     <PhoneInTalkIcon sx={{color: "#2196f3", height: 40}}/>
                                     <Box sx={{display: "grid"}}>
                                         <Typography color="#959595">Call Us Now</Typography>
-                                        <Typography style={{cursor: "pointer", fontWeight: "bold"}}>09308127173</Typography>
+                                        <Typography style={{cursor: "pointer", fontWeight: "bold"}}>09979112814</Typography>
                                     </Box>
                                 </Box>
                             </Link>
-                            <Link href="mailto:rdnaksnds@rdnaksnds.com" underline="none">
+                            <Link href="mailto:telkomserve@zohomail.com" underline="none">
                                 <Box sx={{display: "flex", gap: "1rem"}} alignItems="center">
                                     <PhoneInTalkIcon sx={{color: "#2196f3", height: 40}}/>
                                     <Box sx={{display: "grid"}}>
                                         <Typography color="#959595">Email</Typography>
-                                        <Typography style={{cursor: "pointer", fontWeight: "bold"}}>rdnaksnds@rdnaksnds.com</Typography>
+                                        <Typography style={{cursor: "pointer", fontWeight: "bold"}}>telkomserve@zohomail.com</Typography>
                                     </Box>
                                 </Box>
                             </Link>

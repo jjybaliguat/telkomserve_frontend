@@ -26,10 +26,10 @@ const Footer = () => {
                     sx={{
                         letterSpacing: "0.08em"
                     }}
-                    >RDNAKS NETWORK AND DATA SOLUTION</Typography>
-                    <p style={{fontSize: "14px", letterSpacing: "0.08em"}}>Block 156 lot 23 Southville 8B</p>
-                    <p style={{fontSize: "14px", letterSpacing: "0.06em"}}><strong>Phone: </strong>09308127173 / 09267609934</p>
-                    <p style={{fontSize: "14px", letterSpacing: "0.06em"}}><strong>Email: </strong>renalyndabalos24@gmail.com</p>
+                    >TELKOMSERVE NETWORK AND DATA SOLUTION</Typography>
+                    <p style={{fontSize: "14px", letterSpacing: "0.08em"}}>Block 1 lot 5 San Antonio Village Brgy San Isidro Rodriguez Rizal</p>
+                    <p style={{fontSize: "14px", letterSpacing: "0.06em"}}><strong>Phone: </strong>09979112814</p>
+                    <p style={{fontSize: "14px", letterSpacing: "0.06em"}}><strong>Email: </strong>telkomserve@zohomail.com</p>
                 </Stack>
             </Grid>
             <Grid item
@@ -177,7 +177,7 @@ const Footer = () => {
             <img src="/static/images/fb.png" height={40}/>
             <img src="/static/images/ml.jpg" height={40}/>
         </Stack>
-        <Typography>Copyright @ RDNAKSNDS 2023 </Typography>
+        <Typography>Copyright @ TELKOMSERVE 2023 </Typography>
     </Box>
     </>
   )
