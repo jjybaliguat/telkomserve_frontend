@@ -12,19 +12,19 @@ const SelectPlan = () => {
 
   const PlanList = [
     {
-        name: "Plan 699",
+        name: "Plan 500",
+        speed: "10 MBPS"
+    },
+    {
+        name: "Plan 799",
         speed: "15 MBPS"
     },
     {
         name: "Plan 999",
-        speed: "15 MBPS"
+        speed: "25 MBPS"
     },
     {
         name: "Plan 1299",
-        speed: "35 MBPS"
-    },
-    {
-        name: "Plan 1499",
         speed: "50 MBPS"
     },
   ]
