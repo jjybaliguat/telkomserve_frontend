@@ -51,7 +51,7 @@ const Login = () => {
     }),
     onSubmit: async () => {
       try {
-        await signInWithEmailAndPassword(auth, formik.values.email, formik.values.password)
+        // await signInWithEmailAndPassword(auth, formik.values.email, formik.values.password)
         const user = await login(formik.values).unwrap()
         dispatch(setUserAction({...user}))
         setNotify({
